@@ -37,10 +37,14 @@ export default async function AppLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   "use server";
 
-  const data = (await fetchData()).user;
+  const data = await fetchData();
+
+  if ("error" in data) {
+    return NextResponse.redirect(new URL("/"), { status: 401 });
+  }
 
   return (
-    <DataLayoutProvider data={data}>
+    <DataLayoutProvider data={data.user}>
       <div className="flex min-h-0 h-screen relative overflow-hidden">
         <BaseSidebar />
         <div className="flex-1">{children}</div>

@@ -6,3 +6,7 @@ export const exampleUsers = [
         password: 'password'
     }
 ]
+
+export const exampleConstants = {
+    ORG_NAME: 'Mufaro inc.',
+}

@@ -10,7 +10,7 @@ interface LinksProps {}
 const links: Omit<ExtendedLinkProps, "pathname">[] = [
   {
     Icon: FaHouse,
-    href: "/app",
+    href: "/app/home",
     displayName: "Główna",
   },
   {
