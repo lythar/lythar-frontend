@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FC } from "react";
@@ -34,8 +35,6 @@ export interface ExtendedLinkProps {
 //   );
 // };
 
-
-
 const ExtendedLink: FC<ExtendedLinkProps> = ({
   pathname,
   Icon,
@@ -44,23 +43,25 @@ const ExtendedLink: FC<ExtendedLinkProps> = ({
 }) => {
   const isActive = pathname === href;
 
-  return (<>
-    <Tooltip id="test" className="!text-[0.75rem] !rounded-lg !py-[2px]" />
-
-    <Link
-      href={href}
-      data-tooltip-id="test"
-      data-tooltip-content={displayName}
-      data-tooltip-delay-hide={2}
-      data-tooltip-delay-show={1}
-      className={cn(`relative flex flex-col items-center transition-all duration-250 ease-out-expo py-2 h-fit mx-[0.25rem] rounded-xl`,
-        isActive
-          ? "text-accent-secondary bg-accent"
-          : "text-muted-foreground")}
-    >
-      <Icon size={20} />
-      {/* <span className="text-[0.7rem] font-semibold">{displayName}</span> */}
-    </Link>
+  return (
+    <>
+      <Tooltip
+        id="test"
+        className="!text-[0.75rem] !rounded-lg !py-[2px] !px-[0.5rem]"
+      />
+      <Link
+        href={href}
+        data-tooltip-id="test"
+        data-tooltip-content={displayName}
+        data-tooltip-delay-hide={2}
+        data-tooltip-delay-show={1}
+        className={cn(
+          `relative flex flex-col items-center transition-all duration-250 ease-out-expo py-2 h-fit mx-[0.25rem] rounded-xl hover:text-accent-secondary`,
+          isActive ? "text-accent-secondary bg-accent" : "text-muted-foreground"
+        )}
+      >
+        <Icon size={22} />
+      </Link>
     </>
   );
 };

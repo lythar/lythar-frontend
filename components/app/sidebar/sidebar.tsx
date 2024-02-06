@@ -10,7 +10,7 @@ interface BaseSidebarProps {}
 
 const BaseSidebar: FC<BaseSidebarProps> = () => {
   return (
-    <nav className="bg-sidebar w-12 flex flex-col justify-between items-center pb-4 pt-2">
+    <nav className="bg-sidebar w-12 flex flex-col justify-between items-center pb-4 pt-2 border-r-[1px]  border-input">
       <div className="flex w-full flex-col items-center">
         <SidebarBranding />
         <PageLineSeperator />
