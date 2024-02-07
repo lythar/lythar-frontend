@@ -39,7 +39,7 @@ export default async function AppLayout({
 
   const data = await fetchData();
 
-  if ("error" in data) {
+  if ("error" in data || "user" in data === false) {
     return NextResponse.redirect(new URL("/"), { status: 401 });
   }
 
