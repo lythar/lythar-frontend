@@ -1,3 +1,5 @@
+import { Channel } from "./lib/types"
+
 export const exampleUsers = [
     {
         id: "1",
@@ -10,3 +12,11 @@ export const exampleUsers = [
 export const exampleConstants = {
     ORG_NAME: 'Mufaro inc.',
 }
+
+export const exampleChannels: Channel[] = [
+    {
+        id: "1",
+        name: "test-channel",
+        description: "This is a test channel!"
+    }
+]

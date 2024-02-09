@@ -1,8 +1,9 @@
 "use client";
-import { Channel } from "@/lib/types";
+import { Channel, StoreKeys } from "@/lib/types";
 import { useState } from "react";
 
 export class ChannelStore {
+  public static storeName = StoreKeys.ChannelStore
   private static instance: ChannelStore;
   private storeState = useState<Record<string, Channel>>({} as Record<string, Channel>);
 

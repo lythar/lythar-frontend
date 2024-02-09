@@ -1,4 +1,4 @@
-import LytharLogo from "@/public/lythar_no_bg.svg";
+import LytharLogo from "@/public/lythar_no_bg.svg"
 import Image from "next/image";
 
 const SidebarBranding = () => {

@@ -4,7 +4,7 @@ import { FC } from "react";
 import MainLinks from "./main-links";
 import SidebarProfileDropdown from "./profile-dropdown";
 import SidebarBranding from "@/components/branding/sidebar-branding";
-import { PageLineSeperator } from "../page-wrappers/page-wrappers";
+import { PageLineSeperator } from "../../ui/page-utils";
 
 interface BaseSidebarProps {}
 

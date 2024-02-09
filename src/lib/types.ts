@@ -1,5 +1,7 @@
 export type ExtractArray<T> = T extends (infer U)[] ? U : never;
 
+export type $TODO = any;
+
 type User = {
   id: string;
   username: string;
@@ -23,10 +25,9 @@ export type Channel = {
   id:string;
   name: string;
   description: string;
-  members: User[];
 }
 
-export enum StoreLocalStorageKeys {
+export enum StoreKeys {
   ChannelStore = "ChannelStore",
   MessageStore = "MessageStore",
 }
