@@ -8,6 +8,9 @@ import { Metadata } from "next";
 import BaseSidebar from "@/components/app/sidebar/sidebar";
 import { StoreProvider } from "@/components/app/wrappers/stores-provider";
 import { Stores } from "./stores";
+import RccLayoutWrapper from "@/components/app/wrappers/rcc-layout-wrapper";
+import { GlobalLoadingProvider } from "@/components/app/wrappers/global-loading-provider";
+import GlobalLoadingProviderRest from "@/components/app/wrappers/global-loading-rest";
 
 async function fetchData() {
   "use server";
@@ -46,13 +49,14 @@ export default async function AppLayout({
   }
 
   return (
-    <DataLayoutProvider data={data.user}>
-      <StoreProvider stores={Stores}>
-        <div className="flex min-h-0 h-screen relative overflow-hidden">
-          <BaseSidebar />
-          <div className="flex-1">{children}</div>
-        </div>
-      </StoreProvider>
-    </DataLayoutProvider>
+    <RccLayoutWrapper>
+      <GlobalLoadingProvider>
+        <DataLayoutProvider data={data.user}>
+          <StoreProvider stores={Stores}>
+            <GlobalLoadingProviderRest>{children}</GlobalLoadingProviderRest>
+          </StoreProvider>
+        </DataLayoutProvider>
+      </GlobalLoadingProvider>
+    </RccLayoutWrapper>
   );
 }

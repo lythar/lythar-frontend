@@ -1,12 +1,17 @@
 "use client";
 import { Channel, StoreKeys } from "@/lib/types";
 import Store from "./base-store";
+import { exampleChannels } from "@/example_data";
 
 export class ChannelStore extends Store<Channel> {
   public override storeName: StoreKeys = StoreKeys.ChannelStore
 
   public constructor() {
     super()
+
+    for (const channel of exampleChannels) {
+      this.set(channel.id, channel)
+    }
   }
 
   setMany(channels: Record<string, Channel>): void {
