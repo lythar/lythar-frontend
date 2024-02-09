@@ -1,5 +1,6 @@
+"use client"
 import { ChannelStore } from "@/stores/channel-store";
 
 export const Stores = [
-    ChannelStore.getInstance()
+    new ChannelStore()
 ]

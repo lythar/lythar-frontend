@@ -1,40 +1,18 @@
 "use client";
 import { Channel, StoreKeys } from "@/lib/types";
-import { useState } from "react";
+import Store from "./base-store";
 
-export class ChannelStore {
-  public static storeName = StoreKeys.ChannelStore
-  private static instance: ChannelStore;
-  private storeState = useState<Record<string, Channel>>({} as Record<string, Channel>);
+export class ChannelStore extends Store<Channel> {
+  public override storeName: StoreKeys = StoreKeys.ChannelStore
 
-  static getInstance(): ChannelStore {
-    if (!ChannelStore.instance) {
-      ChannelStore.instance = new ChannelStore();
-    }
-    return ChannelStore.instance;
+  public constructor() {
+    super()
   }
-
-  private constructor() {}
 
   setMany(channels: Record<string, Channel>): void {
     Object.entries(channels).forEach(([key, channel]) => {
       this.set(key, channel);
     });
-  }
-
-  set(key: string, channel: Channel): Channel {
-    const [, setStore] = this.storeState;
-
-    setStore((prev) => {
-      return { ...prev, [key]: channel };
-    });
-
-    return channel;
-  }
-
-  get(key:string): Channel | undefined {
-    const [store] = this.storeState;
-    return store[key];
   }
 
   getMany(keys: string[]): Record<string, Channel> {
@@ -48,8 +26,7 @@ export class ChannelStore {
   }
 
   getAll(): Record<string, Channel> {
-    const [store] = this.storeState;
-    return store;
+    return this.state;
   }
 
   getOrSet(key: string,channel: Channel): Channel {

@@ -1,3 +1,5 @@
+import { ChannelStore } from "@/stores/channel-store";
+
 export type ExtractArray<T> = T extends (infer U)[] ? U : never;
 
 export type $TODO = any;
@@ -27,7 +29,13 @@ export type Channel = {
   description: string;
 }
 
+export type StoreKeysWithoutNone = Exclude<StoreKeys, StoreKeys.None>
+
 export enum StoreKeys {
+  None = "None",
   ChannelStore = "ChannelStore",
-  MessageStore = "MessageStore",
+}
+
+export type StoreType = {
+  [StoreKeys.ChannelStore]: ChannelStore;
 }

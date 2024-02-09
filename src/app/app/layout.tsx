@@ -6,6 +6,8 @@ import { exampleUsers } from "@/example_data";
 import { DataLayoutProvider } from "@/components/auth/data-layout-context";
 import { Metadata } from "next";
 import BaseSidebar from "@/components/app/sidebar/sidebar";
+import { StoreProvider } from "@/components/app/wrappers/stores-provider";
+import { Stores } from "./stores";
 
 async function fetchData() {
   "use server";
@@ -45,10 +47,12 @@ export default async function AppLayout({
 
   return (
     <DataLayoutProvider data={data.user}>
-      <div className="flex min-h-0 h-screen relative overflow-hidden">
-        <BaseSidebar />
-        <div className="flex-1">{children}</div>
-      </div>
+      <StoreProvider stores={Stores}>
+        <div className="flex min-h-0 h-screen relative overflow-hidden">
+          <BaseSidebar />
+          <div className="flex-1">{children}</div>
+        </div>
+      </StoreProvider>
     </DataLayoutProvider>
   );
 }
