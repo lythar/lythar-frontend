@@ -1,7 +1,6 @@
 "use client";
 
-import { exampleUsers } from "@/example_data";
-import { ExtractArray, PublicUser } from "@/lib/types";
+import { PublicUser } from "../../types/globals";
 import { createContext, useContext } from "react";
 
 const DataLayoutContext = createContext({});

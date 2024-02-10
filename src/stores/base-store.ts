@@ -1,5 +1,5 @@
 "use client"
-import { StoreKeys } from "@/lib/types";
+import { StoreKeys } from "../types/globals";
 
 export default class Store<T, K extends string = string> {
     public storeName: StoreKeys = StoreKeys.None

@@ -1,5 +1,5 @@
 "use client";
-import { Channel, StoreKeys } from "@/lib/types";
+import { Channel, StoreKeys } from "../types/globals";
 import Store from "./base-store";
 import { exampleChannels } from "@/example_data";
 
