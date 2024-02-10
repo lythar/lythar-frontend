@@ -1,18 +1,23 @@
 "use client"
-import { StoreKeys } from "../types/globals";
+import { StoreKeys } from "@globals";
+import EventEmitter from "events";
 
-export default class Store<T, K extends string = string> {
-    public storeName: StoreKeys = StoreKeys.None
-    protected state: Record<K, T> = {} as Record<K, T>
+export default class Store<T, K extends string = string> extends EventEmitter {
+  public storeName: StoreKeys = StoreKeys.None;
+  protected state: Record<K, T> = {} as Record<K, T>;
 
-    public constructor() {};
+  public constructor() {
+    super();
+  }
 
-    set(key: K, storeValue: T): T {
-        this.state[key] = storeValue;
-        return storeValue;
-    }
+  set(key: K, storeValue: T): T {
+    this.state[key] = storeValue;
+    this.emit("change", this.state);
+    return storeValue;
+  }
 
-    get(key: K): T {
-        return this.state[key]
-    }
+  get(key: K): T {
+    return this.state[key];
+  }
+
 }

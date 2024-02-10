@@ -56,6 +56,17 @@ export const StoreProvider = ({ children, stores }: StoreProviderProps) => {
 export const useStore = <T extends StoreKeysWithoutNone>(
   store: T
 ): StoreType[T] => {
+  const [, forceUpdate] = useState();
   const targetStore = useContext(StoreContext)?.[store];
+
+  useEffect(() => {
+    // force a re-render when the store changes
+    targetStore?.on("change", forceUpdate);
+    // avoid memory leaks by cleanig up the listener when unmounted
+    return () => {
+      targetStore?.off("change", forceUpdate);
+    };
+  }, [targetStore]);
+
   return targetStore as StoreType[T];
 };
