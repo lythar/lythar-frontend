@@ -1,4 +1,4 @@
-import { Channel } from "./lib/types"
+import { Channel } from "@globals"
 
 export const exampleUsers = [
     {
