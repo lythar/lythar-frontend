@@ -1,15 +1,27 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
-import { StoreKeys, StoreKeysWithoutNone, StoreType } from "@/lib/types";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import {
+  StoreKeys,
+  StoreKeysWithoutNone,
+  StoreType,
+} from "../../../types/globals";
 import { Stores } from "@/app/app/stores";
 import { useGlobalLoading } from "./global-loading-provider";
 import { Logger } from "@/lib/logger";
+import { ChannelStore } from "@/stores/channel-store";
+import { OrganizationStore } from "@/stores/organization-store";
 
 export const mapStores = (stores: typeof Stores) => {
   const obj: StoreType = {} as StoreType;
   stores.forEach((store) => {
     if (store.storeName === StoreKeys.None) return;
-    obj[store.storeName] = store;
+    obj[store.storeName] = store as ChannelStore & OrganizationStore;
   });
 
   return obj;
@@ -25,14 +37,14 @@ interface StoreProviderProps {
 export const StoreProvider = ({ children, stores }: StoreProviderProps) => {
   const [storesState, setStoresState] = useState<StoreType | null>(null);
   const { setLoading } = useGlobalLoading();
-  const logger = new Logger("StoreProvider");
+  const logger = useCallback(() => new Logger("StoreProvider"), []);
 
   useEffect(() => {
     const mappedStores = mapStores(stores);
     setStoresState(mappedStores);
-    logger.info(`Stores loaded [${stores.length}]`);
+    logger().info(`Stores loaded [${stores.length}]`);
     setLoading(false);
-  }, [stores]);
+  }, [stores, logger, setLoading]);
 
   return (
     <StoreContext.Provider value={storesState}>
@@ -41,7 +53,9 @@ export const StoreProvider = ({ children, stores }: StoreProviderProps) => {
   );
 };
 
-export const useStore = (store: StoreKeysWithoutNone) => {
+export const useStore = <T extends StoreKeysWithoutNone>(
+  store: T
+): StoreType[T] => {
   const targetStore = useContext(StoreContext)?.[store];
-  return targetStore as StoreType[typeof store];
+  return targetStore as StoreType[T];
 };
