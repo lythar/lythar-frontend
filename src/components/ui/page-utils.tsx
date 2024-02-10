@@ -20,7 +20,7 @@ interface PageLineSeperator {}
 
 const PageLineSeperator = ({}: PageLineSeperator) => {
   return (
-    <div className="w-[calc(100%-0.5rem)] h-[4px] my-2 rounded-xl bg-input" />
+    <div className="w-[calc(100%-0.5rem)] h-[4px] my-2 rounded-xl bg-muted" />
   );
 };
 

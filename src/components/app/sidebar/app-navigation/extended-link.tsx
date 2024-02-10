@@ -41,7 +41,7 @@ const ExtendedLink: FC<ExtendedLinkProps> = ({
   href,
   displayName,
 }) => {
-  const isActive = pathname === href;
+  const isActive = pathname.includes(href);
 
   return (
     <>

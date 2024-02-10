@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss"
+import plugin from "tailwindcss"
 const fontFamily = require("tailwindcss/defaultTheme").fontFamily
 
 const config = {
@@ -20,7 +21,10 @@ const config = {
     },
     extend: {
       colors: {
-        sidebar: "hsl(var(--sidebar))",
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar))",
+          secondary: "hsl(var(--sidebar-secondary))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -40,6 +44,7 @@ const config = {
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
+          hover: "hsl(var(--muted-hover))",
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {

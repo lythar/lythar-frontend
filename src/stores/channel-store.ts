@@ -30,9 +30,7 @@ export class ChannelStore extends Store<Channel> {
     }, {} as Record<string, Channel>);
   }
 
-  getAll(): Record<string, Channel> {
-    return this.state;
-  }
+
 
   getOrSet(key: string,channel: Channel): Channel {
     return this.get(key) || this.set(key, channel);

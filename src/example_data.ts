@@ -18,5 +18,10 @@ export const exampleChannels: Channel[] = [
         id: "1",
         name: "test-channel",
         description: "This is a test channel!"
+    },
+    {
+        id: "2",
+        name: "sigma",
+        description: "This is a test channel!"
     }
 ]

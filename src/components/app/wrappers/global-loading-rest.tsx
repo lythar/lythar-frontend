@@ -1,6 +1,6 @@
 "use client";
 import { Icons } from "@/components/ui/icons";
-import BaseSidebar from "../sidebar/sidebar";
+import BaseSidebar from "../sidebar/app-navigation/navigation-sidebar";
 import { useGlobalLoading } from "./global-loading-provider";
 import HeadlineBranding from "@/components/branding/headline-branding";
 

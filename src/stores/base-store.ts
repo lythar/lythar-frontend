@@ -10,8 +10,13 @@ export default class Store<T, K extends string = string> extends EventEmitter {
     super();
   }
 
-  set(key: K, storeValue: T): T {
-    this.state[key] = storeValue;
+  set(key: K | "incremental", storeValue: T): T {
+    if (key === "incremental") {
+      const key = Object.keys(this.state).length.toString() as K;
+      this.state[key] = storeValue;
+    } else {
+      this.state[key] = storeValue;
+    }
     this.emit("change", this.state);
     return storeValue;
   }
@@ -20,4 +25,7 @@ export default class Store<T, K extends string = string> extends EventEmitter {
     return this.state[key];
   }
 
+  getAll(): Record<string, T> {
+    return this.state;
+  }
 }

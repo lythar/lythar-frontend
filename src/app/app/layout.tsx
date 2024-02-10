@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { exampleUsers } from "@/example_data";
 import { DataLayoutProvider } from "@/components/auth/data-layout-context";
 import { Metadata } from "next";
-import BaseSidebar from "@/components/app/sidebar/sidebar";
+import BaseSidebar from "@/components/app/sidebar/app-navigation/navigation-sidebar";
 import { StoreProvider } from "@/components/app/wrappers/stores-provider";
 import { Stores } from "./stores";
 import RccLayoutWrapper from "@/components/app/wrappers/rcc-layout-wrapper";

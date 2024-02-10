@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import {
+  CombinedStore,
   StoreKeys,
   StoreKeysWithoutNone,
   StoreType,
@@ -14,14 +15,12 @@ import {
 import { Stores } from "@/app/app/stores";
 import { useGlobalLoading } from "./global-loading-provider";
 import { Logger } from "@/lib/logger";
-import { ChannelStore } from "@/stores/channel-store";
-import { OrganizationStore } from "@/stores/organization-store";
 
 export const mapStores = (stores: typeof Stores) => {
   const obj: StoreType = {} as StoreType;
   stores.forEach((store) => {
     if (store.storeName === StoreKeys.None) return;
-    obj[store.storeName] = store as ChannelStore & OrganizationStore;
+    obj[store.storeName] = store as CombinedStore;
   });
 
   return obj;
@@ -53,20 +52,20 @@ export const StoreProvider = ({ children, stores }: StoreProviderProps) => {
   );
 };
 
-export const useStore = <T extends StoreKeysWithoutNone>(
-  store: T
-): StoreType[T] => {
-  const [, forceUpdate] = useState();
+export const useStore = <T extends StoreKeysWithoutNone>(store: T) => {
+  const [_, forceUpdate] = useState(0);
   const targetStore = useContext(StoreContext)?.[store];
 
   useEffect(() => {
-    // force a re-render when the store changes
-    targetStore?.on("change", forceUpdate);
-    // avoid memory leaks by cleanig up the listener when unmounted
-    return () => {
-      targetStore?.off("change", forceUpdate);
+    const handleChange = () => {
+      forceUpdate((c) => c + 1);
     };
-  }, [targetStore]);
+    targetStore?.on("change", handleChange);
+    console.log("change");
+    return () => {
+      targetStore?.off("change", handleChange);
+    };
+  }, [targetStore, forceUpdate]);
 
   return targetStore as StoreType[T];
 };
