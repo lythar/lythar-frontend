@@ -29,7 +29,7 @@ const MainLinks: FC<LinksProps> = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col w-full h-full gap-[0.25rem]">
+    <div className="flex md:flex-col w-full h-full gap-[0.25rem]">
       {links.map((link, index) => (
         <ExtendedLink key={index} pathname={pathname} {...link} />
       ))}

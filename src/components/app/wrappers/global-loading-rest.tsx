@@ -21,7 +21,7 @@ const GlobalLoadingProviderRest = ({
   }
 
   return (
-    <div className="flex min-h-0 h-screen relative overflow-hidden">
+    <div className="flex flex-col-reverse md:flex-row min-h-0 h-screen relative overflow-hidden">
       <BaseSidebar />
       <div className="flex-1">{children}</div>
     </div>
