@@ -1,5 +1,12 @@
 "use client";
 import { useDeviceContext } from "@/components/device-match-provider";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { FC } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
@@ -20,7 +27,20 @@ const HomePage: FC<HomePageProps> = () => {
           <h1 className="text font-semibold">Główna</h1>
         </div>
       </div>
-      HOME_PAGE_ABOUT
+
+      <DropdownMenu>
+        <DropdownMenuTrigger> Dropdown Menu </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <Dialog>
+            <DialogTrigger asChild>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                Test
+              </DropdownMenuItem>
+            </DialogTrigger>
+            <DialogContent>This is a modal.</DialogContent>
+          </Dialog>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 };

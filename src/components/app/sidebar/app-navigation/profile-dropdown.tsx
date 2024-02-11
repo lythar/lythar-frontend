@@ -1,8 +1,18 @@
-import * as Dropdown from "@/components/ui/dropdown-menu";
 import { FC } from "react";
 import { useDataLayout } from "@/components/auth/data-layout-context";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuGroup,
+  DropdownMenuShortcut,
+} from "@/components/ui/dropdown-menu";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
 interface SidebarProfileDropdownProps {}
 
@@ -16,44 +26,40 @@ const SidebarProfileDropdown: FC<SidebarProfileDropdownProps> = () => {
   };
 
   return (
-    <Dropdown.DropdownMenu>
-      <Dropdown.DropdownMenuTrigger asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Avatar className="w-8 h-8 text-xs">
           <AvatarImage src={data.avatar_url} />
           <AvatarFallback className="cursor-pointer">
             {getInitials(data?.username!)}
           </AvatarFallback>
         </Avatar>
-      </Dropdown.DropdownMenuTrigger>
-      <Dropdown.DropdownMenuContent
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
         className="min-w-[12rem] opacity-90"
         side="right"
         sideOffset={10}
       >
-        <Dropdown.DropdownMenuLabel>Moje Konto</Dropdown.DropdownMenuLabel>
-        <Dropdown.DropdownMenuSeparator />
-        <Dropdown.DropdownMenuGroup>
-          <Dropdown.DropdownMenuItem>
+        <DropdownMenuLabel>Moje Konto</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
             Profil
-            <Dropdown.DropdownMenuShortcut>⇧⌘P</Dropdown.DropdownMenuShortcut>
-          </Dropdown.DropdownMenuItem>
-          <Dropdown.DropdownMenuItem>
-            Ustawienia
-            <Dropdown.DropdownMenuShortcut>⌘,</Dropdown.DropdownMenuShortcut>
-          </Dropdown.DropdownMenuItem>
-          <Dropdown.DropdownMenuItem>
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
             Skróty Klawiszowe
-            <Dropdown.DropdownMenuShortcut>⌘/</Dropdown.DropdownMenuShortcut>
-          </Dropdown.DropdownMenuItem>
-        </Dropdown.DropdownMenuGroup>
-        <Dropdown.DropdownMenuSeparator />
-        <Dropdown.DropdownMenuItem>Wsparcie</Dropdown.DropdownMenuItem>
-        <Dropdown.DropdownMenuSeparator />
-        <Dropdown.DropdownMenuItem onClick={() => router.push("/logout")}>
+            <DropdownMenuShortcut>⌘/</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Wsparcie</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => router.push("/logout")}>
           Wyloguj się
-        </Dropdown.DropdownMenuItem>
-      </Dropdown.DropdownMenuContent>
-    </Dropdown.DropdownMenu>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

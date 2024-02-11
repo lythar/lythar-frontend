@@ -6,12 +6,14 @@ import SidebarProfileDropdown from "./profile-dropdown";
 import SidebarBranding from "@/components/branding/sidebar-branding";
 import { PageLineSeperator } from "../../../ui/page-utils";
 import { useDeviceContext } from "@/components/device-match-provider";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { IoCog } from "react-icons/io5";
 
 interface BaseSidebarProps {}
 
 const BaseSidebar: FC<BaseSidebarProps> = () => {
   const { isMobile, isSidebarOpen } = useDeviceContext();
+  const router = useRouter();
   const pathname = usePathname();
 
   let translation = "translate-y-0";
@@ -44,7 +46,14 @@ const BaseSidebar: FC<BaseSidebarProps> = () => {
         )}
         <MainLinks />
       </div>
-      {!isMobile && <SidebarProfileDropdown />}
+      {!isMobile && (
+        <div className="flex flex-col items-center gap-4">
+          <button onClick={() => router.push("/app/settings")}>
+            <IoCog size={24} className="text-primary-foreground" />
+          </button>
+          <SidebarProfileDropdown />
+        </div>
+      )}
     </nav>
   );
 };

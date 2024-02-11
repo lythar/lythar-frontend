@@ -5,6 +5,8 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
@@ -14,6 +16,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LogOutIcon } from "lucide-react";
+import { IoCog } from "react-icons/io5";
+import { Separator } from "@/components/ui/separator";
 
 interface SidebarProfileDropdownProps {}
 
@@ -36,12 +40,24 @@ const SidebarProfileDrawer: FC<SidebarProfileDropdownProps> = () => {
           </AvatarFallback>
         </Avatar>
       </DrawerTrigger>
-      <DrawerContent className="outline-none">
+      <DrawerContent className="outline-none z-50">
         <DrawerHeader>
           <DrawerTitle>Moje konto</DrawerTitle>
         </DrawerHeader>
 
-        <DrawerFooter>
+        <DrawerFooter className="gap-0 !first:rounded-b-none overflow-hidden">
+          <DrawerClose asChild>
+            <Button
+              className="bg-sidebar h-14 rounded-xl"
+              onClick={() => router.push("/app/settings")}
+            >
+              <div className="flex justify-between items-center w-full">
+                <span className=" text-xs font-bold">Ustawienia</span>
+                <IoCog size={24} />
+              </div>
+            </Button>
+          </DrawerClose>
+          <Separator className="my-3 bg-muted-foreground" />
           <Button
             className="bg-sidebar h-14 rounded-xl"
             onClick={() => router.push("/logout")}
