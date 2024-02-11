@@ -17,7 +17,7 @@ const ChannelLink: FC<ChannelLinkProps> = ({ id, name, description }) => {
   return (
     <Link
       onClick={() => {
-        // if (isMobile) toggleSidebar();
+        if (isMobile) toggleSidebar();
       }}
       href={`/app/home/${id}`}
       className={cn(

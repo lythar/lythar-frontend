@@ -1,6 +1,5 @@
 import { Channel, Message, StoreKeys } from "@/types/globals";
 import Store from "./base-store";
-import { logDebug } from "@/components/app/wrappers/debug-logger-bridge";
 
 export class MessageStore extends Store<Message> {
   public override storeName = StoreKeys.MessageStore;

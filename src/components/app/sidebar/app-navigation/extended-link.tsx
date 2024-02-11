@@ -62,7 +62,7 @@ const ExtendedLink: FC<ExtendedLinkProps> = ({
           data-tooltip-delay-hide={2}
           data-tooltip-delay-show={1}
           className={cn(
-            `relative flex flex-col items-center transition-all duration-500 ease-out-expo px-4 md:py-2 py-2 h-fit mx-[0.25rem] rounded-xl hover:text-accent-secondary`,
+            `relative flex flex-col items-center transition-all duration-500 ease-out-expo px-4 md:px-2 md:py-2 h-fit mx-[0.25rem] rounded-xl hover:text-accent-secondary`,
             isActive
               ? "text-accent-secondary bg-accent"
               : "text-muted-foreground",
@@ -71,15 +71,16 @@ const ExtendedLink: FC<ExtendedLinkProps> = ({
         >
           <Icon size={22} />
         </Link>
-        {isMobile && isActive ? (
-          <span className="text-[0.65rem] font-semibold text-accent-secondary">
-            {displayName}
-          </span>
-        ) : (
-          <span className="text-[0.65rem] font-semibold text-muted-foreground">
-            {displayName}
-          </span>
-        )}
+        {isMobile &&
+          (isActive ? (
+            <span className="text-[0.65rem] font-semibold text-accent-secondary">
+              {displayName}
+            </span>
+          ) : (
+            <span className="text-[0.65rem] font-semibold text-muted-foreground">
+              {displayName}
+            </span>
+          ))}
       </div>
     </>
   );
