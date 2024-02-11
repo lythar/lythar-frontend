@@ -20,11 +20,7 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
   };
 
   useEffect(() => {
-    messageStore.on("change", scrollToBottom);
-
-    return () => {
-      messageStore.off("change", scrollToBottom);
-    };
+    // messageStore.on("change", scrollToBottom);
   }, [messageStore]);
 
   return (
@@ -43,7 +39,10 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
             {Object.entries(messageStore.getAll()).map(
               ([_, message], id, arr) => {
                 if (message.channelId !== currentChannel.id) return null;
-                const previousMessage = arr[id - 1] ? arr[id - 1][1] : null;
+                const previousMessage =
+                  arr[id - 1] && arr[id - 1][1].channelId === currentChannel.id
+                    ? arr[id - 1][1]
+                    : null;
                 return (
                   <Message
                     key={`${message.channelId}-${message.id}`}

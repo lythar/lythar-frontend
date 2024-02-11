@@ -3,15 +3,22 @@ import React, { createContext, useEffect, useState } from "react";
 
 const DeviceContext = createContext({
   isMobile: false,
+  isSidebarOpen: false,
+  toggleSidebar: () => {},
 });
 
 export const DeviceProvider = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
   const value = {
     isMobile,
+    isSidebarOpen,
+    toggleSidebar,
   };
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+import { useDeviceContext } from "@/components/device-match-provider";
 import { cn } from "@/lib/utils";
 import { Channel } from "@/types/globals";
 import Link from "next/link";
@@ -9,11 +10,15 @@ interface ChannelLinkProps extends Channel {}
 
 const ChannelLink: FC<ChannelLinkProps> = ({ id, name, description }) => {
   const pathname = usePathname();
+  const { isMobile, toggleSidebar } = useDeviceContext();
 
   const isActive = pathname.match(new RegExp(`^/app/home/${id}`));
 
   return (
     <Link
+      onClick={() => {
+        // if (isMobile) toggleSidebar();
+      }}
       href={`/app/home/${id}`}
       className={cn(
         "flex items-center gap-2 py-1 px-2 rounded-sm transition-all duration-250 ease-out-expo",

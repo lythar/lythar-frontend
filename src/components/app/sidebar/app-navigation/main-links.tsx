@@ -4,6 +4,9 @@ import ExtendedLink, { ExtendedLinkProps } from "./extended-link";
 import { usePathname } from "next/navigation";
 import { FaHouse, FaBell } from "react-icons/fa6";
 import { IoChatbubbles } from "react-icons/io5";
+import SidebarProfileDropdown from "./profile-dropdown";
+import { useDeviceContext } from "@/components/device-match-provider";
+import SidebarProfileDrawer from "./profile-drawer.mobile";
 
 interface LinksProps {}
 
@@ -26,13 +29,15 @@ const links: Omit<ExtendedLinkProps, "pathname">[] = [
 ];
 
 const MainLinks: FC<LinksProps> = () => {
+  const { isMobile } = useDeviceContext();
   const pathname = usePathname();
 
   return (
-    <div className="flex md:flex-col w-full h-full gap-[0.25rem]">
+    <div className="flex justify-around md:flex-col w-full h-full gap-[0.25rem]">
       {links.map((link, index) => (
         <ExtendedLink key={index} pathname={pathname} {...link} />
       ))}
+      {isMobile && <SidebarProfileDrawer />}
     </div>
   );
 };

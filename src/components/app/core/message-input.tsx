@@ -12,18 +12,20 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
   const [messageContent, setMessageContent] = useState("");
   const messageStore = useStore(StoreKeys.MessageStore);
 
-  const [n, sn] = useState(10);
-
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
-    sn(n + 1);
-    messageStore?.set(n.toString(), {
-      id: n.toString(),
+    const lastId = Object.keys(messageStore.getAll()).at(-1);
+    const newId = lastId ? (parseInt(lastId) + 1).toString() : "0";
+
+    messageStore?.set(newId, {
+      id: newId,
       channelId: currentChannel.id,
       userId: "1",
       content: messageContent,
       createdAt: new Date().toISOString(),
     });
+
+    console.log(messageStore?.getAll());
 
     setMessageContent("");
   };

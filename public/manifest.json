@@ -1,0 +1,19 @@
+{
+  "name": "Lythar",
+  "short_name": "Lythar",
+  "theme_color": "#2196F3",
+  "background_color": "#2196F3",
+  "display": "standalone",
+  "orientation": "portrait",
+  "Scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "splash_pages": null
+}

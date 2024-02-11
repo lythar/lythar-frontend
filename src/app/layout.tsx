@@ -19,9 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn("min-h-screen font-sans antialiased", inter.variable)}
-      >
+      <body className={cn("min-h-[svh] font-sans antialiased", inter.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <DeviceProvider>{children}</DeviceProvider>
         </ThemeProvider>
