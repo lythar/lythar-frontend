@@ -16,7 +16,7 @@ import { Stores } from "@/app/app/stores";
 import { useGlobalLoading } from "./global-loading-provider";
 import { Logger } from "@/lib/logger";
 
-export const mapStores = (stores: typeof Stores) => {
+export const mapStores = async (stores: Awaited<typeof Stores>) => {
   const obj: StoreType = {} as StoreType;
   stores.forEach((store) => {
     if (store.storeName === StoreKeys.None) return;
@@ -39,10 +39,16 @@ export const StoreProvider = ({ children, stores }: StoreProviderProps) => {
   const logger = useCallback(() => new Logger("StoreProvider"), []);
 
   useEffect(() => {
-    const mappedStores = mapStores(stores);
-    setStoresState(mappedStores);
-    logger().info(`Stores loaded [${stores.length}]`);
-    setLoading(false);
+    const asyncLoad = async () => {
+      (await stores);
+      const mappedStores = await mapStores((await stores));
+      setStoresState(mappedStores);
+      logger().info(`Stores loaded [${(await stores).length}]`);
+      setLoading(false);
+    }
+
+    asyncLoad();
+
   }, [stores, logger, setLoading]);
 
   return (

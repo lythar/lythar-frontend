@@ -3,6 +3,7 @@ import { Channel, StoreKeys } from "@/types/globals";
 import { FC, FormEvent, useState } from "react";
 import { useStore } from "../wrappers/stores-provider";
 import { MessageStore } from "@/stores/message-store";
+import { Textarea } from "@/components/ui/textarea";
 
 interface MessageInputProps {
   currentChannel: Channel;
@@ -33,10 +34,10 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
   return (
     <div className="py-2 px-5 relative shrink-0 -mt-[8px]">
       <form onSubmit={sendMessage}>
-        <Input
+        <Textarea
           value={messageContent}
           onChange={(e) => setMessageContent(e.target.value)}
-          className="bg-sidebar rounded-xl h-10"
+          className="bg-sidebar rounded-xl min-h-[0.5rem] resize-none"
           placeholder={`Napisz na #${currentChannel.name}`}
         />
       </form>
