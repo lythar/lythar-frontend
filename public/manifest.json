@@ -1,17 +1,16 @@
 {
-  "name": "Lythar",
-  "short_name": "Lythar",
-  "theme_color": "#2196F3",
-  "background_color": "#2196F3",
-  "display": "standalone",
-  "orientation": "portrait",
-  "start_url": "/",
+  "name": "My awesome PWA app",
+  "short_name": "PWA App",
   "icons": [
     {
-      "src": "icons/icon-512x512.png",
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
-  ]
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
 }
