@@ -11,6 +11,7 @@ import { Stores } from "./stores";
 import RccLayoutWrapper from "@/components/app/wrappers/rcc-layout-wrapper";
 import { GlobalLoadingProvider } from "@/components/app/wrappers/global-loading-provider";
 import GlobalLoadingProviderRest from "@/components/app/wrappers/global-loading-rest";
+import { AnimatePresence } from "framer-motion";
 
 async function fetchData() {
   "use server";

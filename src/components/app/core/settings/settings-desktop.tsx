@@ -1,15 +1,16 @@
 "use client";
-import { DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { FC, useState } from "react";
+import { FC } from "react";
 import SidebarNav from "./settings-sidebar-nav-desktop";
 
-interface SettingsModalProps {}
+interface SettingsModalProps {
+  children: React.ReactNode;
+}
 
 const sidebarNavItems = [
   {
     title: "Konto",
-    href: "/app/settings/account",
+    href: "/app/settings",
   },
   {
     title: "Wyświetlanie",
@@ -20,7 +21,9 @@ const sidebarNavItems = [
     href: "/app/settings/account",
   },
 ];
-const SettingsDesktop: FC<SettingsModalProps> = () => {
+const SettingsDesktop: FC<SettingsModalProps> = ({
+  children,
+}: SettingsModalProps) => {
   return (
     <div className="hidden space-y-6 min-w-full min-h-full  md:min-w-[60%] md:min-h-[30%]  p-10 pb-16 md:block">
       <div className="space-y-0.5">
@@ -34,7 +37,7 @@ const SettingsDesktop: FC<SettingsModalProps> = () => {
         <aside className="-mx-4 lg:w-1/5">
           <SidebarNav items={sidebarNavItems} />
         </aside>
-        {/* <div className="flex-1 lg:max-w-2xl">{children}</div> */}
+        <div className="flex-1 lg:max-w-2xl">{children}</div>
       </div>
     </div>
   );

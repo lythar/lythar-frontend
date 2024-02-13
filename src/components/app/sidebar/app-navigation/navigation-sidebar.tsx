@@ -32,7 +32,7 @@ const BaseSidebar: FC<BaseSidebarProps> = () => {
     ${
       isMobile
         ? "fixed z-50 duration-250 transition-all ease-out-expo"
-        : "relative"
+        : "relative z-[3]"
     }
     ${isMobile && translation}
     `}
