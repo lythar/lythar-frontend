@@ -14,11 +14,11 @@ const sidebarNavItems = [
   },
   {
     title: "Wyświetlanie",
-    href: "/app/settings/account",
+    href: "/app/settings/foo",
   },
   {
     title: "Powiadomienia",
-    href: "/app/settings/account",
+    href: "/app/settings/bar",
   },
 ];
 const SettingsDesktop: FC<SettingsModalProps> = ({

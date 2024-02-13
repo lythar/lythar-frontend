@@ -1,8 +1,5 @@
-import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa6";
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {

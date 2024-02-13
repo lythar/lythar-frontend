@@ -1,25 +1,28 @@
 "use client";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import SidebarNavMobile from "./settings-nav-mobile";
+import { usePathname } from "next/navigation";
 
-interface SettingsModalProps {}
+interface SettingsModalProps {
+  children?: React.ReactNode;
+}
 
 const sidebarNavItems = [
   {
     title: "Konto",
-    href: "/app/settings",
+    href: "/app/settings/account",
   },
   {
     title: "Wyświetlanie",
-    href: "/app/settings/account",
+    href: "/app/settings/foo",
   },
   {
     title: "Powiadomienia",
-    href: "/app/settings/account",
+    href: "/app/settings/bar",
   },
 ];
 
-const SettingsMobile: FC<SettingsModalProps> = () => {
+const SettingsMobile: FC<SettingsModalProps> = ({ children }) => {
   return (
     <div className=" space-y-6 min-w-full min-h-full  p-10 pb-16 md:block">
       <div className="space-y-0.5">
@@ -28,12 +31,9 @@ const SettingsMobile: FC<SettingsModalProps> = () => {
           Zarządzaj swoim kontem i ustaw swoje preferencje.
         </p>
       </div>
-      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-        <aside className="-mx-4 lg:w-1/5">
-          <SidebarNavMobile items={sidebarNavItems} />
-        </aside>
-        {/* <div className="flex-1 lg:max-w-2xl">{children}</div> */}
-      </div>
+      <aside className="-mx-4 lg:w-1/5">
+        <SidebarNavMobile items={sidebarNavItems} />
+      </aside>
     </div>
   );
 };
