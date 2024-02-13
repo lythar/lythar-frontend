@@ -2,19 +2,22 @@
 import SettingsDesktop from "@/components/app/core/settings/settings-desktop";
 import SettingsMobile from "@/components/app/core/settings/settings-mobile";
 import { useDeviceContext } from "@/components/device-match-provider";
+import { FC } from "react";
 
-interface SettingsLayoutProps {
-  children: Readonly<React.ReactNode>;
+interface SettingsPageProps {
+  children: React.ReactNode;
 }
 
-const SettingsLayout: React.FC<SettingsLayoutProps> = () => {
+const SettingsLayout: FC<SettingsPageProps> = ({
+  children,
+}: SettingsPageProps) => {
   const { isMobile } = useDeviceContext();
 
   if (isMobile) {
-    return <SettingsMobile />;
+    return <SettingsMobile>{children}</SettingsMobile>;
   }
 
-  return <SettingsDesktop />;
+  return <SettingsDesktop>{children}</SettingsDesktop>;
 };
 
 export default SettingsLayout;

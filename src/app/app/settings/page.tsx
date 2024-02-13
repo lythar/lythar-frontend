@@ -1,21 +1,21 @@
 "use client";
-import SettingsDesktop from "@/components/app/core/settings/settings-desktop";
-import { useDeviceContext } from "@/components/device-match-provider";
+import { Separator } from "@/components/ui/separator";
 import { FC } from "react";
 
 interface SettingsPageProps {}
 
 const SettingsPage: FC<SettingsPageProps> = () => {
-  const { isMobile } = useDeviceContext();
-
-  if (isMobile) {
-    return <></>;
-  }
-
   return (
-    <>
-      <SettingsDesktop />
-    </>
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-medium">Account</h3>
+        <p className="text-sm text-muted-foreground">
+          Update your account settings. Set your preferred language and
+          timezone.
+        </p>
+      </div>
+      <Separator />
+    </div>
   );
 };
 

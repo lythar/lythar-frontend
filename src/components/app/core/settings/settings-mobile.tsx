@@ -1,7 +1,5 @@
 "use client";
-import { DialogContent } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
-import { FC, useState } from "react";
+import { FC } from "react";
 import SidebarNavMobile from "./settings-nav-mobile";
 
 interface SettingsModalProps {}
@@ -9,7 +7,7 @@ interface SettingsModalProps {}
 const sidebarNavItems = [
   {
     title: "Konto",
-    href: "/app/settings/account",
+    href: "/app/settings",
   },
   {
     title: "Wyświetlanie",
