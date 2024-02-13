@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Message as TMessage } from "@/types/globals";
 import { FC, useState } from "react";
+import Markdown from "react-markdown";
 
 const getInitials = (name: string) => {
   const nameArray = name.split(" ");
@@ -62,8 +63,10 @@ const Message: FC<MessageProps> = (props) => {
             </>
           )}
 
-          <div className="-ml-[calc(40px+16px+16px)] pl-[calc(40px+16px+16px)] overflow-hidden relative indent-0 whitespace-break-spaces text-primary-foreground">
-            <span>{props.content}</span>
+          <div className="-ml-[calc(40px+16px+16px)] pl-[calc(40px+16px+16px)] overflow-hidden relative indent-0 whitespace-break-spaces">
+            <span>
+              <Markdown>{props.content}</Markdown>
+            </span>
           </div>
         </div>
       </div>

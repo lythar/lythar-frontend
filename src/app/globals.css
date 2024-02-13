@@ -68,4 +68,20 @@
     );
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--sidebar));
+    border-radius: 0.25rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 0.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: hsl(var(--muted-hover));
+  }
 }
