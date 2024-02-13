@@ -2,7 +2,6 @@ import { Channel, StoreKeys } from "@/types/globals";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { useStore } from "../wrappers/stores-provider";
 import Message from "./message";
-import { MessageStore } from "@/stores/message-store";
 
 interface MessageViewProps {
   currentChannel: Channel;
@@ -20,7 +19,11 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
   };
 
   useEffect(() => {
-    // messageStore.on("change", scrollToBottom);
+    messageStore.on("change", scrollToBottom);
+
+    return () => {
+      messageStore.off("change", scrollToBottom);
+    };
   }, [messageStore]);
 
   return (

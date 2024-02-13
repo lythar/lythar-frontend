@@ -35,9 +35,17 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
     <div className="py-2 px-5 relative shrink-0 -mt-[8px]">
       <form onSubmit={sendMessage}>
         <Textarea
+          ref={(el) => el?.focus()}
+          rows={1.5}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              sendMessage(e);
+            }
+          }}
           value={messageContent}
           onChange={(e) => setMessageContent(e.target.value)}
-          className="bg-sidebar rounded-xl min-h-[0.5rem] resize-none"
+          className="bg-sidebar rounded-xl min-h-0 resize-none focus-visible:outline-none"
           placeholder={`Napisz na #${currentChannel.name}`}
         />
       </form>
