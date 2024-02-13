@@ -15,21 +15,19 @@ export async function middleware(req: NextRequest) {
 
     const verifiedToken = token ? await verifyAuth(token).catch(console.log) : false;
 
-    if(pathname == "/" && !verifiedToken) {
-        return;
-    }
-
-    if (!verifiedToken && pathname === '/app') {
-        return NextResponse.redirect(new URL("/", req.url), { status: 302 });
+    const privatePaths = [/^\/app/];
+    const isPrivate = privatePaths.some((path) => path.test(pathname));
+    if(isPrivate && !verifiedToken) {
+        const url = req.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url, { status: 302 })
     }
 
     if(verifiedToken && pathname === '/') {
         return NextResponse.redirect(new URL("/app", req.url), { status: 302 });
     }
 
-    if(!verifiedToken) {
-        return NextResponse.redirect(new URL("/", req.url), { status: 302 });
-    }
+    return NextResponse.next();
 }
 
 export const config = {
