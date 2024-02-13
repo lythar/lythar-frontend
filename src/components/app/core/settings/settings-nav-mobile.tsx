@@ -17,8 +17,6 @@ export function SidebarNavMobile({
   items,
   ...props
 }: SidebarNavProps) {
-  const pathname = usePathname();
-
   return (
     <nav
       className={cn(
