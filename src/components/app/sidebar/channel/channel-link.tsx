@@ -1,4 +1,4 @@
-import { useDeviceContext } from "@/components/device-match-provider";
+import { useDeviceContext } from "@/components/device-provider";
 import { cn } from "@/lib/utils";
 import { Channel } from "@/types/globals";
 import Link from "next/link";

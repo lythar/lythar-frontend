@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
-import { DeviceProvider } from "@/components/device-match-provider";
+import { DeviceProvider } from "@/components/device-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 

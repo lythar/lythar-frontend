@@ -1,5 +1,5 @@
 "use client";
-import { useDeviceContext } from "@/components/device-match-provider";
+import { useDeviceContext } from "@/components/device-provider";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import {
   DropdownMenu,

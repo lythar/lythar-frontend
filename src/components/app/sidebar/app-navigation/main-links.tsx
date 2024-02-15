@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { FaHouse, FaBell } from "react-icons/fa6";
 import { IoChatbubbles } from "react-icons/io5";
 import SidebarProfileDropdown from "./profile-dropdown";
-import { useDeviceContext } from "@/components/device-match-provider";
+import { useDeviceContext } from "@/components/device-provider";
 import SidebarProfileDrawer from "./profile-drawer.mobile";
 
 interface LinksProps {}

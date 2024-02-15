@@ -1,5 +1,5 @@
 "use client";
-import { useDeviceContext } from "@/components/device-match-provider";
+import { useDeviceContext } from "@/components/device-provider";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FC } from "react";

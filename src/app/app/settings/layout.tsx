@@ -2,7 +2,7 @@
 import SettingsDesktop from "@/components/app/core/settings/settings-desktop";
 import SettingsMobile from "@/components/app/core/settings/settings-mobile";
 import SettingsMobileMiddleware from "@/components/app/core/settings/settings-mobile-middleware";
-import { useDeviceContext } from "@/components/device-match-provider";
+import { useDeviceContext } from "@/components/device-provider";
 import { useParams, usePathname } from "next/navigation";
 import { FC } from "react";
 
