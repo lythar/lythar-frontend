@@ -6,7 +6,7 @@
   "background_color": "hsl(235, 19%, 13%)",
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "/",
+  "start_url": "/?mode=standalone",
   "scope": "/",
   "icons": [
     {

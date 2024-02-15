@@ -5,9 +5,10 @@ import MainLinks from "./main-links";
 import SidebarProfileDropdown from "./profile-dropdown";
 import SidebarBranding from "@/components/branding/sidebar-branding";
 import { PageLineSeperator } from "../../../ui/page-utils";
-import { useDeviceContext } from "@/components/device-match-provider";
+import { useDeviceContext } from "@/components/device-provider";
 import { usePathname, useRouter } from "next/navigation";
 import { IoCog } from "react-icons/io5";
+import { logDebug } from "../../wrappers/debug-logger-bridge";
 
 interface BaseSidebarProps {}
 

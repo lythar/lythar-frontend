@@ -1,10 +1,12 @@
 "use client";
+import { usePathname } from "next/navigation";
 import React, { createContext, useEffect, useState } from "react";
 
 const DeviceContext = createContext({
   isMobile: false,
   isSidebarOpen: false,
   toggleSidebar: () => {},
+  isPwa: false,
 });
 
 export const DeviceProvider = ({
@@ -12,6 +14,7 @@ export const DeviceProvider = ({
 }: Readonly<{ children: React.ReactNode }>) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isPwa, setIsPwa] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
@@ -19,9 +22,14 @@ export const DeviceProvider = ({
     isMobile,
     isSidebarOpen,
     toggleSidebar,
+    isPwa,
   };
 
   useEffect(() => {
+    const fullLocation = window.location.href;
+    const isPwa = fullLocation.includes("mode=standalone");
+    setIsPwa(isPwa);
+
     const mediaQuery = window.matchMedia("(max-width: 768px)");
     setIsMobile(mediaQuery.matches);
     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
