@@ -4,11 +4,11 @@ import { verifyAuth } from "./lib/auth";
 
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
-    const token = req.cookies.get('auth-token')?.value;
+    const token = req.cookies.get('token')?.value;
 
     if(pathname === "/logout") {
         return NextResponse.redirect(new URL("/", req.url), { status: 302, headers: {
-            "Set-Cookie": "auth-token=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax; Secure;"
+            "Set-Cookie": "token=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax; Secure;"
         } });
     }
 

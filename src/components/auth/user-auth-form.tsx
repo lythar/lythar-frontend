@@ -3,8 +3,10 @@ import { useState, FormEvent, FC } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icons } from "@/components/ui/icons";
+import { components, operations } from "@/types/api";
 import { useStrings } from "@/hooks/useStrings";
 import loginStrings from "@/strings/login.json";
+import client from "@/lib/api-client";
 
 interface UserAuthFormProps {}
 
@@ -29,12 +31,17 @@ const UserAuthForm: FC<UserAuthFormProps> = () => {
 
     const { username, password } = input;
 
-    const response = await fetch("/api/auth/", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
+    const response = await client.POST("/account/api/login", {
+      body: {
+        login: username,
+        password: password,
+      },
     });
 
-    if (response.ok) {
+    document.cookie = `token=${response.data?.token}; Path=/;`;
+    localStorage.setItem("token", response.data?.token || "");
+
+    if (!response.error) {
       router.push("/app");
     } else {
       setLoading(false);
@@ -62,6 +69,7 @@ const UserAuthForm: FC<UserAuthFormProps> = () => {
           name="username"
           onChange={handleChange}
           placeholder="Nazwa użytkownika"
+          autoComplete="off"
           required
         />
         <Input

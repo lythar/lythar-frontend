@@ -24,10 +24,10 @@ export default function LoadingOverlay({ children }: LoadingOverlayProps) {
 
       const debounce = setTimeout(() => {
         setOverlayProperties((p) => ({ ...p, loadingDebounce: false }));
-      }, 200);
+      }, 500);
       const timer = setTimeout(() => {
         setOverlayProperties((p) => ({ ...p, show: false }));
-      }, 500);
+      }, 1000);
 
       dynamicLogger().info("LoadingOverlay has been hidden.");
 
@@ -50,9 +50,10 @@ export default function LoadingOverlay({ children }: LoadingOverlayProps) {
 
       {overlayProperties.show && (
         <div
-          className={`fixed w-screen h-screen bg-background z-[999] flex flex-col items-center transition-opacity duration-300 ease-in-out ${
-            loading ? "opacity-100" : "opacity-0"
-          } `}
+          className={`fixed w-screen h-screen
+           bg-background z-[999] flex flex-col items-center transition-opacity duration-300 ease-in-out ${
+             overlayProperties.loadingDebounce ? "opacity-100" : "opacity-0"
+           } `}
         >
           <HeadlineBranding />
           <div className="fixed h-screen translate-y-[50%] ">
