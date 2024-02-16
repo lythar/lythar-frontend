@@ -1,13 +1,13 @@
 "use client";
 
-import { PublicUser } from "../../types/globals";
+import { User } from "../../types/globals";
 import { createContext, useContext } from "react";
 
 const DataLayoutContext = createContext({});
 
 interface DataLayoutProviderProps {
   children: Readonly<React.ReactNode>;
-  data: PublicUser;
+  data: User;
 }
 
 export const DataLayoutProvider = ({
@@ -21,4 +21,4 @@ export const DataLayoutProvider = ({
   );
 };
 
-export const useDataLayout = () => useContext(DataLayoutContext) as PublicUser;
+export const useDataLayout = () => useContext(DataLayoutContext) as User;

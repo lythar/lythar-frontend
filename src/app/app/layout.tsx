@@ -1,63 +1,80 @@
-import { AuthJwtPayload, verifyAuth } from "@/lib/auth";
-import { decodeJwt } from "jose";
-import { cookies } from "next/headers";
+"use client";
+
 import { NextResponse } from "next/server";
-import { exampleUsers } from "@/example_data";
 import { DataLayoutProvider } from "@/components/auth/data-layout-context";
 import { Metadata } from "next";
-import BaseSidebar from "@/components/app/sidebar/app-navigation/navigation-sidebar";
 import { StoreProvider } from "@/components/app/wrappers/stores-provider";
 import { Stores } from "./stores";
 import RccLayoutWrapper from "@/components/app/wrappers/rcc-layout-wrapper";
 import { GlobalLoadingProvider } from "@/components/app/wrappers/global-loading-provider";
 import GlobalLoadingProviderRest from "@/components/app/wrappers/global-loading-rest";
-import { AnimatePresence } from "framer-motion";
+import client from "@/lib/api-client";
+import { User } from "@/types/globals";
+import { Suspense, useEffect, useState } from "react";
 
-async function fetchData() {
-  "use server";
+// async function fetchData() {
+//   "use server";
 
-  // TODO - Implement API call to get user data once backend is ready.
+//   // TODO - Implement API call to get user data once backend is ready.
 
-  const token = cookies().get("auth-token")?.value || "";
+//   // const data = decodeJwt(token) as AuthJwtPayload;
+//   // const user = exampleUsers.find((user) => user.id === data.id);
 
-  const verifiedToken = await verifyAuth(token);
+//   const user = await client().GET("/account/api/account", {
+//     credentials: "include",
+//   });
 
-  if (!verifiedToken) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+//   if (user.error) {
+//     return { error: "User not found" };
+//   }
 
-  const data = decodeJwt(token) as AuthJwtPayload;
-  const user = exampleUsers.find((user) => user.id === data.id);
+//   return { user: user.data } as { user: User };
+// }
 
-  const filteredUser = { ...user, password: undefined };
-
-  return { user: filteredUser };
-}
-
-export const metadata: Metadata = {
-  title: "Lythar - Dashboard",
-};
-
-export default async function AppLayout({
+export default function AppLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  "use server";
+  const [user, setUser] = useState<User | null>(null);
 
-  const data = await fetchData();
+  useEffect(() => {
+    async function fetchData() {
+      const user = await client.GET("/account/api/account", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
 
-  if ("error" in data || "user" in data === false) {
-    return NextResponse.redirect(new URL("/"), { status: 401 });
-  }
+      if (user.error) {
+        return NextResponse.redirect(new URL("/", window.location.href));
+      }
 
+      setUser(user.data as User);
+    }
+
+    fetchData();
+  }, []);
+
+  return <LayoutWrapper user={user as User}>{children}</LayoutWrapper>;
+}
+
+function LayoutWrapper({
+  children,
+  user,
+}: {
+  children: React.ReactNode;
+  user: User;
+}) {
   return (
-    <RccLayoutWrapper>
-      <GlobalLoadingProvider>
-        <DataLayoutProvider data={data.user}>
-          <StoreProvider stores={Stores}>
-            <GlobalLoadingProviderRest>{children}</GlobalLoadingProviderRest>
-          </StoreProvider>
-        </DataLayoutProvider>
-      </GlobalLoadingProvider>
-    </RccLayoutWrapper>
+    <Suspense fallback="LOADING">
+      <RccLayoutWrapper>
+        <GlobalLoadingProvider>
+          <DataLayoutProvider data={user}>
+            <StoreProvider stores={Stores}>
+              <GlobalLoadingProviderRest>{children}</GlobalLoadingProviderRest>
+            </StoreProvider>
+          </DataLayoutProvider>
+        </GlobalLoadingProvider>
+      </RccLayoutWrapper>
+    </Suspense>
   );
 }

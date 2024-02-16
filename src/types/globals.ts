@@ -1,20 +1,11 @@
 import { ChannelStore } from "@/stores/channel-store";
 import { MessageStore } from "@/stores/message-store";
 import { OrganizationStore } from "@/stores/organization-store";
+import { operations, components } from "./api";
 
 export type $TODO = any;
 
-type User = {
-  id: string;
-  username: string;
-  email: string;
-  password: string;
-  avatar_url: string;
-}
-
-type SecureUser = Omit<User, 'password'>;
-
-export type PublicUser = Partial<SecureUser>;
+export type User = Required<components["schemas"]["UserAccountResponse"]>;
 
 export type Message = {
   id: string;
