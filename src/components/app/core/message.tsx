@@ -1,8 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent , DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { Message as TMessage } from "@/types/globals";
 import { FC, useState } from "react";
 import Markdown from "react-markdown";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 
 const getInitials = (name: string) => {
   const nameArray = name.split(" ");
@@ -17,12 +19,31 @@ const Message: FC<MessageProps> = (props) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <ContextMenuWrapper>
       <li
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={cn("relative list-item", isHovered ? " bg-popover" : null)}
+        className={cn("relative list-item", isHovered ? "bg-popover" : null)}
       >
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              className={cn(
+                `absolute right-0 
+                  -translate-x-1/2
+                -top-2 z-[5] w-8 h-8 bg-sidebar border-[1px] border-solid cursor-pointer select-none flex items-center rounded-lg`,
+                isHovered ? "visible" : "invisible"
+              )}
+            >
+                <BiDotsVerticalRounded size={20} className="w-8" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <button className="block w-full text-left">Copy message</button>
+            <button className="block w-full text-left">Delete message</button>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <div
           className={cn(
             "relative pl-[calc(40px+16px+16px)] py-[0.15rem] pr-[48px] select-text break-words ",
@@ -72,17 +93,31 @@ const Message: FC<MessageProps> = (props) => {
           </div>
         </div>
       </li>
-    </ContextMenuWrapper>
   );
 };
 
 function ContextMenuWrapper({ children }: { children: React.ReactNode }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+
+  // show a button on the right of the message when hovered over
   return (
-    <div className="relative">
-      <div className="hidden hover:inline-block absolute right-0 top-0 z-20 cursor-grab">
-        X
-      </div>
-      {children}
+    <div>
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <button
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className={cn(
+            "absolute right-0 top-0 z-10 w-8 h-8 p-0 m-0 bg-transparent border-0 cursor-pointer select-none",
+            isHovered ? "visible" : "invisible"
+          )}
+        >
+          <span className="sr-only">Open message options</span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>{children}</DropdownMenuContent>
+    </DropdownMenu>
     </div>
   );
 }

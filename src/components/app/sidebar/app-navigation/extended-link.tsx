@@ -69,7 +69,7 @@ const ExtendedLink: FC<ExtendedLinkProps> = ({
             isMobile && isActive ? "py-[0.125rem]" : "py-1"
           )}
         >
-          <Icon size={22} />
+          <Icon size={28} />
         </Link>
         {isMobile &&
           (isActive ? (

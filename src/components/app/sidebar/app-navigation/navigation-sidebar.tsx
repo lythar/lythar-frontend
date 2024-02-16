@@ -29,7 +29,7 @@ const BaseSidebar: FC<BaseSidebarProps> = () => {
 
   return (
     <nav
-      className={`bg-sidebar w-full h-[4em] md:h-full md:w-12 flex flex-row md:flex-col justify-between items-center pb-2 md:pb-4 pt-2
+      className={`bg-sidebar w-full h-[4em] md:h-full md:w-16 flex flex-row md:flex-col justify-between items-center pb-2 md:pb-4 pt-2
     ${
       isMobile
         ? "fixed z-50 duration-250 transition-all ease-out-expo"

@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Lythar",
   description: "Lythar dashboard",
   manifest: "/manifest.json",
+  applicationName: "Lythar",
 };
 
 export default function RootLayout({
