@@ -1,8 +1,8 @@
 "use client";
 import { useDeviceContext } from "@/components/device-provider";
-import BaseSidebar from "../sidebar/app-navigation/navigation-sidebar";
 import LoadingOverlay from "./loading-overlay";
 import { dynamicLogger } from "@/hooks/dynamic-logger";
+import BaseSidebar from "../sidebar/app-navigation/navigation-sidebar";
 
 const GlobalLoadingProviderRest = ({
   children,

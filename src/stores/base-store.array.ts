@@ -16,7 +16,7 @@ export default class ArrayStore<T> extends EventEmitter {
     return storeValue;
   }
 
-  get(key: string, value: any): T {
+  get(key: string, value: keyof T): T {
     return this.state.find((item: any) => item[key] === value) as T;
   }
 

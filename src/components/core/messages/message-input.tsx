@@ -20,16 +20,7 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
     e.preventDefault();
     if (messageContent.length === 0) return;
 
-    const lastId = Object.keys(messageStore.getAll()).at(-1);
-    const newId = lastId ? (parseInt(lastId) + 1).toString() : "0";
-
-    messageStore?.set(newId, {
-      id: newId,
-      channelId: currentChannel.id,
-      userId: "1",
-      content: messageContent,
-      createdAt: new Date().toISOString(),
-    });
+    messageStore.sendMessage(messageContent, currentChannel);
 
     setMessageContent("");
   };

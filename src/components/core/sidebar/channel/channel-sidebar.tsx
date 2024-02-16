@@ -5,13 +5,16 @@ import ChannelLinksWrapper from "./channel-links-wrapper";
 import { useDeviceContext } from "@/components/device-provider";
 import { useSwipeable } from "react-swipeable";
 import { MdOutlineClose } from "react-icons/md";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Plus } from "lucide-react";
+import ChannelCreateModal from "./channel-create-modal";
 
 interface ChannelSidebar {}
 
 const ChannelSidebar: FC<ChannelSidebar> = () => {
   const { isMobile, toggleSidebar, isSidebarOpen } = useDeviceContext();
+  const [createChannelDialogOpen, setCreateChannelDialogOpen] = useState(false);
   const orgStore = useStore(StoreKeys.OrganizationStore);
-  const channelStore = useStore(StoreKeys.ChannelStore);
   const swipe = useSwipeable({
     onSwipedLeft: () => {
       if (isMobile && isSidebarOpen) {
@@ -19,17 +22,6 @@ const ChannelSidebar: FC<ChannelSidebar> = () => {
       }
     },
   });
-
-  const [n, sn] = useState(3);
-
-  const createChannel = () => {
-    sn(n + 1);
-    channelStore?.set(n.toString(), {
-      id: n.toString(),
-      name: `Channel ${n}`,
-      description: `Description ${n}`,
-    });
-  };
 
   return (
     <>
@@ -61,9 +53,20 @@ const ChannelSidebar: FC<ChannelSidebar> = () => {
             )}
           </div>
           <div className="py-2">
-            <h1 className="uppercase font-bold text-secondary-foreground text-xs px-2 mb-2">
-              Kanały
-            </h1>
+            <div className="flex items-center justify-between pr-3 text-secondary-foreground mb-2">
+              <h1 className="uppercase font-bold  text-xs px-2">Kanały</h1>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button>
+                    <Plus size={20} />
+                  </button>
+                </DialogTrigger>
+                <DialogContent>
+                  <ChannelCreateModal />
+                </DialogContent>
+              </Dialog>
+            </div>
+
             <ChannelLinksWrapper />
           </div>
         </div>

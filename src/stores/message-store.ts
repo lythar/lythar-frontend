@@ -6,9 +6,11 @@ export class MessageStore extends Store<Message> {
 
   constructor() {
     super();
+
+    this.emit("LOAD_COMPLETE");
   }
 
-  public getFromChannel(channelId: string): Record<string, Message> {
+  public getFromChannel(channelId: number): Record<string, Message> {
     return Object.entries(this.getAll()).reduce((acc, [id, message]) => {
       if (message.channelId === channelId) {
         acc[id] = message;
@@ -21,11 +23,12 @@ export class MessageStore extends Store<Message> {
     const randomId = Math.floor(Math.random() * 1000);
     const newMessage = {
         id: randomId.toString(),
-        channelId: currentChannel.id,
+        channelId: currentChannel.channelId,
         userId: "1",
         content: message,
         createdAt: new Date().toISOString(),
     }
-    this.set("incremental", newMessage)
+    console.log(newMessage, "newMessage");
+    this.set(newMessage.id, newMessage);
   }
 }

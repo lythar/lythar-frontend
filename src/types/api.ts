@@ -18,6 +18,16 @@ export interface paths {
   "/account/api/accounts": {
     get: operations["Account_GetAccounts"];
   };
+  "/channels/api/create": {
+    post: operations["Channels_CreateChannel"];
+  };
+  "/channels/api/list": {
+    get: operations["Channels_ListChannels"];
+  };
+  "/channels/api/{channelId}/messages": {
+    get: operations["Channels_ListMessages"];
+    post: operations["Channels_SendMessage"];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -47,6 +57,35 @@ export interface components {
       firstName?: string | null;
       lastName?: string | null;
       email?: string | null;
+    };
+    CreateChannelResponse: {
+      /** Format: int64 */
+      channelId?: number;
+    };
+    CreateChannelForm: {
+      name?: string;
+      description?: string;
+    };
+    Channel: {
+      /** Format: int64 */
+      channelId?: number;
+      name?: string;
+      description?: string;
+      /** Format: date-time */
+      createdAt?: string;
+    };
+    SendMessageForm: {
+      content?: string;
+    };
+    ListMessagesResponse: {
+      /** Format: int64 */
+      messageId?: number;
+      content?: string;
+      /** Format: date-time */
+      sentAt?: string;
+      /** Format: date-time */
+      editedAt?: string | null;
+      author?: components["schemas"]["UserAccountResponse"];
     };
   };
   responses: never;
@@ -119,6 +158,65 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["UserAccountResponse"][];
         };
+      };
+    };
+  };
+  Channels_CreateChannel: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateChannelForm"];
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["CreateChannelResponse"];
+        };
+      };
+    };
+  };
+  Channels_ListChannels: {
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["Channel"][];
+        };
+      };
+    };
+  };
+  Channels_ListMessages: {
+    parameters: {
+      query?: {
+        Before?: number | null;
+        After?: number | null;
+        Limit?: number | null;
+      };
+      path: {
+        channelId: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["ListMessagesResponse"][];
+        };
+      };
+    };
+  };
+  Channels_SendMessage: {
+    parameters: {
+      path: {
+        channelId: number;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SendMessageForm"];
+      };
+    };
+    responses: {
+      200: {
+        content: never;
       };
     };
   };
