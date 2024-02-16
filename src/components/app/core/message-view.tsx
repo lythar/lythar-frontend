@@ -2,6 +2,7 @@ import { Channel, StoreKeys } from "@/types/globals";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { useStore } from "../wrappers/stores-provider";
 import Message from "./message";
+import { useDataLayout } from "@/components/auth/data-layout-context";
 
 interface MessageViewProps {
   currentChannel: Channel;
@@ -9,6 +10,7 @@ interface MessageViewProps {
 
 const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
   const messageStore = useStore(StoreKeys.MessageStore);
+  const currentUser = useDataLayout();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -50,6 +52,7 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
                   <Message
                     key={`${message.channelId}-${message.id}`}
                     {...message}
+                    user={currentUser}
                     previousMessage={previousMessage}
                   />
                 );

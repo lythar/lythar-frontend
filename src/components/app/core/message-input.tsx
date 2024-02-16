@@ -18,6 +18,8 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
 
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
+    if (messageContent.length === 0) return;
+
     const lastId = Object.keys(messageStore.getAll()).at(-1);
     const newId = lastId ? (parseInt(lastId) + 1).toString() : "0";
 
@@ -28,8 +30,6 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
       content: messageContent,
       createdAt: new Date().toISOString(),
     });
-
-    console.log(messageStore?.getAll());
 
     setMessageContent("");
   };
@@ -48,7 +48,10 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
               }
             }}
             value={messageContent}
-            onChange={(e) => { if (e.target.value.length < 2000) setMessageContent(e.target.value) }}
+            onChange={(e) => {
+              if (e.target.value.length < 2000)
+                setMessageContent(e.target.value);
+            }}
             className="bg-sidebar rounded-sm min-h-0 resize-none py-2 focus-visible:outline-none focus-visible:ring-0 relative"
             placeholder={`Napisz na #${currentChannel.name}`}
           />
@@ -58,10 +61,17 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
         </div>
 
         {messageContent.length > 1500 ? (
-            <span className={cn("absolute -top-8 left-0 bg-sidebar px-2 rounded-lg border-2 border-solid border-input",messageContent.length > 1850 ? " text-red-600" : "text-muted-foreground")}>
-              {2000 - messageContent.length}
-            </span>
-          ) : null}
+          <span
+            className={cn(
+              "absolute -top-8 left-0 bg-sidebar px-2 rounded-lg border-2 border-solid border-input",
+              messageContent.length > 1850
+                ? " text-red-600"
+                : "text-muted-foreground"
+            )}
+          >
+            {2000 - messageContent.length}
+          </span>
+        ) : null}
       </form>
     </div>
   );

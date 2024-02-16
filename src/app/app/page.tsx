@@ -11,7 +11,7 @@ const Dashboard: FC<DashboardProps> = () => {
   router.push("/app/home");
 
   return (
-    <div className="container">
+    <div className="container w-full h-full flex items-center">
       <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
     </div>
   );
