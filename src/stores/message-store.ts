@@ -1,13 +1,39 @@
 import { Channel, Message, StoreKeys } from "@/types/globals";
 import Store from "./base-store";
+import client from "@/lib/api-client";
 
-export class MessageStore extends Store<Message> {
+export class MessageStore extends Store<Message, number> {
   public override storeName = StoreKeys.MessageStore;
+
+  public async fetchMessages(channelId: number) {
+    const messages = await client.GET("/channels/api/{channelId}/messages", {
+      params: {
+        path: {
+          channelId
+        }
+      }
+    });
+
+    if (messages.error) {
+      throw new Error("Failed to fetch messages");
+    } else {
+      const obj: Record<string, Required<Message>> = {};
+      messages.data.forEach((message) => {
+        obj[message.messageId!] = message as Required<Message>;
+      });
+      this.setMany(obj);
+      this.emit("LOAD_COMPLETE");
+    }
+  }
 
   constructor() {
     super();
+  }
 
-    this.emit("LOAD_COMPLETE");
+  public setMany(messages: Record<number, Message>): void {
+    for (const [k, v] of Object.entries(messages) as unknown as [number, Message][]) {
+      this.set(k, v);
+    }
   }
 
   public getFromChannel(channelId: number): Record<string, Message> {
@@ -19,16 +45,35 @@ export class MessageStore extends Store<Message> {
     }, {} as Record<string, Message>);
   }
 
-  public sendMessage(message: string, currentChannel: Channel) {
+  public async sendMessage(message: string, currentChannel: Channel) {
     const randomId = Math.floor(Math.random() * 1000);
-    const newMessage = {
-        id: randomId.toString(),
+    const newMessage: Message = {
+        messageId: randomId,
         channelId: currentChannel.channelId,
-        userId: "1",
+        editedAt: null,
         content: message,
-        createdAt: new Date().toISOString(),
+        sentAt: new Date().toISOString(),
+        author: {
+          id: 1,
+          name: "John",
+          lastName: "Doe",
+          avatarUrl: "https://randomuser.me/api/portraits"
+        }
+      }
+
+    const serverResponse = await client.POST("/channels/api/{channelId}/messages", {
+      params: {
+        path: {
+          channelId: currentChannel.channelId
+        }
+      },
+      body: { content: message }
+    })
+
+    if (serverResponse.response.status === 200) {
+      this.set(newMessage.messageId, newMessage);
+    } else {
+      console.error("Error sending message", serverResponse);
     }
-    console.log(newMessage, "newMessage");
-    this.set(newMessage.id, newMessage);
   }
 }

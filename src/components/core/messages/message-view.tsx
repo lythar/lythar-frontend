@@ -10,7 +10,6 @@ interface MessageViewProps {
 
 const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
   const messageStore = useStore(StoreKeys.MessageStore);
-  const currentUser = useDataLayout();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -51,9 +50,8 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
                     : null;
                 return (
                   <Message
-                    key={`${message.channelId}-${message.id}`}
+                    key={`${message.channelId}-${message.messageId}`}
                     {...message}
-                    user={currentUser}
                     previousMessage={previousMessage}
                   />
                 );

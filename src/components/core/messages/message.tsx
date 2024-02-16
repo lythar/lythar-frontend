@@ -18,11 +18,10 @@ const getInitials = (name: string) => {
 };
 interface MessageProps extends TMessage {
   previousMessage: TMessage | null;
-  user: User;
 }
 
 const Message: FC<MessageProps> = (props) => {
-  const useStacked = props.previousMessage?.userId === props.userId;
+  const useStacked = props.previousMessage?.author.id === props.author.id;
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -47,7 +46,7 @@ const Message: FC<MessageProps> = (props) => {
               )}
             >
               <time>
-                {new Date(props.createdAt).toLocaleTimeString("pl-PL", {
+                {new Date(props.sentAt).toLocaleTimeString("pl-PL", {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
@@ -56,16 +55,16 @@ const Message: FC<MessageProps> = (props) => {
           ) : (
             <>
               <Avatar className="absolute left-[16px] mt-[calc(4px-0.125rem)] w-[40px] h-[40px] z-10 overflow-hidden cursor-pointer select-none  ">
-                <AvatarImage src={props.user.avatarUrl || ""} />
+                <AvatarImage src={props.author.avatarUrl || ""} />
                 <AvatarFallback>
-                  {getInitials(`${props.user.name} ${props.user.lastName}`)}
+                  {getInitials(`${props.author.name} ${props.author.lastName}`)}
                 </AvatarFallback>
               </Avatar>
               <h3 className="min-h-[1.375rem] block relative leading-[1.375rem] whitespace-break-spaces">
-                <span className="mr-1">{`${props.user.name} ${props.user.lastName}`}</span>
+                <span className="mr-1">{`${props.author.name} ${props.author.lastName}`}</span>
                 <span className="text-xs leading-[1.375rem] h-[1.25rem] font-medium inline-block ml-1 align-baseline text-muted-foreground">
                   <time>
-                    {new Date(props.createdAt).toLocaleTimeString("pl-PL", {
+                    {new Date(props.sentAt).toLocaleTimeString("pl-PL", {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}

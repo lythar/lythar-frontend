@@ -37,8 +37,23 @@ export class ChannelStore extends Store<Channel, number> {
     if (newChannel.error) {
       throw new Error("Failed to create channel")
     } else {
-      console.log(newChannel.data)
       this.set(newChannel.data.channelId!, newChannel.data as Required<Channel>)
+    }
+  }
+
+  deleteChannel = async (channelId: number) => {
+    const deletedChannel = await client.DELETE(`/channels/api/{channelId}`, {
+      params: {
+        path: {
+          channelId,
+        },
+      },
+    })
+
+    if (deletedChannel.error) {
+      throw new Error("Failed to delete channel")
+    } else {
+      delete this.state[channelId]
     }
   }
 

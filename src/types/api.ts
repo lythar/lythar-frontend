@@ -24,6 +24,10 @@ export interface paths {
   "/channels/api/list": {
     get: operations["Channels_ListChannels"];
   };
+  "/channels/api/{channelId}": {
+    get: operations["Channels_GetChannel"];
+    delete: operations["Channels_DeleteChannel"];
+  };
   "/channels/api/{channelId}/messages": {
     get: operations["Channels_ListMessages"];
     post: operations["Channels_SendMessage"];
@@ -61,6 +65,8 @@ export interface components {
     CreateChannelResponse: {
       /** Format: int64 */
       channelId?: number;
+      name?: string;
+      description?: string;
     };
     CreateChannelForm: {
       name?: string;
@@ -81,6 +87,8 @@ export interface components {
       /** Format: int64 */
       messageId?: number;
       content?: string;
+      /** Format: int64 */
+      channelId?: number;
       /** Format: date-time */
       sentAt?: string;
       /** Format: date-time */
@@ -181,6 +189,32 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["Channel"][];
         };
+      };
+    };
+  };
+  Channels_GetChannel: {
+    parameters: {
+      path: {
+        channelId: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["Channel"];
+        };
+      };
+    };
+  };
+  Channels_DeleteChannel: {
+    parameters: {
+      path: {
+        channelId: number;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
       };
     };
   };
