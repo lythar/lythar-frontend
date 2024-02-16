@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FC } from "react";
 import { IconType } from "react-icons";
 import { Tooltip } from "react-tooltip";
+import { useLastPosition } from "../../wrappers/last-position-provider";
 
 export interface ExtendedLinkProps {
   pathname: string;
@@ -13,28 +14,12 @@ export interface ExtendedLinkProps {
   displayName: string;
 }
 
-// const ExtendedLink: FC<ExtendedLinkProps> = ({
-//   pathname,
-//   Icon,
-//   href,
-//   displayName,
-// }) => {
-//   const isActive = pathname === href;
-
-//   return (
-//     <Link
-//       href={href}
-//       className={`relative flex flex-col w-full h-fit items-center transition-all  duration-250 ease-out-expo py-2  ${
-//         isActive
-//           ? "text-accent-secondary bg-accent border-l-2 border-accent-border"
-//           : "text-muted-foreground border-l-2 border-transparent"
-//       }`}
-//     >
-//       <Icon size={24} />
-//       {/* <span className="text-[0.7rem] font-semibold">{displayName}</span> */}
-//     </Link>
-//   );
-// };
+function tryNavigateToLastPos(href: string, home: number): string {
+  if (href === "/app/home") {
+    return `/app/home/${home}`;
+  }
+  return href;
+}
 
 const ExtendedLink: FC<ExtendedLinkProps> = ({
   pathname,
@@ -43,6 +28,7 @@ const ExtendedLink: FC<ExtendedLinkProps> = ({
   displayName,
 }) => {
   const isActive = pathname.includes(href);
+  const { home } = useLastPosition();
   const { isMobile } = useDeviceContext();
 
   return (
@@ -56,7 +42,7 @@ const ExtendedLink: FC<ExtendedLinkProps> = ({
 
       <div className="flex flex-col items-center justify-center  gap-[2px]">
         <Link
-          href={href}
+          href={tryNavigateToLastPos(href, home)}
           data-tooltip-id="test"
           data-tooltip-content={displayName}
           data-tooltip-delay-hide={2}

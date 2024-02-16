@@ -9,17 +9,13 @@ export type User = Required<components["schemas"]["UserAccountResponse"]>;
 
 export type Message = {
   id: string;
-  channelId: string;
+  channelId: number;
   userId: string;
   content: string;
   createdAt: string;
 }
 
-export type Channel = {
-  id:string;
-  name: string;
-  description: string;
-}
+export type Channel = Required<components["schemas"]["Channel"]>;
 
 export type Organization = {
   ORG_NAME: string;

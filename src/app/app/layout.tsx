@@ -11,6 +11,8 @@ import GlobalLoadingProviderRest from "@/components/core/wrappers/global-loading
 import client from "@/lib/api-client";
 import { User } from "@/types/globals";
 import { Suspense, useEffect, useState } from "react";
+import LoadingOverlayFallback from "@/components/core/wrappers/loading-overlay-fallback";
+import { LastPositionProvider } from "@/components/core/wrappers/last-position-provider";
 
 // async function fetchData() {
 //   "use server";
@@ -65,14 +67,18 @@ function LayoutWrapper({
   user: User;
 }) {
   return (
-    <Suspense fallback="LOADING">
+    <Suspense fallback={<LoadingOverlayFallback />}>
       <RccLayoutWrapper>
         <GlobalLoadingProvider>
-          <DataLayoutProvider data={user}>
-            <StoreProvider stores={Stores}>
-              <GlobalLoadingProviderRest>{children}</GlobalLoadingProviderRest>
-            </StoreProvider>
-          </DataLayoutProvider>
+          <LastPositionProvider>
+            <DataLayoutProvider data={user}>
+              <StoreProvider stores={Stores}>
+                <GlobalLoadingProviderRest>
+                  {children}
+                </GlobalLoadingProviderRest>
+              </StoreProvider>
+            </DataLayoutProvider>
+          </LastPositionProvider>
         </GlobalLoadingProvider>
       </RccLayoutWrapper>
     </Suspense>

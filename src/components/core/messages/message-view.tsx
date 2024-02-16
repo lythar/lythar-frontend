@@ -43,9 +43,10 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
             <div className="mt-[1.5rem] mb-[0.5rem]" />
             {Object.entries(messageStore.getAll()).map(
               ([_, message], id, arr) => {
-                if (message.channelId !== currentChannel.id) return null;
+                if (message.channelId !== currentChannel.channelId) return null;
                 const previousMessage =
-                  arr[id - 1] && arr[id - 1][1].channelId === currentChannel.id
+                  arr[id - 1] &&
+                  arr[id - 1][1].channelId === currentChannel.channelId
                     ? arr[id - 1][1]
                     : null;
                 return (

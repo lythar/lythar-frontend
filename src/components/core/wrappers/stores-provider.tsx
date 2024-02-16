@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import {
@@ -18,9 +19,10 @@ import { Logger } from "@/lib/logger";
 
 export const mapStores = async (stores: Awaited<typeof Stores>) => {
   const obj: StoreType = {} as StoreType;
-  stores.forEach((store) => {
+  stores.forEach(async (store) => {
     if (store.storeName === StoreKeys.None) return;
     obj[store.storeName] = store as CombinedStore;
+    await store.initialFetch();
   });
 
   return obj;
@@ -40,15 +42,16 @@ export const StoreProvider = ({ children, stores }: StoreProviderProps) => {
 
   useEffect(() => {
     const asyncLoad = async () => {
-      (await stores);
-      const mappedStores = await mapStores((await stores));
+      await stores;
+      const mappedStores = await mapStores(await stores);
       setStoresState(mappedStores);
-      logger().info(`Stores loaded [${(await stores).length}]`);
+
       setLoading(false);
-    }
+
+      logger().info(`Stores loaded [${(await stores).length}]`);
+    };
 
     asyncLoad();
-
   }, [stores, logger, setLoading]);
 
   return (
@@ -67,7 +70,7 @@ export const useStore = <T extends StoreKeysWithoutNone>(store: T) => {
       forceUpdate((c) => c + 1);
     };
     targetStore?.on("change", handleChange);
-    console.log("change");
+    // console.log("change");
     return () => {
       targetStore?.off("change", handleChange);
     };

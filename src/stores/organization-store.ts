@@ -9,5 +9,7 @@ export class OrganizationStore extends Store<Organization[keyof Organization], k
     super();
 
     Object.assign(this.state, {...exampleConstants});
+
+    this.emit("LOAD_COMPLETE");
   }
 }

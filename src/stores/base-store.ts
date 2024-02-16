@@ -2,9 +2,13 @@
 import { StoreKeys } from "@globals";
 import EventEmitter from "events";
 
-export default class Store<T, K extends string = string> extends EventEmitter {
+export default class Store<T, K extends string | number = string> extends EventEmitter {
   public storeName: StoreKeys = StoreKeys.None;
   protected state: Record<K, T> = {} as Record<K, T>;
+
+  public async initialFetch(): Promise<void> {
+    return;
+  }
 
   public constructor() {
     super();
@@ -20,7 +24,7 @@ export default class Store<T, K extends string = string> extends EventEmitter {
     return this.state[key];
   }
 
-  getAll(): Record<string, T> {
+  getAll(): Record<K, T> {
     return this.state;
   }
 }
