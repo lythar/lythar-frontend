@@ -46,6 +46,10 @@ export const StoreProvider = ({ children, stores }: StoreProviderProps) => {
       const mappedStores = await mapStores(await stores);
       setStoresState(mappedStores);
 
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+      });
+
       setLoading(false);
 
       logger().info(`Stores loaded [${(await stores).length}]`);

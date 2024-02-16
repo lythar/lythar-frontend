@@ -14,13 +14,17 @@ interface ChannelViewProps {}
 const ChannelView: FC<ChannelViewProps> = () => {
   const id = useParams<{ id: string }>().id;
   const channelStore = useStore(StoreKeys.ChannelStore);
-  const [currentChannel, setCurrentChannel] = useState(channelStore.get(id));
+  const messageStore = useStore(StoreKeys.MessageStore);
+  const [currentChannel, setCurrentChannel] = useState(
+    channelStore.get(Number(id))
+  );
 
   const { isMobile, toggleSidebar } = useDeviceContext();
 
   useMemo(() => {
-    setCurrentChannel(channelStore.get(id));
-  }, [id, channelStore]);
+    setCurrentChannel(channelStore.get(Number(id)));
+    messageStore.fetchMessages(Number(id));
+  }, [id, channelStore, messageStore]);
 
   return (
     <div className="flex bg-background h-[100svh] flex-col">

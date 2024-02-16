@@ -7,13 +7,7 @@ export type $TODO = any;
 
 export type User = Required<components["schemas"]["UserAccountResponse"]>;
 
-export type Message = {
-  id: string;
-  channelId: number;
-  userId: string;
-  content: string;
-  createdAt: string;
-}
+export type Message = Required<components["schemas"]["ListMessagesResponse"]>;
 
 export type Channel = Required<components["schemas"]["Channel"]>;
 
