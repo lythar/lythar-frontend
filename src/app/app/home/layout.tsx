@@ -1,6 +1,6 @@
 "use client";
 
-import ChannelSidebar from "@/components/app/sidebar/channel/channel-sidebar";
+import ChannelSidebar from "@/components/core/sidebar/channel/channel-sidebar";
 
 export default function HomeLayout({
   children,
