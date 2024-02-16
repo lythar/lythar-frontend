@@ -1,5 +1,5 @@
 "use client";
-import ManagedByOrganizationCannotModify from "@/components/app/core/warnings/ManagedByOrganizationCannotModify";
+import ManagedByOrganizationCannotModify from "@/components/error-messages/ManagedByOrganizationCannotModify";
 import { Separator } from "@/components/ui/separator";
 import { FC } from "react";
 

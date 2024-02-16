@@ -3,11 +3,11 @@
 import { NextResponse } from "next/server";
 import { DataLayoutProvider } from "@/components/auth/data-layout-context";
 import { Metadata } from "next";
-import { StoreProvider } from "@/components/app/wrappers/stores-provider";
+import { StoreProvider } from "@/components/core/wrappers/stores-provider";
 import { Stores } from "./stores";
-import RccLayoutWrapper from "@/components/app/wrappers/rcc-layout-wrapper";
-import { GlobalLoadingProvider } from "@/components/app/wrappers/global-loading-provider";
-import GlobalLoadingProviderRest from "@/components/app/wrappers/global-loading-rest";
+import RccLayoutWrapper from "@/components/core/wrappers/rcc-layout-wrapper";
+import { GlobalLoadingProvider } from "@/components/core/wrappers/global-loading-provider";
+import GlobalLoadingProviderRest from "@/components/core/wrappers/global-loading-rest";
 import client from "@/lib/api-client";
 import { User } from "@/types/globals";
 import { Suspense, useEffect, useState } from "react";

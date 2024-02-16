@@ -1,7 +1,7 @@
 "use client";
-import MessageInput from "@/components/app/core/message-input";
-import MessageView from "@/components/app/core/message-view";
-import { useStore } from "@/components/app/wrappers/stores-provider";
+import MessageInput from "@/components/core/messages/message-input";
+import MessageView from "@/components/core/messages/message-view";
+import { useStore } from "@/components/core/wrappers/stores-provider";
 import { useDeviceContext } from "@/components/device-provider";
 import { StoreKeys } from "@/types/globals";
 import { useParams } from "next/navigation";
