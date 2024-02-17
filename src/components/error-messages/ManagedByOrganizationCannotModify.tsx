@@ -5,6 +5,7 @@ const ManagedByOrganizationCannotModify = React.forwardRef<
   HTMLLabelElement,
   React.ComponentPropsWithoutRef<"label">
 >(({ className, ...props }, ref) => (
+  // @ts-ignore
   <div
     ref={ref as any}
     className={cn(
