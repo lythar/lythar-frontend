@@ -34,9 +34,9 @@ const SidebarProfileDrawer: FC<SidebarProfileDropdownProps> = () => {
     <Drawer>
       <DrawerTrigger asChild>
         <Avatar className="w-8 h-8 text-xs">
-          <AvatarImage src={data.avatar_url} />
+          <AvatarImage src={data.avatarUrl || ""} />
           <AvatarFallback className="cursor-pointer">
-            {getInitials(data?.username!)}
+            {getInitials(data?.name!)}
           </AvatarFallback>
         </Avatar>
       </DrawerTrigger>
