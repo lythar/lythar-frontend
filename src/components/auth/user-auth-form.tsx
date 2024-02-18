@@ -3,7 +3,6 @@ import { useState, FormEvent, FC } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icons } from "@/components/ui/icons";
-import { components, operations } from "@/types/api";
 import { useStrings } from "@/hooks/useStrings";
 import loginStrings from "@/strings/login.json";
 import client from "@/lib/api-client";
