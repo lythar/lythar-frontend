@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm gen-types && next dev",
+    "dev:with-types": "pnpm gen-types && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen-types": "openapi-typescript https://pi-metres-democratic-albania.trycloudflare.com/swagger/v1/swagger.json -o ./src/types/api.ts"
+    "gen-types": "openapi-typescript http://localhost:5501/swagger/v1/swagger.json -o ./src/types/api.ts"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.5",
