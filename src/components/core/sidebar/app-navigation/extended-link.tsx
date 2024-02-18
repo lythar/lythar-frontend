@@ -50,16 +50,16 @@ const ExtendedLink: FC<ExtendedLinkProps> = ({
           className={cn(
             `relative flex flex-col items-center transition-all duration-500 ease-out-expo px-4 md:px-2 md:py-2 h-fit mx-[0.25rem] rounded-xl hover:text-accent-secondary`,
             isActive
-              ? "text-accent-secondary bg-accent"
-              : "text-muted-foreground",
+              ? "text-accent-foreground bg-accent-secondary"
+              : "text-foreground-variant",
             isMobile && isActive ? "py-[0.125rem]" : "py-1"
           )}
         >
-          <Icon size={28} />
+          <Icon size={isMobile ? 20 : 28} />
         </Link>
         {isMobile &&
           (isActive ? (
-            <span className="text-[0.65rem] font-semibold text-accent-secondary">
+            <span className="text-[0.65rem] font-semibold text-accent">
               {displayName}
             </span>
           ) : (

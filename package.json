@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen-types": "openapi-typescript http://localhost:5501/swagger/v1/swagger.json -o ./src/types/api.ts"
+    "gen-types": "openapi-typescript http://localhost:5505/swagger/v1/swagger.json -o ./src/types/api.ts"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.5",

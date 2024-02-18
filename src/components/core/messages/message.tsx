@@ -60,7 +60,7 @@ const Message: FC<MessageProps> = (props) => {
                   {getInitials(`${props.author.name} ${props.author.lastName}`)}
                 </AvatarFallback>
               </Avatar>
-              <h3 className="min-h-[1.375rem] block relative leading-[1.375rem] whitespace-break-spaces">
+              <h3 className="min-h-[1.375rem] block relative leading-[1.375rem] font-semibold whitespace-break-spaces">
                 <span className="mr-1">{`${props.author.name} ${props.author.lastName}`}</span>
                 <span className="text-xs leading-[1.375rem] h-[1.25rem] font-medium inline-block ml-1 align-baseline text-muted-foreground">
                   <time>

@@ -28,15 +28,15 @@ const ChannelView: FC<ChannelViewProps> = () => {
 
   return (
     <div className="flex bg-background h-[100svh] flex-col">
-      <div className="border-b-2 bg-sidebar border-border h-[3.25rem] flex items-center">
-        <div className="flex items-center pl-4 gap-2 text-primary-foreground">
+      <div className="md:m-2 rounded-md bg-popover-secondary border-border h-[3.25rem] flex items-center">
+        <div className="flex items-center pl-4 gap-2">
           {isMobile && (
             <button onClick={toggleSidebar}>
               <GiHamburgerMenu size={20} className="mr-3" />
             </button>
           )}
-          <FaHashtag size={24} className="" />
-          <h1 className="text font-semibold">{currentChannel.name}</h1>
+          <FaHashtag size={20} className="" />
+          <h1 className="text font-medium">{currentChannel.name}</h1>
         </div>
       </div>
       <div className="flex-1 flex flex-col relative">

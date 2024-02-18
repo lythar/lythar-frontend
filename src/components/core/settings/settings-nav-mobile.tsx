@@ -36,7 +36,7 @@ export function SidebarNavMobile({
                 : ""
             )}
           >
-            <div className="flex justify-between items-center h-full px-4 w-full text-primary-foreground">
+            <div className="flex justify-between items-center h-full px-4 w-full">
               <span className="text-sm font-bold">{item.title}</span>
               <FaArrowRight size={20} />
             </div>

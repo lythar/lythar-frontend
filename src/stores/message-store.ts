@@ -1,4 +1,4 @@
-import { Channel, Message, StoreKeys } from "@/types/globals";
+import { Channel, Message, StoreKeys, User } from "@/types/globals";
 import Store from "./base-store";
 import client from "@/lib/api-client";
 
@@ -45,7 +45,7 @@ export class MessageStore extends Store<Message, number> {
     }, {} as Record<string, Message>);
   }
 
-  public async sendMessage(message: string, currentChannel: Channel) {
+  public async sendMessage(message: string, currentChannel: Channel, user: User) {
     const randomId = Math.floor(Math.random() * 1000);
     const newMessage: Message = {
         messageId: randomId,
@@ -53,12 +53,7 @@ export class MessageStore extends Store<Message, number> {
         editedAt: null,
         content: message,
         sentAt: new Date().toISOString(),
-        author: {
-          id: 1,
-          name: "John",
-          lastName: "Doe",
-          avatarUrl: "https://randomuser.me/api/portraits"
-        }
+        author: user
       }
 
     const serverResponse = await client.POST("/channels/api/{channelId}/messages", {

@@ -10,8 +10,9 @@ export default class Store<T, K extends string | number = string> extends EventE
     return;
   }
 
-  public constructor() {
+  public constructor(initialState: Record<K, T> = {} as Record<K, T>) {
     super();
+    this.state = initialState;
   }
 
   set(key: K, storeValue: T): T {

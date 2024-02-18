@@ -43,8 +43,8 @@ const ChannelSidebar: FC<ChannelSidebar> = () => {
       }
     `}
       >
-        <div className="h-[calc(100svh)] md:h-screen w-[15rem] bg-sidebar  flex flex-col relative text-primary-foreground">
-          <div className="border-b-[3px] shadow-sm border-border h-[3.25rem] flex items-center justify-between md:justify-normal px-3">
+        <div className="h-[calc(100svh)] md:h-screen w-[15rem] bg-sidebar-secondary flex flex-col relative">
+          <div className="border-border h-[3.25rem] flex items-center justify-between md:justify-normal px-3">
             <h1 className="font-semibold">{orgStore.get("ORG_NAME")}</h1>
             {isMobile && (
               <button onClick={toggleSidebar}>

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* COLOR SCHEME: Material3 Design Kit */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -29,29 +30,31 @@
   }
 
   .dark {
-    --background: 235, 19%, 13%;
-    --background-linear-top: 235, 19%, 13%;
-    --foreground: 210 40% 98%;
+    --background: 218, 9%, 17%; /*  md-sys-color-surface-container-high */
+    --foreground: 0, 0%, 89%; /* md-sys-color-on-surface */
+    --foreground-variant: 140, 3%, 77%; /* md-sys-color-on-surface-variant */
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
     --popover: 240, 19%, 11%;
+    --popover-secondary: 214, 11%, 13%; /* md-sys-color-surface-container */
     --popover-foreground: 230, 14%, 42%;
     --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 230, 51%, 80%;
+    --primary-foreground: 0, 0%, 100%;
     --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 231, 20%, 42%;
-    --muted: 240, 16%, 13%;
+    --secondary-foreground: 213, 11%, 45%;
+    --muted: 217, 7%, 21%;
     --muted-hover: 236, 19%, 15%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-secondary: 217, 92%, 76%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 215, 98%, 82%; /* md-sys-color-primary */
+    --accent-secondary: 212, 58%, 29%; /* md-sys-color-primary-container */
+    --accent-foreground: 218, 100%, 91%; /* md-sys-color-on-primary-container */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 240, 16%, 9%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
-    --sidebar: 240, 15%, 10%;
+    --sidebar: 214, 12%, 11%; /* md-sys-color-surface-container-low */
+    --sidebar-secondary: 214, 11%, 13%; /* md-sys-color-surface-container */
   }
 }
 
@@ -60,22 +63,16 @@
     @apply border-border;
   }
   body {
-    @apply text-foreground;
-    background: linear-gradient(
-      180deg,
-      hsl(var(--background-linear-top)) 10%,
-      hsl(var(--background)) 70%
-    );
+    @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   ::-webkit-scrollbar {
-    width: 0.5rem;
+    @apply w-2;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--sidebar));
-    border-radius: 0.25rem;
+    @apply bg-sidebar rounded-md;
   }
 
   ::-webkit-scrollbar-track {
