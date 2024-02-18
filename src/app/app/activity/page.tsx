@@ -6,7 +6,7 @@ interface ActivityPageProps {}
 
 const ActivityPage: FC<ActivityPageProps> = () => {
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-10 text-primary-foreground">
+    <div className="flex h-screen flex-col items-center justify-center gap-10">
       <FaBellSlash size={100} />
       <span>Wygląda na to, że nie masz żadnych powiadomień.</span>
     </div>

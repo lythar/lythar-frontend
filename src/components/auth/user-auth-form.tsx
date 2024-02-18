@@ -5,13 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Icons } from "@/components/ui/icons";
 import { useStrings } from "@/hooks/useStrings";
 import loginStrings from "@/strings/login.json";
-import client from "@/lib/api-client";
+import client, { publicClient } from "@/lib/api-client";
+import SetNewPassword from "./set-new-password";
 
 interface UserAuthFormProps {}
 
 const UserAuthForm: FC<UserAuthFormProps> = () => {
   const s = useStrings(loginStrings);
   const router = useRouter();
+  const [displayedComponent, setDisplayedComponent] = useState<
+    "login" | "new_password"
+  >("login");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [input, setInput] = useState({
@@ -30,17 +34,22 @@ const UserAuthForm: FC<UserAuthFormProps> = () => {
 
     const { username, password } = input;
 
-    const response = await client.POST("/account/api/login", {
+    const response = await publicClient.POST("/account/api/login", {
       body: {
         login: username,
         password: password,
       },
     });
 
-    document.cookie = `token=${response.data?.token}; Path=/;`;
+    document.cookie = `token=${response.data?.token}; Path=/; SameSite=Lax; Secure;`;
     localStorage.setItem("token", response.data?.token || "");
 
     if (!response.error) {
+      if (response.data.status === "SetNewPassword") {
+        setLoading(false);
+        setDisplayedComponent("new_password");
+        return;
+      }
       router.push("/app");
     } else {
       setLoading(false);
@@ -48,7 +57,7 @@ const UserAuthForm: FC<UserAuthFormProps> = () => {
     }
   };
 
-  return (
+  return displayedComponent === "login" ? (
     <form
       className="flex flex-col self-center gap-4 w-96 border-input border-[1px] border-solid p-4 rounded-md"
       onSubmit={authenticate}
@@ -93,6 +102,8 @@ const UserAuthForm: FC<UserAuthFormProps> = () => {
         )}
       </Button>
     </form>
+  ) : (
+    <SetNewPassword login={input.username} password={input.password} />
   );
 };
 

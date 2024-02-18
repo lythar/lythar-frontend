@@ -50,7 +50,7 @@ const BaseSidebar: FC<BaseSidebarProps> = () => {
       {!isMobile && (
         <div className="flex flex-col items-center gap-4">
           <button onClick={() => router.push("/app/settings")}>
-            <IoCog size={24} className="text-primary-foreground" />
+            <IoCog size={24} className="" />
           </button>
           <SidebarProfileDropdown />
         </div>

@@ -17,8 +17,8 @@ const HomePage: FC<HomePageProps> = () => {
 
   return (
     <div>
-      <div className="border-b-2 bg-sidebar border-border h-[3.25rem] flex items-center">
-        <div className="flex items-center pl-4 gap-2 text-primary-foreground">
+      <div className="border-b-2 bg-sidebar-secondary border-border h-[3.25rem] flex items-center">
+        <div className="flex items-center pl-4 gap-2 ">
           {isMobile && (
             <button onClick={toggleSidebar}>
               <GiHamburgerMenu size={20} className="mr-3" />
