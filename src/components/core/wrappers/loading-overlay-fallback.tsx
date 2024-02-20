@@ -4,7 +4,7 @@ import { Icons } from "@/components/ui/icons";
 export default function LoadingOverlayFallback() {
   return (
     <div
-      className={`fixed w-screen h-screen bg-background z-[999] flex flex-col items-center`}
+      className={`fixed w-screen h-screen bg-background-secondary z-[999] flex flex-col items-center`}
     >
       <HeadlineBranding />
       <div className="fixed h-screen translate-y-[50%] ">

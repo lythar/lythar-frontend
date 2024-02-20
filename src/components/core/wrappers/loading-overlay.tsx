@@ -51,7 +51,7 @@ export default function LoadingOverlay({ children }: LoadingOverlayProps) {
       {overlayProperties.show && (
         <div
           className={`fixed w-screen h-screen
-           bg-background z-[999] flex flex-col items-center transition-opacity duration-300 ease-in-out ${
+           bg-background-secondary z-[999] flex flex-col items-center transition-opacity duration-300 ease-in-out ${
              overlayProperties.loadingDebounce ? "opacity-100" : "opacity-0"
            } `}
         >

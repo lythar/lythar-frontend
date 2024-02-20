@@ -45,7 +45,7 @@
   --md-sys-color-on-tertiary-fixed-variant: rgb(84 63 94);
   --md-sys-color-surface-dim: rgb(17 19 24);
   --md-sys-color-surface-bright: hsl(223, 6%, 23%);
-  --md-sys-color-surface-container-lowest: hsl(223, 23%, 6%);
+  --md-sys-color-surface-container-lowest: #0c0e13;
   --md-sys-color-surface-container-low: rgb(25 28 32);
   --md-sys-color-surface-container: hsl(214, 11%, 13%);
   --md-sys-color-surface-container-high: hsl(218, 9%, 17%);
