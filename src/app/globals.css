@@ -31,11 +31,12 @@
 
   .dark {
     --background: 218, 9%, 17%; /*  md-sys-color-surface-container-high */
+    --background-secondary: 220, 8%, 15%; /* md-sys-color-surface-1 */
     --foreground: 0, 0%, 89%; /* md-sys-color-on-surface */
     --foreground-variant: 140, 3%, 77%; /* md-sys-color-on-surface-variant */
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-    --popover: 240, 19%, 11%;
+    --popover: 220, 8%, 7%;
     --popover-secondary: 214, 11%, 13%; /* md-sys-color-surface-container */
     --popover-foreground: 230, 14%, 42%;
     --primary: 217.2 91.2% 59.8%;

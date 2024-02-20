@@ -1,18 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { Message as TMessage, User } from "@/types/globals";
-import { FC, useState } from "react";
-import Markdown from "react-markdown";
-import { BiDotsVerticalRounded } from "react-icons/bi";
-import { Copy, Trash } from "lucide-react";
+import { FC, useEffect, useState } from "react";
 import MessageMarkdownParser from "./message-markdown-parser";
+import MessageContextMenu from "./message-context-menu";
+import MessageDeleteModal from "./message-delete-modal";
 
-const getInitials = (name: string) => {
+export const getInitials = (name: string) => {
   const nameArray = name.split(" ");
   return nameArray[0].charAt(0) + nameArray[nameArray.length - 1].charAt(0);
 };
@@ -23,14 +17,24 @@ interface MessageProps extends TMessage {
 const Message: FC<MessageProps> = (props) => {
   const useStacked = props.previousMessage?.author.id === props.author.id;
   const [isHovered, setIsHovered] = useState(false);
+  const [contextMenuOpen, setContextMenuOpen] = useState(false);
 
   return (
     <li
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={cn("relative list-item", isHovered ? "bg-popover" : null)}
+      className={cn(
+        "relative list-item",
+        isHovered || contextMenuOpen ? "bg-background-secondary" : null
+      )}
     >
-      <MessageContextMenu setIsHovered={setIsHovered} isHovered={isHovered} />
+      <MessageContextMenu
+        message={props}
+        setIsHovered={setIsHovered}
+        isHovered={isHovered}
+        contextMenuOpen={contextMenuOpen}
+        setContextMenuOpen={setContextMenuOpen}
+      />
       <div
         className={cn(
           "relative pl-[calc(40px+16px+16px)] py-[0.15rem] pr-[48px] select-text break-words ",
@@ -42,7 +46,7 @@ const Message: FC<MessageProps> = (props) => {
             <span
               className={cn(
                 "absolute left-0  w-[56px] select-none text-right z-10 text-[.6875rem] leading-[1.375rem] indent-0 mr-1 text-muted-foreground inline-block cursor-default  align-baseline pointer-events-none font-medium",
-                isHovered ? "inline-block" : "hidden"
+                isHovered || contextMenuOpen ? "inline-block" : "hidden"
               )}
             >
               <time>
@@ -76,20 +80,6 @@ const Message: FC<MessageProps> = (props) => {
 
           <div className="-ml-[calc(40px+16px+16px)] pl-[calc(40px+16px+16px)] overflow-hidden relative indent-0 whitespace-break-spaces">
             <span>
-              {/* <Markdown
-                allowedElements={[
-                  "p",
-                  "a",
-                  "strong",
-                  "em",
-                  "code",
-                  "pre",
-                  "blockquote",
-                ]}
-                unwrapDisallowed
-              >
-                {props.content}
-              </Markdown> */}
               <MessageMarkdownParser content={props.content} />
             </span>
           </div>
@@ -98,42 +88,5 @@ const Message: FC<MessageProps> = (props) => {
     </li>
   );
 };
-
-function MessageContextMenu({
-  setIsHovered,
-  isHovered,
-}: {
-  setIsHovered: (hovered: boolean) => void;
-  isHovered: boolean;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className={cn(
-            `absolute right-0
-          -translate-x-1/2
-        -top-2 z-[5] w-8 h-8 bg-sidebar border-[1px] border-solid cursor-pointer select-none flex items-center rounded-lg`,
-            isHovered ? "visible" : "invisible"
-          )}
-        >
-          <BiDotsVerticalRounded size={20} className="w-8" />
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="p-2">
-        <div className="flex items-center gap-2">
-          <button className="block w-full text-left">Kopiuj tekst</button>
-          <Copy size={20} />
-        </div>
-        <div className="flex items-center gap-2 text-red-500">
-          <button className="block w-full text-left">Usuń wiadomość</button>
-          <Trash size={20} />
-        </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
 
 export default Message;

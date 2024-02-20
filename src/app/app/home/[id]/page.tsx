@@ -27,7 +27,7 @@ const ChannelView: FC<ChannelViewProps> = () => {
   }, [id, channelStore, messageStore]);
 
   return (
-    <div className="flex bg-background h-[100svh] flex-col">
+    <div className="flex h-[100svh] flex-col">
       <div className="md:m-2 rounded-md bg-popover-secondary border-border h-[3.25rem] flex items-center">
         <div className="flex items-center pl-4 gap-2">
           {isMobile && (
