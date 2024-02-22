@@ -18,6 +18,9 @@ export interface paths {
   "/account/api/accounts": {
     get: operations["Account_GetAccounts"];
   };
+  "/account/api/accounts/list": {
+    get: operations["Account_GetAccountsList"];
+  };
   "/channels/api/create": {
     post: operations["Channels_CreateChannel"];
   };
@@ -165,6 +168,22 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["UserAccountResponse"][];
+        };
+      };
+    };
+  };
+  Account_GetAccountsList: {
+    parameters: {
+      query?: {
+        Before?: number | null;
+        After?: number | null;
+        Limit?: number | null;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": number[];
         };
       };
     };
