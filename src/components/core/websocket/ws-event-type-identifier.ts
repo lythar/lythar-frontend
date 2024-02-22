@@ -14,7 +14,6 @@ const storeMap: StoreMap = {
 };
 
 export function indetifyStoreNameFromEventType(eventType: string) {
-  console.log("eventType", eventType);
   const foundEventType = eventTypes[eventType as keyof typeof eventTypes];
 
   if (!foundEventType) {
