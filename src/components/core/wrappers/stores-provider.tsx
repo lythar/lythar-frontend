@@ -74,7 +74,6 @@ export const useStore = <T extends StoreKeysWithoutNone>(store: T) => {
       forceUpdate((c) => c + 1);
     };
     targetStore?.on("change", handleChange);
-    // console.log("change");
     return () => {
       targetStore?.off("change", handleChange);
     };

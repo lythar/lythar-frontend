@@ -116,9 +116,7 @@ export class MessageStore extends Store<Message, number> {
       }
     );
 
-    if (serverResponse.response.status === 200) {
-      console.log("Sent message");
-    } else {
+    if (serverResponse.response.status !== 200) {
       console.error("Error sending message", serverResponse);
     }
   }

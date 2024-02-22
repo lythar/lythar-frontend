@@ -85,8 +85,6 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
               const shouldStack =
                 previousMessage?.author.id === message.author.id;
 
-              console.log(shouldStack, previousMessage, message);
-
               return (
                 <Message
                   key={`${message.channelId}-${message.messageId}`}
