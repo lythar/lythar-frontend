@@ -11,16 +11,17 @@ export const getInitials = (name: string) => {
   return nameArray[0].charAt(0) + nameArray[nameArray.length - 1].charAt(0);
 };
 interface MessageProps extends TMessage {
-  previousMessage: TMessage | null;
+  shouldStack: boolean;
+  ref?: any;
 }
 
 const Message: FC<MessageProps> = (props) => {
-  const useStacked = props.previousMessage?.author.id === props.author.id;
   const [isHovered, setIsHovered] = useState(false);
   const [contextMenuOpen, setContextMenuOpen] = useState(false);
 
   return (
     <li
+      ref={props.ref}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
@@ -38,11 +39,11 @@ const Message: FC<MessageProps> = (props) => {
       <div
         className={cn(
           "relative pl-[calc(40px+16px+16px)] py-[0.15rem] pr-[48px] select-text break-words ",
-          useStacked ? null : "mt-4 min-h-11"
+          props.shouldStack ? null : "mt-4 min-h-11"
         )}
       >
         <div className="static ml-0 pl-0 indent-0">
-          {useStacked ? (
+          {props.shouldStack ? (
             <span
               className={cn(
                 "absolute left-0  w-[56px] select-none text-right z-10 text-[.6875rem] leading-[1.375rem] indent-0 mr-1 text-muted-foreground inline-block cursor-default  align-baseline pointer-events-none font-medium",

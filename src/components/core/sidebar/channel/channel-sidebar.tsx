@@ -5,15 +5,12 @@ import ChannelLinksWrapper from "./channel-links-wrapper";
 import { useDeviceContext } from "@/components/device-provider";
 import { useSwipeable } from "react-swipeable";
 import { MdOutlineClose } from "react-icons/md";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
-import ChannelCreateModal from "./channel-create-modal";
+import SidebarContents from "./sidebar-contents";
 
 interface ChannelSidebar {}
 
 const ChannelSidebar: FC<ChannelSidebar> = () => {
   const { isMobile, toggleSidebar, isSidebarOpen } = useDeviceContext();
-  const [createChannelDialogOpen, setCreateChannelDialogOpen] = useState(false);
   const orgStore = useStore(StoreKeys.OrganizationStore);
   const swipe = useSwipeable({
     onSwipedLeft: () => {
@@ -52,23 +49,7 @@ const ChannelSidebar: FC<ChannelSidebar> = () => {
               </button>
             )}
           </div>
-          <div className="py-2">
-            <div className="flex items-center justify-between pr-3 text-secondary-foreground mb-2">
-              <h1 className="uppercase font-bold  text-xs px-2">Kanały</h1>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <button>
-                    <Plus size={20} />
-                  </button>
-                </DialogTrigger>
-                <DialogContent>
-                  <ChannelCreateModal />
-                </DialogContent>
-              </Dialog>
-            </div>
-
-            <ChannelLinksWrapper />
-          </div>
+          <SidebarContents />
         </div>
       </div>
     </>

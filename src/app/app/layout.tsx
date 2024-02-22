@@ -13,6 +13,7 @@ import { User } from "@/types/globals";
 import { Suspense, useEffect, useState } from "react";
 import LoadingOverlayFallback from "@/components/core/wrappers/loading-overlay-fallback";
 import { LastPositionProvider } from "@/components/core/wrappers/last-position-provider";
+import WebSocketProvider from "@/components/core/wrappers/websocket-provider";
 
 // async function fetchData() {
 //   "use server";
@@ -73,9 +74,11 @@ function LayoutWrapper({
           <LastPositionProvider>
             <DataLayoutProvider data={user}>
               <StoreProvider stores={Stores}>
-                <GlobalLoadingProviderRest>
-                  {children}
-                </GlobalLoadingProviderRest>
+                <WebSocketProvider url="ws://localhost:5505">
+                  <GlobalLoadingProviderRest>
+                    {children}
+                  </GlobalLoadingProviderRest>
+                </WebSocketProvider>
               </StoreProvider>
             </DataLayoutProvider>
           </LastPositionProvider>

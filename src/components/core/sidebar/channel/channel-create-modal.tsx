@@ -16,6 +16,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useStore } from "../../wrappers/stores-provider";
 import { StoreKeys } from "@/types/globals";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 
 interface ChannelCreateModalProps {}
 
@@ -34,6 +37,7 @@ export type ChannelCreateModalValues = z.infer<typeof ChannelCreateModalSchema>;
 
 const ChannelCreateModal: React.FC<ChannelCreateModalProps> = ({}) => {
   const channelStore = useStore(StoreKeys.ChannelStore);
+  const [isOpen, setIsOpen] = useState(false);
   const form = useForm<ChannelCreateModalValues>({
     resolver: zodResolver(ChannelCreateModalSchema),
     mode: "onSubmit",
@@ -41,42 +45,52 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = ({}) => {
 
   const onSubmit = async (data: ChannelCreateModalValues) => {
     await channelStore.createChannel(data);
+    setIsOpen(false);
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nazwa kanału</FormLabel>
-              <FormControl>
-                <Input placeholder="nowy-kanal" {...field} required />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Opis kanału</FormLabel>
-              <FormControl>
-                <Input placeholder="Opis kanału" {...field} required />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="mt-2">
-          Stwórz kanał
-        </Button>
-      </form>
-    </Form>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <button>
+          <Plus size={20} />
+        </button>
+      </DialogTrigger>
+      <DialogContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nazwa kanału</FormLabel>
+                  <FormControl>
+                    <Input placeholder="nowy-kanal" {...field} required />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Opis kanału</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Opis kanału" {...field} required />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="mt-2">
+              Stwórz kanał
+            </Button>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

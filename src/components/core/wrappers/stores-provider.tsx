@@ -82,3 +82,11 @@ export const useStore = <T extends StoreKeysWithoutNone>(store: T) => {
 
   return targetStore as StoreType[T];
 };
+
+/**
+ * @see For use in websocket event proxy only
+ */
+export const useAllStores = () => {
+  const ctx = useContext(StoreContext);
+  return ctx;
+};
