@@ -1,8 +1,10 @@
-import { Channel, StoreKeys } from "@/types/globals";
-import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { Channel, Message as TMessage, StoreKeys } from "@/types/globals";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "../wrappers/stores-provider";
 import Message from "./message";
-import { useDataLayout } from "@/components/auth/data-layout-context";
+import useIsInViewport from "@/hooks/useIsInViewport";
+import { cn } from "@/lib/utils";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface MessageViewProps {
   currentChannel: Channel;
@@ -10,60 +12,90 @@ interface MessageViewProps {
 
 const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
   const messageStore = useStore(StoreKeys.MessageStore);
+  const messages = messageStore.getFromChannel(currentChannel.channelId);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
+  const [hasMore, setHasMore] = useState(true);
+  const [initiallyLoaded, setInitiallyLoaded] = useState(false);
+  const [fetchCooldown, setFetchCooldown] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messageStore.on("change", scrollToBottom);
+    if (!initiallyLoaded) {
+      messageStore
+        .fetchMessages(currentChannel.channelId, undefined, false, true)
+        .then((r) => {
+          if (r !== 50) setHasMore(false);
+          else setHasMore(true);
+        });
+    } else {
+      setInitiallyLoaded(true);
+    }
+  }, [currentChannel.channelId, messageStore, initiallyLoaded]);
 
-    return () => {
-      messageStore.off("change", scrollToBottom);
-    };
-  }, [messageStore]);
+  const fetchMore = useCallback(() => {
+    const messages = messageStore.getFromChannel(currentChannel.channelId);
+
+    const messagesLength = Object.keys(messages || {}).length;
+
+    if (messagesLength === 0 || !messages || fetchCooldown) return;
+
+    const oldestMessageId = Math.min(...Object.keys(messages).map(Number));
+    messageStore
+      .fetchMessages(currentChannel.channelId, oldestMessageId, true)
+      .then((r) => {
+        setFetchCooldown(true);
+
+        setTimeout(() => {
+          setFetchCooldown(false);
+        }, 1000);
+
+        if (r !== 50) setHasMore(false);
+        else setHasMore(true);
+      });
+  }, [currentChannel, messageStore, fetchCooldown]);
 
   return (
-    <div className="relative flex flex-auto min-h-0 min-w-0 z-0">
-      <div
-        className="absolute top-0 bottom-0 left-0 right-0 overflow-x-hidedn overflow-y-scroll flex-auto box-border min-h-0"
-        style={{ overflowAnchor: "none" }}
+    <div
+      id="scrollableDiv"
+      ref={ref}
+      className="flex-auto overflow-y-auto flex flex-col-reverse mb-4"
+    >
+      <InfiniteScroll
+        dataLength={Object.keys(messages || {}).length}
+        next={fetchMore}
+        inverse={true}
+        className="flex flex-col-reverse"
+        hasMore={hasMore && !fetchCooldown}
+        loader={<h4>Loading...</h4>}
+        scrollableTarget="scrollableDiv"
+        scrollThreshold={"400px"}
+        initialScrollY={0}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <b>Początek konwersacji</b>
+          </p>
+        }
       >
-        <div
-          className="flex flex-col justify-end items-stretch min-h-full"
-          style={{ overflowAnchor: "none" }}
-        >
-          <ol className="min-h-0 overflow-hidden list-none">
-            <div className="h-[16px]" />
-            <div className="mt-[1.5rem] mb-[0.5rem]" />
-            {Object.entries(messageStore.getAll()).map(
-              ([_, message], id, arr) => {
-                if (message.channelId !== currentChannel.channelId) return null;
-                const previousMessage =
-                  arr[id - 1] &&
-                  arr[id - 1][1].channelId === currentChannel.channelId
-                    ? arr[id - 1][1]
-                    : null;
-                return (
-                  <Message
-                    key={`${message.channelId}-${message.messageId}`}
-                    {...message}
-                    previousMessage={previousMessage}
-                  />
-                );
-              }
-            )}
-            <div
-              className="block h-[30px] w-[1px] pointer-events-none"
-              ref={messagesEndRef}
-            />
-          </ol>
-        </div>
-      </div>
+        {messages &&
+          Object.entries(messages)
+            .reverse()
+            .map(([_, message], id, arr) => {
+              const previousMessage = arr[id + 1] ? arr[id + 1][1] : null;
+
+              const shouldStack =
+                previousMessage?.author.id === message.author.id;
+
+              console.log(shouldStack, previousMessage, message);
+
+              return (
+                <Message
+                  key={`${message.channelId}-${message.messageId}`}
+                  {...message}
+                  shouldStack={shouldStack}
+                />
+              );
+            })}
+      </InfiniteScroll>
     </div>
   );
 };

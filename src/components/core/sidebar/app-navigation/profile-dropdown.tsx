@@ -28,7 +28,7 @@ const SidebarProfileDropdown: FC<SidebarProfileDropdownProps> = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="w-8 h-8 text-xs">
+        <Avatar className="w-10 h-10 text-xs">
           <AvatarImage src={data?.avatarUrl || ""} />
           <AvatarFallback className="cursor-pointer">
             {getInitials(`${data?.name!} ${data?.lastName || ""}`)}

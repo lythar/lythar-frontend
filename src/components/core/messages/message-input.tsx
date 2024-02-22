@@ -5,11 +5,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Send } from "lucide-react";
 import { IoAddCircle, IoRemoveCircle } from "react-icons/io5";
-import Image from "next/image";
-import { FaTrash } from "react-icons/fa6";
 import _ from "lodash";
-import { BiLogoBlender } from "react-icons/bi";
 import AttachmentsDisplay from "./attachments/attachments-display";
+import { useWebSocket } from "../wrappers/websocket-provider";
 
 interface MessageInputProps {
   currentChannel: Channel;

@@ -4,7 +4,7 @@ import MessageView from "@/components/core/messages/message-view";
 import { useStore } from "@/components/core/wrappers/stores-provider";
 import { useDeviceContext } from "@/components/device-provider";
 import { StoreKeys } from "@/types/globals";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { FC, useMemo, useState } from "react";
 import { FaHashtag } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -12,6 +12,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 interface ChannelViewProps {}
 
 const ChannelView: FC<ChannelViewProps> = () => {
+  const router = useRouter();
   const id = useParams<{ id: string }>().id;
   const channelStore = useStore(StoreKeys.ChannelStore);
   const messageStore = useStore(StoreKeys.MessageStore);
@@ -22,9 +23,10 @@ const ChannelView: FC<ChannelViewProps> = () => {
   const { isMobile, toggleSidebar } = useDeviceContext();
 
   useMemo(() => {
+    if (Number(id) == -1) return router.push("/app/home");
     setCurrentChannel(channelStore.get(Number(id)));
-    messageStore.fetchMessages(Number(id));
-  }, [id, channelStore, messageStore]);
+    messageStore.fetchMessages(Number(id), undefined, false, true);
+  }, [id, channelStore, messageStore, router]);
 
   return (
     <div className="flex h-[100svh] flex-col">
@@ -39,7 +41,7 @@ const ChannelView: FC<ChannelViewProps> = () => {
           <h1 className="text font-medium">{currentChannel.name}</h1>
         </div>
       </div>
-      <div className="flex-1 flex flex-col relative">
+      <div className="flex-auto flex flex-col relative overflow-hidden">
         <MessageView currentChannel={currentChannel} />
         <MessageInput currentChannel={currentChannel} />
       </div>
