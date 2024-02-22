@@ -7,6 +7,7 @@ import MessageContextMenu from "./message-context-menu";
 import { EditingData } from "./message-view";
 import { Input } from "@/components/ui/input";
 import { default as OMessage } from "@/stores/objects/Message";
+import Twemoji from "react-twemoji";
 
 export const getInitials = (name: string) => {
   const nameArray = name.split(" ");
@@ -130,7 +131,10 @@ const Message: FC<MessageProps> = (props) => {
                           editingContent
                         );
                       } else {
-                        props.setEditingData({ messageId: null, content: "" });
+                        props.setEditingData({
+                          messageId: null,
+                          content: "",
+                        });
                       }
                     } else if (e.key === "Escape") {
                       props.setEditingData({ messageId: null, content: "" });
