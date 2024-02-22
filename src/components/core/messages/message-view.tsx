@@ -2,17 +2,26 @@ import { Channel, Message as TMessage, StoreKeys } from "@/types/globals";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "../wrappers/stores-provider";
 import Message from "./message";
-import useIsInViewport from "@/hooks/useIsInViewport";
-import { cn } from "@/lib/utils";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Icons } from "@/components/ui/icons";
 
 interface MessageViewProps {
   currentChannel: Channel;
 }
 
+export type EditingData = {
+  messageId: number | null;
+  content: string;
+};
+
 const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
   const messageStore = useStore(StoreKeys.MessageStore);
   const messages = messageStore.getFromChannel(currentChannel.channelId);
+
+  const [editingData, setEditingData] = useState<EditingData>({
+    messageId: null,
+    content: "",
+  });
 
   const [hasMore, setHasMore] = useState(true);
   const [initiallyLoaded, setInitiallyLoaded] = useState(false);
@@ -47,7 +56,7 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
 
         setTimeout(() => {
           setFetchCooldown(false);
-        }, 1000);
+        }, 500);
 
         if (r !== 50) setHasMore(false);
         else setHasMore(true);
@@ -58,7 +67,7 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
     <div
       id="scrollableDiv"
       ref={ref}
-      className="flex-auto overflow-y-auto flex flex-col-reverse mb-4"
+      className="flex-1 overflow-y-scroll flex flex-col-reverse mb-4"
     >
       <InfiniteScroll
         dataLength={Object.keys(messages || {}).length}
@@ -66,13 +75,24 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
         inverse={true}
         className="flex flex-col-reverse"
         hasMore={hasMore && !fetchCooldown}
-        loader={<h4>Loading...</h4>}
+        loader={
+          <div className="w-full flex justify-center">
+            <Icons.spinner className="animate-spin" />
+          </div>
+        }
         scrollableTarget="scrollableDiv"
         scrollThreshold={"400px"}
         initialScrollY={0}
         endMessage={
-          <p style={{ textAlign: "center" }}>
-            <b>Początek konwersacji</b>
+          <p className="px-4 text-2xl pt-40 w-full">
+            <b className="text-foreground-variant font-medium">
+              Witaj na{" "}
+              <span className="text-foreground font-semibold">
+                #{currentChannel.name}
+              </span>
+            </b>
+            <p className="text-xl">To jest początek tego kanału</p>
+            <div className="w-1/2 h-[1px] bg-accent-foreground my-4" />
           </p>
         }
       >
@@ -90,6 +110,8 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
                   key={`${message.channelId}-${message.messageId}`}
                   {...message}
                   shouldStack={shouldStack}
+                  editingData={editingData}
+                  setEditingData={setEditingData}
                 />
               );
             })}

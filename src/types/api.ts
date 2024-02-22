@@ -21,6 +21,9 @@ export interface paths {
   "/account/api/accounts/list": {
     get: operations["Account_GetAccountsList"];
   };
+  "/account/api/account/avatar": {
+    post: operations["Account_UpdateAvatar"];
+  };
   "/channels/api/create": {
     post: operations["Channels_CreateChannel"];
   };
@@ -34,6 +37,10 @@ export interface paths {
   "/channels/api/{channelId}/messages": {
     get: operations["Channels_ListMessages"];
     post: operations["Channels_SendMessage"];
+  };
+  "/channels/api/{channelId}/messages/{messageId}": {
+    delete: operations["Channels_DeleteMessage"];
+    patch: operations["Channels_EditMessage"];
   };
 }
 
@@ -188,6 +195,20 @@ export interface operations {
       };
     };
   };
+  Account_UpdateAvatar: {
+    requestBody: {
+      content: {
+        "application/octet-stream": string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["UserAccountResponse"];
+        };
+      };
+    };
+  };
   Channels_CreateChannel: {
     requestBody: {
       content: {
@@ -260,6 +281,37 @@ export interface operations {
     parameters: {
       path: {
         channelId: number;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SendMessageForm"];
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  Channels_DeleteMessage: {
+    parameters: {
+      path: {
+        channelId: number;
+        messageId: number;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  Channels_EditMessage: {
+    parameters: {
+      path: {
+        channelId: number;
+        messageId: number;
       };
     };
     requestBody: {

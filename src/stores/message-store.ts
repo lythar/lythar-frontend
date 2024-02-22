@@ -80,6 +80,9 @@ export class MessageStore extends Store<Message, number> {
       this.set(msg.messageId, msg);
       // this.removeMessagesOutsideLimit(msg.channelId);
     });
+
+    this.on(messageEventTypes.MessageEdited, this.onEditedMessage);
+    this.on(messageEventTypes.MessageDeleted, this.onDeleteMessage);
   }
 
   public setMany(messages: Record<number, Message>): void {
@@ -119,5 +122,13 @@ export class MessageStore extends Store<Message, number> {
     if (serverResponse.response.status !== 200) {
       console.error("Error sending message", serverResponse);
     }
+  }
+
+  public async onDeleteMessage(messageId: number) {
+    this.remove(messageId);
+  }
+
+  public async onEditedMessage(message: Message) {
+    this.set(message.messageId, message);
   }
 }

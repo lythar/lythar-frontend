@@ -7,7 +7,6 @@ import { Send } from "lucide-react";
 import { IoAddCircle, IoRemoveCircle } from "react-icons/io5";
 import _ from "lodash";
 import AttachmentsDisplay from "./attachments/attachments-display";
-import { useWebSocket } from "../wrappers/websocket-provider";
 
 interface MessageInputProps {
   currentChannel: Channel;
@@ -16,7 +15,6 @@ interface MessageInputProps {
 const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
   const [messageContent, setMessageContent] = useState("");
   const [attachments, setAttachments] = useState<File[]>([]);
-  const accountStore = useStore(StoreKeys.AccountStore);
   const messageStore = useStore(StoreKeys.MessageStore);
 
   const addAttachment = () => {
@@ -53,7 +51,6 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
     e.preventDefault();
     if (messageContent.length === 0) return;
 
-    const currentAccount = accountStore.getAll() as User;
     const sentAttachments = await Promise.all(
       _.map(attachments, async (file) => {
         const buffer = await file.arrayBuffer();
@@ -61,7 +58,7 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
       })
     );
 
-    messageStore.sendMessage(messageContent, currentChannel, currentAccount);
+    messageStore.sendMessage(messageContent, currentChannel);
 
     setMessageContent("");
   };
