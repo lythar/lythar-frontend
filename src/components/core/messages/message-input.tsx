@@ -1,21 +1,34 @@
-import { Channel, StoreKeys, User } from "@/types/globals";
-import { FC, FormEvent, useEffect, useRef, useState } from "react";
+import { Channel, StoreKeys } from "@/types/globals";
+import { FC, useState } from "react";
 import { useStore } from "../wrappers/stores-provider";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import { Send } from "lucide-react";
-import { IoAddCircle, IoRemoveCircle } from "react-icons/io5";
+import { IoSend } from "react-icons/io5";
 import _ from "lodash";
 import AttachmentsDisplay from "./attachments/attachments-display";
+import { FaPlus } from "react-icons/fa6";
+import {
+  Editor,
+  EditorState,
+  ContentState,
+  getDefaultKeyBinding,
+} from "draft-js";
+import "draft-js/dist/Draft.css";
 
 interface MessageInputProps {
   currentChannel: Channel;
 }
 
 const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
-  const [messageContent, setMessageContent] = useState("");
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [attachments, setAttachments] = useState<File[]>([]);
   const messageStore = useStore(StoreKeys.MessageStore);
+
+  // useEffect(() => {
+  //   const rows = Math.min(
+  //     5,
+  //     Math.max(1, (messageContent.match(/\n/g) || []).length + 1)
+  //   );
+  //   setInputRows(rows);
+  // }, [messageContent]);
 
   const addAttachment = () => {
     const input = document.createElement("input");
@@ -47,8 +60,9 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
     input.remove();
   };
 
-  const sendMessage = async (e: FormEvent) => {
-    e.preventDefault();
+  const sendMessage = async () => {
+    const messageContent = editorState.getCurrentContent().getPlainText();
+
     if (messageContent.length === 0) return;
 
     const sentAttachments = await Promise.all(
@@ -60,46 +74,55 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
 
     messageStore.sendMessage(messageContent, currentChannel);
 
-    setMessageContent("");
+    setEditorState(
+      EditorState.createWithContent(ContentState.createFromText(""))
+    );
   };
 
   return (
     <div className="py-2 px-2 relative shrink-0 -mt-[8px]">
-      <form
-        onSubmit={sendMessage}
-        className="relative bg-popover-secondary rounded-md"
-      >
+      <div className="relative bg-popover-secondary rounded-md">
         <AttachmentsDisplay
           attachments={attachments}
           setAttachments={setAttachments}
         />
-        <div className="flex items-center">
-          <button className="pl-3 flex items-center" onClick={addAttachment}>
-            <IoAddCircle size={20} />
-          </button>
-          <Textarea
-            ref={(el) => el?.focus()}
-            rows={1.5}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage(e);
-              }
+        <div className="flex py-2 relative min-h-10 max-h-48">
+          <div
+            className="px-3 pt-[0.125rem] sticky h-fit self-stretch flex items-center text-muted-foreground cursor-pointer"
+            onClick={addAttachment}
+          >
+            <FaPlus size={20} />
+          </div>
+          <Editor
+            ref={(ref) => {
+              ref?.focus();
             }}
-            value={messageContent}
+            editorState={editorState}
             onChange={(e) => {
-              if (e.target.value.length < 2000)
-                setMessageContent(e.target.value);
+              setEditorState(e);
             }}
-            className="bg-transparent placeholder:text-foreground-variant ring-offset-transparent border-0 rounded-sm rounded-r-xl min-h-0 resize-none py-2 focus-visible:outline-none focus-visible:ring-transparent relative"
-            placeholder={`Napisz na #${currentChannel.name}`}
+            handleKeyCommand={(command, editorState) => {
+              if (command === "send-message") {
+                sendMessage();
+                return "handled";
+              }
+
+              return "not-handled";
+            }}
+            keyBindingFn={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                return "send-message";
+              }
+              return getDefaultKeyBinding(e);
+            }}
+            placeholder={`Napisz wiadomość na #${currentChannel.name}`}
           />
-          <button className="pl-3 pr-4 flex items-center">
-            <Send size={20} />
+          <button className="px-3 pt-[0.125rem] sticky h-fit self-stretch flex items-center text-muted-foreground cursor-pointer">
+            <IoSend size={20} />
           </button>
         </div>
 
-        {messageContent.length > 1500 ? (
+        {/* {messageContent.length > 1500 ? (
           <span
             className={cn(
               "absolute -top-8 left-0 bg-sidebar px-2 rounded-lg border-2 border-solid border-input",
@@ -110,8 +133,8 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
           >
             {2000 - messageContent.length}
           </span>
-        ) : null}
-      </form>
+        ) : null} */}
+      </div>
     </div>
   );
 };

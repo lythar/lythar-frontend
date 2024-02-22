@@ -83,3 +83,22 @@
     background-color: hsl(var(--muted-hover));
   }
 }
+
+.emoji {
+  width: 20px;
+  height: 20px;
+}
+
+.DraftEditor-root {
+  overflow-y: scroll;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+  resize: none;
+}
+.public-DraftEditor-content,
+.BREAK_WORDS {
+  white-space: break-spaces !important;
+  text-align: left;
+  word-break: break-word;
+}
