@@ -4,9 +4,6 @@ import client from "@/lib/api-client";
 export default class Channel {
   static async createChannel(channel: ChannelCreateModalValues) {
     const newChannel = await client.POST("/channels/api/create", {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
       body: channel,
     });
 

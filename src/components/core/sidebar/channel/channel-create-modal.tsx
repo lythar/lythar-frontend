@@ -48,7 +48,6 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = ({}) => {
 
   const onSubmit = async (data: ChannelCreateModalValues) => {
     const serverResponse = await Channel.createChannel(data);
-    form.reset();
     // @ts-ignore
     channelStore.set(serverResponse.channelId, serverResponse);
     router.push(`/app/home/${serverResponse.channelId}`);

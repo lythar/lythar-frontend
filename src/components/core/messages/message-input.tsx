@@ -94,9 +94,6 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
             <FaPlus size={20} />
           </div>
           <Editor
-            ref={(ref) => {
-              ref?.focus();
-            }}
             editorState={editorState}
             onChange={(e) => {
               setEditorState(e);
