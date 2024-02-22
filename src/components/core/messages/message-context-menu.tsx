@@ -4,27 +4,34 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { cn, copyToClipboard } from "@/lib/utils";
-import { Message } from "@/types/globals";
+import { Message, StoreKeys } from "@/types/globals";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { Copy, Trash } from "lucide-react";
+import { Copy, Edit, Trash } from "lucide-react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import MessageDeleteModal from "./message-delete-modal";
 import { useRef, useState } from "react";
+import { EditingData } from "./message-view";
+import { useStore } from "../wrappers/stores-provider";
 
 function MessageContextMenu({
   message,
+  editingData,
+  setIsEditingData,
   setIsHovered,
   isHovered,
   contextMenuOpen,
   setContextMenuOpen,
 }: {
   message: Message;
+  editingData: EditingData;
+  setIsEditingData: (data: EditingData) => void;
   setIsHovered: (hovered: boolean) => void;
   isHovered: boolean;
   contextMenuOpen: boolean;
   setContextMenuOpen: (open: boolean) => void;
 }) {
   const [hasOpenDialog, setHasOpenDialog] = useState(false);
+  const accountStore = useStore(StoreKeys.AccountStore);
   const dropdownTriggerRef = useRef<null | HTMLButtonElement>(null);
   const focusRef = useRef<null | HTMLButtonElement>(null);
 
@@ -77,6 +84,20 @@ function MessageContextMenu({
         >
           Kopiuj tekst
         </MessageContextMenuItem>
+        {accountStore.get("id") === message.author.id && (
+          <MessageContextMenuItem
+            icon={<Edit size={20} />}
+            action={() =>
+              setIsEditingData({
+                messageId: message.messageId,
+                content: message.content,
+              })
+            }
+          >
+            Edytuj wiadomość
+          </MessageContextMenuItem>
+        )}
+
         <MessageDeleteModal
           handleDialogItemOpenChange={handleDialogItemOpenChange}
           handleDialogItemSelect={handleDialogItemSelect}

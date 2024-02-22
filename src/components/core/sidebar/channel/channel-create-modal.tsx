@@ -14,11 +14,13 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useStore } from "../../wrappers/stores-provider";
-import { StoreKeys } from "@/types/globals";
+import Channel from "@/stores/objects/Channel";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useStore } from "../../wrappers/stores-provider";
+import { StoreKeys } from "@/types/globals";
 
 interface ChannelCreateModalProps {}
 
@@ -37,6 +39,7 @@ export type ChannelCreateModalValues = z.infer<typeof ChannelCreateModalSchema>;
 
 const ChannelCreateModal: React.FC<ChannelCreateModalProps> = ({}) => {
   const channelStore = useStore(StoreKeys.ChannelStore);
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const form = useForm<ChannelCreateModalValues>({
     resolver: zodResolver(ChannelCreateModalSchema),
@@ -44,7 +47,11 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = ({}) => {
   });
 
   const onSubmit = async (data: ChannelCreateModalValues) => {
-    await channelStore.createChannel(data);
+    const serverResponse = await Channel.createChannel(data);
+    form.reset();
+    // @ts-ignore
+    channelStore.set(serverResponse.channelId, serverResponse);
+    router.push(`/app/home/${serverResponse.channelId}`);
     setIsOpen(false);
   };
 

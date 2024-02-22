@@ -11,6 +11,7 @@ import { Message } from "@/types/globals";
 import { useState } from "react";
 import { getInitials } from "./message";
 import MessageMarkdownParser from "./message-markdown-parser";
+import { default as OMessage } from "@/stores/objects/Message";
 
 interface MessageDeleteModalProps {
   message: Message;
@@ -67,14 +68,19 @@ export default function MessageDeleteModal({
         </div>
         <div className="flex justify-end space-x-4">
           <DialogClose className="text-sm">Anuluj</DialogClose>
-          <Button
-            variant={"destructive"}
-            onClick={() => {
-              // deleteMessage(message.id);
-            }}
-          >
-            Usuń
-          </Button>
+          <DialogClose asChild>
+            <Button
+              variant={"destructive"}
+              onClick={async () => {
+                await OMessage.deleteMessage(
+                  message.channelId,
+                  message.messageId
+                );
+              }}
+            >
+              Usuń
+            </Button>
+          </DialogClose>
         </div>
       </div>
     </DialogItem>

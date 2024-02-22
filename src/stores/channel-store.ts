@@ -2,65 +2,47 @@
 import client from "@/lib/api-client";
 import { Channel, StoreKeys } from "../types/globals";
 import Store from "./base-store";
-import { ChannelCreateModalValues } from "@/components/core/sidebar/channel/channel-create-modal";
+import { channelEventTypes } from "@/components/core/websocket/events/channel-events";
 
 export class ChannelStore extends Store<Channel, number> {
-  public override storeName: StoreKeys = StoreKeys.ChannelStore
+  public override storeName: StoreKeys = StoreKeys.ChannelStore;
 
   async initialFetch() {
-    const currentChannels = await client.GET("/channels/api/list")
+    const currentChannels = await client.GET("/channels/api/list");
 
     if (currentChannels.error) {
-      throw new Error("Failed to fetch channels")
+      throw new Error("Failed to fetch channels");
     } else {
-      const obj: Record<string, Required<Channel>> = {}
+      const obj: Record<string, Required<Channel>> = {};
       currentChannels.data.forEach((channel) => {
-        obj[channel.channelId!] = channel as Required<Channel>
-      })
-      this.setMany(obj)
-      this.emit("LOAD_COMPLETE")
+        obj[channel.channelId!] = channel as Required<Channel>;
+      });
+      this.setMany(obj);
+      this.emit("LOAD_COMPLETE");
     }
   }
 
   public constructor() {
-    super()
+    super();
+
+    this.on(channelEventTypes.ChannelCreated, this.onChannelCreate);
+    this.on(channelEventTypes.ChannelDeleted, this.onChannelDelete);
   }
 
-  createChannel = async (channel: ChannelCreateModalValues) => {
-    const newChannel = await client.POST("/channels/api/create", {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-      body: channel,
-    })
+  public onChannelCreate = async (channel: Channel) => {
+    this.set(channel.channelId!, channel);
+  };
 
-    if (newChannel.error) {
-      throw new Error("Failed to create channel")
-    } else {
-      this.set(newChannel.data.channelId!, newChannel.data as Required<Channel>)
-    }
-  }
-
-  deleteChannel = async (channelId: number) => {
-    const deletedChannel = await client.DELETE(`/channels/api/{channelId}`, {
-      params: {
-        path: {
-          channelId,
-        },
-      },
-    })
-
-    if (deletedChannel.error) {
-      throw new Error("Failed to delete channel")
-    } else {
-      delete this.state[channelId]
-    }
-  }
-
+  public onChannelDelete = async (channelId: number) => {
+    this.remove(channelId);
+  };
 
   setMany(channels: Record<number, Channel>): void {
-    for (const [k,v] of Object.entries(channels) as unknown as [number, Channel][]) {
-      this.set(k, v)
+    for (const [k, v] of Object.entries(channels) as unknown as [
+      number,
+      Channel
+    ][]) {
+      this.set(k, v);
     }
   }
 
@@ -73,8 +55,6 @@ export class ChannelStore extends Store<Channel, number> {
       return acc;
     }, {} as Record<number, Channel>);
   }
-
-
 
   getOrSet(key: number, channel: Channel): Channel {
     return this.get(key) || this.set(key, channel);
