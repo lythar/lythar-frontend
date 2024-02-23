@@ -27,6 +27,11 @@ export type Organization = {
   ORG_NAME: string;
 };
 
+export type Settings = {
+  useStackedSidebar: boolean;
+  drawFps: boolean;
+};
+
 export type StoreKeysWithoutNone = Exclude<StoreKeys, StoreKeys.None>;
 
 export enum StoreKeys {

@@ -1,5 +1,4 @@
 "use client";
-import { Separator } from "@/components/ui/separator";
 import { FC } from "react";
 import SidebarNav from "./settings-sidebar-nav-desktop";
 
@@ -14,7 +13,7 @@ const sidebarNavItems = [
   },
   {
     title: "Wyświetlanie",
-    href: "/app/settings/foo",
+    href: "/app/settings/apperance",
   },
   {
     title: "Powiadomienia",
@@ -32,7 +31,6 @@ const SettingsDesktop: FC<SettingsModalProps> = ({
           Zarządzaj swoim kontem i ustaw swoje preferencje.
         </p>
       </div>
-      <Separator className="my-6" />
       <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
         <aside className="-mx-4 lg:w-1/5">
           <SidebarNav items={sidebarNavItems} />

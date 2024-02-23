@@ -49,7 +49,7 @@ const Message: FC<MessageProps> = (props) => {
   const [editingContent, setEditingContent] = useState(props.content);
 
   return (
-    <li
+    <div
       ref={props.ref}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -162,7 +162,7 @@ const Message: FC<MessageProps> = (props) => {
           </div>
         </div>
       </div>
-    </li>
+    </div>
   );
 };
 

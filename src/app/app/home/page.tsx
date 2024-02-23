@@ -16,13 +16,7 @@ const HomePage: FC<HomePageProps> = () => {
         }}
       />
 
-      <p
-        className="w-full h-full
-        flex items-center justify-center
-        text-3xl font-bold text-center
-        -translate-y-20
-      "
-      >
+      <p className="h-full flex items-center justify-center text-xl font-bold text-center">
         Wybierz kanał z bocznego menu aby zacząć rozmowę
       </p>
     </div>

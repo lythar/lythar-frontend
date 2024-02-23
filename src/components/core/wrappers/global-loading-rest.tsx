@@ -1,23 +1,25 @@
 "use client";
-import { useDeviceContext } from "@/components/device-provider";
 import LoadingOverlay from "./loading-overlay";
-import { dynamicLogger } from "@/hooks/dynamic-logger";
 import BaseSidebar from "../sidebar/app-navigation/navigation-sidebar";
 import DrawFps from "@/components/draw-fps";
+import { useSettings } from "./settings-provider";
+import { useEffect, useState } from "react";
 
 const GlobalLoadingProviderRest = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
-  const deviceContext = useDeviceContext();
+  const { settings } = useSettings();
+  const [turnedOnFps, setTurnedOnFps] = useState(false);
 
-  dynamicLogger().info("Rendering app. Using device context:", {
-    isMobile: deviceContext.isMobile,
-    isPwa: deviceContext.isPwa,
-  });
+  useEffect(() => {
+    if (settings?.drawFps && !turnedOnFps) {
+      setTurnedOnFps(true);
+    }
+  }, []);
 
   return (
     <>
-      <DrawFps />
+      {turnedOnFps && <DrawFps />}
       <div className="flex flex-col-reverse md:flex-row min-h-0 h-[100svh] relative overflow-hidden">
         <LoadingOverlay>
           <BaseSidebar />
