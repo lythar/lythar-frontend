@@ -13,7 +13,7 @@ export const DeviceProvider = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isPwa, setIsPwa] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);

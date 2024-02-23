@@ -4,10 +4,12 @@ import React, { createContext, useState } from "react";
 
 type LastPosition = {
   home: number;
+  conversation: number;
 };
 
 const LastPositionContext = createContext({
   home: -1,
+  conversation: -1,
   changeLastPosition: (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     key: keyof LastPosition,
@@ -21,6 +23,7 @@ export const LastPositionProvider = ({
 }: Readonly<{ children: React.ReactNode }>) => {
   const [lastPosData, setLastPosData] = useState({
     home: -1,
+    conversation: -1,
   });
 
   const changeLastPosition = (

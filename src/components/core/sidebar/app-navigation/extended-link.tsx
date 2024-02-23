@@ -48,10 +48,10 @@ const ExtendedLink: FC<ExtendedLinkProps> = ({
           data-tooltip-delay-hide={2}
           data-tooltip-delay-show={1}
           className={cn(
-            `relative flex flex-col items-center transition-all duration-500 ease-out-expo px-4 md:px-2 md:py-2 h-fit mx-[0.25rem] rounded-xl hover:text-accent-secondary`,
+            `relative flex flex-col items-center transition-all duration-500 ease-out-expo px-4 md:px-2 md:py-2 h-fit mx-[0.25rem] rounded-xl`,
             isActive
               ? "text-accent-foreground bg-accent-secondary"
-              : "text-foreground-variant",
+              : "text-foreground-variant hover:text-accent",
             isMobile && isActive ? "py-[0.125rem]" : "py-1"
           )}
         >
