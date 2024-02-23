@@ -4,7 +4,7 @@ import React from "react";
 const ManagedByOrganizationCannotModify = ({
   className,
 }: {
-  className: string;
+  className?: string;
 }) => (
   <div
     className={cn(

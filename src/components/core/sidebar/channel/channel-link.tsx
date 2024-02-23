@@ -38,7 +38,7 @@ const ChannelLink: FC<ChannelLinkProps> = (props: ChannelLinkProps) => {
             "flex items-center flex-1 gap-2 py-1 px-2 rounded-sm transition-all duration-250 ease-out-expo",
             isActive
               ? "bg-muted "
-              : "text-secondary-foreground hover:bg-muted-hover hover:text-primary-foreground"
+              : "text-secondary-foreground hover:bg-muted-hover hover:text-foreground-variant dark:hover:text-primary-foreground"
           )}
         >
           <FaHashtag className="" />
