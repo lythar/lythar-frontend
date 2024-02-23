@@ -1,4 +1,5 @@
 "use client";
+import { dynamicLogger } from "@/hooks/dynamic-logger";
 import React, { createContext, useEffect, useState } from "react";
 
 const DeviceContext = createContext({
@@ -23,6 +24,11 @@ export const DeviceProvider = ({
     toggleSidebar,
     isPwa,
   };
+
+  dynamicLogger().info("Rendering app. Using device context:", {
+    isMobile: value.isMobile,
+    isPwa: value.isPwa,
+  });
 
   useEffect(() => {
     const fullLocation = window.location.href;

@@ -30,9 +30,6 @@ export class ChannelStore extends Store<Channel, number> {
   }
 
   public onChannelCreate = async (channel: Channel) => {
-    if (this.get(channel.channelId!)) {
-      return;
-    }
     this.set(channel.channelId!, channel);
   };
 

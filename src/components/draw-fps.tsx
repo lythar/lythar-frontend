@@ -17,5 +17,7 @@ export default function DrawFps() {
     };
     updateFps();
   }, []);
-  return <div className="fixed text-white right-4 top-4 z-[999]">{fps}fps</div>;
+  return (
+    <div className="fixed text-white right-4 top-4 z-[999]">{fps} FPS</div>
+  );
 }

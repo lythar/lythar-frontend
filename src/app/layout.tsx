@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { DeviceProvider } from "@/components/device-provider";
+import { SettingsProvider } from "@/components/core/wrappers/settings-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn("min-h-[svh] font-sans antialiased", inter.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <DeviceProvider>{children}</DeviceProvider>
+          <SettingsProvider>
+            <DeviceProvider>{children}</DeviceProvider>
+          </SettingsProvider>
         </ThemeProvider>
       </body>
     </html>

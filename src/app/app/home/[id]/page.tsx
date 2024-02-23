@@ -5,6 +5,7 @@ import CurrentChannelDisplay from "@/components/core/sidebar/channel/current-cha
 import { useStore } from "@/components/core/wrappers/stores-provider";
 import { Icons } from "@/components/ui/icons";
 import { Channel, StoreKeys } from "@/types/globals";
+import { X } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { FC, Suspense, useMemo, useState } from "react";
 
@@ -29,6 +30,14 @@ const ChannelView: FC<ChannelViewProps> = () => {
 };
 
 function SuspenseChannelView({ currentChannel }: { currentChannel: Channel }) {
+  if (!currentChannel)
+    return (
+      <div className="text-accent w-full h-full flex flex-col items-center justify-center">
+        <X className="h-16 w-16" />
+        <p className="font-bold">Brak kanału</p>
+      </div>
+    );
+
   return (
     <Suspense
       fallback={

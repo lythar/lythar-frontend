@@ -21,7 +21,7 @@ const CurrentChannelDisplay: React.FC<CurrentChannelDisplayProps> = ({
           </button>
         )}
         <FaHashtag size={20} className="" />
-        <h1 className="text font-medium">{currentChannel.name}</h1>
+        <h1 className="text font-medium">{currentChannel?.name}</h1>
       </div>
     </div>
   );
