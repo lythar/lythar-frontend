@@ -3,12 +3,11 @@ import SettingsDesktop from "@/components/core/settings/settings-desktop";
 import SettingsMobile from "@/components/core/settings/settings-mobile";
 import SettingsMobileMiddleware from "@/components/core/settings/settings-mobile-middleware";
 import { useDeviceContext } from "@/components/device-provider";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { FC } from "react";
 
 interface SettingsPageProps {
   children: React.ReactNode;
-  params?: any;
 }
 
 const SettingsLayout: FC<SettingsPageProps> = ({

@@ -6,7 +6,7 @@ import SidebarProfileDropdown from "./profile-dropdown";
 import SidebarBranding from "@/components/branding/sidebar-branding";
 import { PageLineSeperator } from "../../../ui/page-utils";
 import { useDeviceContext } from "@/components/device-provider";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { FaCog } from "react-icons/fa";
 import ExtendedLink from "./extended-link";
 
@@ -14,7 +14,6 @@ interface BaseSidebarProps {}
 
 const BaseSidebar: FC<BaseSidebarProps> = () => {
   const { isMobile, isSidebarOpen } = useDeviceContext();
-  const router = useRouter();
   const pathname = usePathname();
 
   let translation = "translate-y-0";
@@ -49,9 +48,6 @@ const BaseSidebar: FC<BaseSidebarProps> = () => {
       </div>
       {!isMobile && (
         <div className="flex flex-col items-center gap-2">
-          {/* <button onClick={() => router.push("/app/settings")}>
-            <FaCog size={22} className="" />
-          </button> */}
           <ExtendedLink
             pathname={pathname}
             Icon={FaCog}

@@ -21,6 +21,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useStore } from "../../wrappers/stores-provider";
 import { StoreKeys } from "@/types/globals";
+import { Channel as TChannel } from "@/types/globals";
 
 interface ChannelCreateModalProps {}
 
@@ -37,7 +38,7 @@ const ChannelCreateModalSchema = z.object({
 
 export type ChannelCreateModalValues = z.infer<typeof ChannelCreateModalSchema>;
 
-const ChannelCreateModal: React.FC<ChannelCreateModalProps> = ({}) => {
+const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
   const channelStore = useStore(StoreKeys.ChannelStore);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -48,8 +49,7 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = ({}) => {
 
   const onSubmit = async (data: ChannelCreateModalValues) => {
     const serverResponse = await Channel.createChannel(data);
-    // @ts-ignore
-    channelStore.set(serverResponse.channelId, serverResponse);
+    channelStore.set(serverResponse.channelId!, serverResponse as TChannel);
     router.push(`/app/home/${serverResponse.channelId}`);
     setIsOpen(false);
   };

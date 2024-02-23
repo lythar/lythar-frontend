@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import Markdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -17,10 +16,10 @@ const MessageMarkdownParser: React.FC<MessageMarkdownParserProps> = ({
         className="[&_p]:flex [&_p]:gap-2 BREAK_WORDS"
         components={{
           code(props) {
-            const { children, className, node, ...rest } = props;
+            const { children, className, ...rest } = props;
             const match = /language-(\w+)/.exec(className || "");
             return match ? (
-              // @ts-ignore
+              // @ts-expect-error - It works but types mismatch
               <SyntaxHighlighter
                 {...rest}
                 PreTag="div"

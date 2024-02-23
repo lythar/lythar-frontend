@@ -7,6 +7,7 @@ import { DeviceProvider } from "@/components/device-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
   title: "Lythar",
   description: "Lythar dashboard",

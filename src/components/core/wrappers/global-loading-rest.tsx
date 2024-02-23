@@ -3,6 +3,7 @@ import { useDeviceContext } from "@/components/device-provider";
 import LoadingOverlay from "./loading-overlay";
 import { dynamicLogger } from "@/hooks/dynamic-logger";
 import BaseSidebar from "../sidebar/app-navigation/navigation-sidebar";
+import DrawFps from "@/components/draw-fps";
 
 const GlobalLoadingProviderRest = ({
   children,
@@ -15,12 +16,15 @@ const GlobalLoadingProviderRest = ({
   });
 
   return (
-    <div className="flex flex-col-reverse md:flex-row min-h-0 h-[100svh] relative overflow-hidden">
-      <LoadingOverlay>
-        <BaseSidebar />
-        <div className="flex-1">{children}</div>
-      </LoadingOverlay>
-    </div>
+    <>
+      <DrawFps />
+      <div className="flex flex-col-reverse md:flex-row min-h-0 h-[100svh] relative overflow-hidden">
+        <LoadingOverlay>
+          <BaseSidebar />
+          <div className="flex-1">{children}</div>
+        </LoadingOverlay>
+      </div>
+    </>
   );
 };
 

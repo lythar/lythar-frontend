@@ -1,6 +1,7 @@
 /** Implemented by Vencord Team :3
-  * @see https://github.com/Vendicated/Vencord/blob/main/src/utils/Logger.ts
-*/
+ * @see https://github.com/Vendicated/Vencord/blob/main/src/utils/Logger.ts
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export class Logger {
   /**
@@ -12,42 +13,52 @@ export class Logger {
    * @example logger.errorCustomFmt(...Logger.makeTitleElements("white", "Hello"), "World");
    */
   static makeTitle(color: string, title: string): [string, ...string[]] {
-      return ["%c %c %s ", "", `background: ${color}; color: black; font-weight: bold; border-radius: 5px;`, title];
+    return [
+      "%c %c %s ",
+      "",
+      `background: ${color}; color: black; font-weight: bold; border-radius: 5px;`,
+      title,
+    ];
   }
 
-  constructor(public name: string, public color: string = "white") { }
+  constructor(public name: string, public color: string = "white") {}
 
-  private _log(level: "log" | "error" | "warn" | "info" | "debug", levelColor: string, args: any[], customFmt = "") {
-      console[level](
-          `%c Lythar %c %c ${this.name} ${customFmt}`,
-          `background: ${levelColor}; color: black; font-weight: bold; border-radius: 5px;`,
-          "",
-          `background: ${this.color}; color: black; font-weight: bold; border-radius: 5px;`
-          , ...args
-      );
+  private _log(
+    level: "log" | "error" | "warn" | "info" | "debug",
+    levelColor: string,
+    args: any[],
+    customFmt = ""
+  ) {
+    console[level](
+      `%c Lythar %c %c ${this.name} ${customFmt}`,
+      `background: ${levelColor}; color: black; font-weight: bold; border-radius: 5px;`,
+      "",
+      `background: ${this.color}; color: black; font-weight: bold; border-radius: 5px;`,
+      ...args
+    );
   }
 
   public log(...args: any[]) {
-      this._log("log", "#a6d189", args);
+    this._log("log", "#a6d189", args);
   }
 
   public info(...args: any[]) {
-      this._log("info", "#a6d189", args);
+    this._log("info", "#a6d189", args);
   }
 
   public error(...args: any[]) {
-      this._log("error", "#e78284", args);
+    this._log("error", "#e78284", args);
   }
 
   public errorCustomFmt(fmt: string, ...args: any[]) {
-      this._log("error", "#e78284", args, fmt);
+    this._log("error", "#e78284", args, fmt);
   }
 
   public warn(...args: any[]) {
-      this._log("warn", "#e5c890", args);
+    this._log("warn", "#e5c890", args);
   }
 
   public debug(...args: any[]) {
-      this._log("debug", "#eebebe", args);
+    this._log("debug", "#eebebe", args);
   }
 }

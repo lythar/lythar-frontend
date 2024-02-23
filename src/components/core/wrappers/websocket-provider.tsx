@@ -1,11 +1,5 @@
 // websocket provider
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext } from "react";
 
 import { default as useWs, ReadyState } from "react-use-websocket";
 import WebsocketEventProxy from "../websocket/ws-event-proxy";
@@ -59,6 +53,7 @@ function WebSocketProvider({ url, children }: WebSocketProviderProps) {
 
 export default WebSocketProvider;
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useWebSocket = () => {
   const context = useContext(WebSocketContext);
   if (!context) {

@@ -11,7 +11,7 @@ const ChannelLinksWrapper: FC<ChannelLinksWrapperProps> = () => {
 
   return (
     <div className="flex flex-col px-2 gap-[2px]">
-      {Object.entries(channelStore.getAll()).map(([_, channel]) => {
+      {Object.entries(channelStore.getAll()).map(([, channel]) => {
         return (
           <Suspense
             fallback={<LoadingOverlayFallback />}

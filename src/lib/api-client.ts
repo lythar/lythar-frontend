@@ -3,17 +3,21 @@ import createClient, { Middleware } from "openapi-fetch";
 import type { paths } from "@api";
 
 const middleware: Middleware = {
-  async onRequest(req, options) {
+  async onRequest(req) {
     req.headers.set("Authorization", localStorage.getItem("token") || "");
     return req;
   },
-}
+};
 
-const client = createClient<paths>({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
+const client = createClient<paths>({
+  baseUrl: process.env.NEXT_PUBLIC_API_URL,
+});
 
 client.use(middleware);
 
-const publicClient = createClient<paths>({ baseUrl: process.env.NEXT_PUBLIC_API_URL });
+const publicClient = createClient<paths>({
+  baseUrl: process.env.NEXT_PUBLIC_API_URL,
+});
 
 export { publicClient };
 export default client;

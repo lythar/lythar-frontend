@@ -15,7 +15,6 @@ import { useStore } from "../wrappers/stores-provider";
 
 function MessageContextMenu({
   message,
-  editingData,
   setIsEditingData,
   setIsHovered,
   isHovered,
@@ -23,7 +22,6 @@ function MessageContextMenu({
   setContextMenuOpen,
 }: {
   message: Message;
-  editingData: EditingData;
   setIsEditingData: (data: EditingData) => void;
   setIsHovered: (hovered: boolean) => void;
   isHovered: boolean;
@@ -123,6 +121,7 @@ function MessageContextMenuItem({
   action,
 }: {
   children: React.ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: any;
   className?: string;
   rootClassName?: string;

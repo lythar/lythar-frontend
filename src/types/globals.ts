@@ -4,11 +4,12 @@ import { OrganizationStore } from "@/stores/organization-store";
 import { components } from "./api";
 import AccountStore from "@/stores/account-store";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type $TODO = any;
 
 export type StringTypeToObj<T extends string> = { [K in T]: string };
 
-type RawIntersetion<T> = T & {};
+type RawIntersetion<T> = T & object;
 
 type RemovePartial<T> = RawIntersetion<{
   [P in keyof T]-?: T[P];
@@ -43,6 +44,7 @@ export type StoreType = {
   [StoreKeys.OrganizationStore]: OrganizationStore;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   k: infer I
 ) => void

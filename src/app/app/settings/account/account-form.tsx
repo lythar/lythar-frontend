@@ -1,4 +1,4 @@
-import { Form, useFieldArray, useForm } from "react-hook-form";
+import { Form, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -10,11 +10,6 @@ export function ProfileForm() {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     mode: "onChange",
-  });
-
-  const { fields, append } = useFieldArray({
-    name: "urls" as never,
-    control: form.control,
   });
 
   const onSubmit = (data: AccountFormValues) => {

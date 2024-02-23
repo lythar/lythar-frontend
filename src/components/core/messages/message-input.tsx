@@ -2,7 +2,6 @@ import { Channel, StoreKeys } from "@/types/globals";
 import { FC, useState } from "react";
 import { useStore } from "../wrappers/stores-provider";
 import { IoSend } from "react-icons/io5";
-import _ from "lodash";
 import AttachmentsDisplay from "./attachments/attachments-display";
 import { FaPlus } from "react-icons/fa6";
 import {
@@ -12,6 +11,7 @@ import {
   getDefaultKeyBinding,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
+import { cn } from "@/lib/utils";
 
 interface MessageInputProps {
   currentChannel: Channel;
@@ -19,16 +19,9 @@ interface MessageInputProps {
 
 const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const messageContent = editorState.getCurrentContent().getPlainText();
   const [attachments, setAttachments] = useState<File[]>([]);
   const messageStore = useStore(StoreKeys.MessageStore);
-
-  // useEffect(() => {
-  //   const rows = Math.min(
-  //     5,
-  //     Math.max(1, (messageContent.match(/\n/g) || []).length + 1)
-  //   );
-  //   setInputRows(rows);
-  // }, [messageContent]);
 
   const addAttachment = () => {
     const input = document.createElement("input");
@@ -65,12 +58,12 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
 
     if (messageContent.length === 0) return;
 
-    const sentAttachments = await Promise.all(
-      _.map(attachments, async (file) => {
-        const buffer = await file.arrayBuffer();
-        return buffer;
-      })
-    );
+    // const sentAttachments = await Promise.all(
+    //   _.map(attachments, async (file) => {
+    //     const buffer = await file.arrayBuffer();
+    //     return buffer;
+    //   })
+    // );
 
     messageStore.sendMessage(messageContent, currentChannel);
 
@@ -98,7 +91,7 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
             onChange={(e) => {
               setEditorState(e);
             }}
-            handleKeyCommand={(command, editorState) => {
+            handleKeyCommand={(command) => {
               if (command === "send-message") {
                 sendMessage();
                 return "handled";
@@ -119,7 +112,7 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
           </button>
         </div>
 
-        {/* {messageContent.length > 1500 ? (
+        {messageContent.length > 1500 ? (
           <span
             className={cn(
               "absolute -top-8 left-0 bg-sidebar px-2 rounded-lg border-2 border-solid border-input",
@@ -130,7 +123,7 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
           >
             {2000 - messageContent.length}
           </span>
-        ) : null} */}
+        ) : null}
       </div>
     </div>
   );

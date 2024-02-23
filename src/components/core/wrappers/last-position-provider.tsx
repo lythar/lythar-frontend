@@ -9,7 +9,9 @@ type LastPosition = {
 const LastPositionContext = createContext({
   home: -1,
   changeLastPosition: (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     key: keyof LastPosition,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     value: LastPosition[keyof LastPosition]
   ) => {},
 });
@@ -38,6 +40,7 @@ export const LastPositionProvider = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useLastPosition = () => {
   const context = React.useContext(LastPositionContext);
   if (!context) {

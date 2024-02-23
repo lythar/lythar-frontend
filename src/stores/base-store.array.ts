@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { StoreKeys } from "@globals";
 import EventEmitter from "events";
 
@@ -17,9 +17,8 @@ export default class ArrayStore<T> extends EventEmitter {
   }
 
   get(key: string, value: keyof T): T {
-    return this.state.find((item: any) => item[key] === value) as T;
+    return this.state.find((item: T) => item[key as keyof T] === value) as T;
   }
-
 
   getAll() {
     return this.state;

@@ -4,7 +4,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import {
@@ -17,7 +16,7 @@ import { Stores } from "@/app/app/stores";
 import { useGlobalLoading } from "./global-loading-provider";
 import { Logger } from "@/lib/logger";
 
-export const mapStores = async (stores: Awaited<typeof Stores>) => {
+const mapStores = async (stores: Awaited<typeof Stores>) => {
   const obj: StoreType = {} as StoreType;
   stores.forEach(async (store) => {
     if (store.storeName === StoreKeys.None) return;
@@ -65,8 +64,9 @@ export const StoreProvider = ({ children, stores }: StoreProviderProps) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useStore = <T extends StoreKeysWithoutNone>(store: T) => {
-  const [_, forceUpdate] = useState(0);
+  const [, forceUpdate] = useState(0);
   const targetStore = useContext(StoreContext)?.[store];
 
   useEffect(() => {
@@ -85,6 +85,7 @@ export const useStore = <T extends StoreKeysWithoutNone>(store: T) => {
 /**
  * @see For use in websocket event proxy only
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAllStores = () => {
   const ctx = useContext(StoreContext);
   return ctx;

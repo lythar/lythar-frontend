@@ -2,7 +2,6 @@
 
 import { NextResponse } from "next/server";
 import { DataLayoutProvider } from "@/components/auth/data-layout-context";
-import { Metadata } from "next";
 import { StoreProvider } from "@/components/core/wrappers/stores-provider";
 import { Stores } from "./stores";
 import RccLayoutWrapper from "@/components/core/wrappers/rcc-layout-wrapper";
@@ -14,25 +13,6 @@ import { Suspense, useEffect, useState } from "react";
 import LoadingOverlayFallback from "@/components/core/wrappers/loading-overlay-fallback";
 import { LastPositionProvider } from "@/components/core/wrappers/last-position-provider";
 import WebSocketProvider from "@/components/core/wrappers/websocket-provider";
-
-// async function fetchData() {
-//   "use server";
-
-//   // TODO - Implement API call to get user data once backend is ready.
-
-//   // const data = decodeJwt(token) as AuthJwtPayload;
-//   // const user = exampleUsers.find((user) => user.id === data.id);
-
-//   const user = await client().GET("/account/api/account", {
-//     credentials: "include",
-//   });
-
-//   if (user.error) {
-//     return { error: "User not found" };
-//   }
-
-//   return { user: user.data } as { user: User };
-// }
 
 export default function AppLayout({
   children,

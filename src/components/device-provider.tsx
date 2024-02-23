@@ -1,5 +1,4 @@
 "use client";
-import { usePathname } from "next/navigation";
 import React, { createContext, useEffect, useState } from "react";
 
 const DeviceContext = createContext({
@@ -42,6 +41,7 @@ export const DeviceProvider = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useDeviceContext = () => {
   const context = React.useContext(DeviceContext);
   if (!context) {

@@ -2,11 +2,8 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
-  DrawerOverlay,
-  DrawerPortal,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
@@ -36,7 +33,7 @@ const SidebarProfileDrawer: FC<SidebarProfileDropdownProps> = () => {
         <Avatar className="w-8 h-8 text-xs">
           <AvatarImage src={data.avatarUrl || ""} />
           <AvatarFallback className="cursor-pointer">
-            {getInitials(data?.name!)}
+            {getInitials(data?.name)}
           </AvatarFallback>
         </Avatar>
       </DrawerTrigger>

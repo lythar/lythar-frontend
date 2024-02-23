@@ -43,7 +43,7 @@ export default function SetNewPassword({
     const lowercase = /[a-z]/.test(password);
     const uppercase = /[A-Z]/.test(password);
     const number = /[0-9]/.test(password);
-    const special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+    const special = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(password);
 
     setRequirements({
       length,
