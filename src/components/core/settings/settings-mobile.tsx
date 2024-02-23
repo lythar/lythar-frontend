@@ -1,7 +1,6 @@
 "use client";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import SidebarNavMobile from "./settings-nav-mobile";
-import { usePathname } from "next/navigation";
 
 interface SettingsModalProps {
   children?: React.ReactNode;
@@ -22,7 +21,7 @@ const sidebarNavItems = [
   },
 ];
 
-const SettingsMobile: FC<SettingsModalProps> = ({ children }) => {
+const SettingsMobile: FC<SettingsModalProps> = () => {
   return (
     <div className=" space-y-6 min-w-full min-h-full  p-10 pb-16 md:block">
       <div className="space-y-0.5">

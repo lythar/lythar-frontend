@@ -1,13 +1,12 @@
 "use client";
 import MessageInput from "@/components/core/messages/message-input";
 import MessageView from "@/components/core/messages/message-view";
+import CurrentChannelDisplay from "@/components/core/sidebar/channel/current-channel-display";
 import { useStore } from "@/components/core/wrappers/stores-provider";
-import { useDeviceContext } from "@/components/device-provider";
-import { StoreKeys } from "@/types/globals";
+import { Icons } from "@/components/ui/icons";
+import { Channel, StoreKeys } from "@/types/globals";
 import { useParams, useRouter } from "next/navigation";
-import { FC, useMemo, useState } from "react";
-import { FaHashtag } from "react-icons/fa6";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { FC, Suspense, useMemo, useState } from "react";
 
 interface ChannelViewProps {}
 
@@ -20,33 +19,33 @@ const ChannelView: FC<ChannelViewProps> = () => {
     channelStore.get(Number(id))
   );
 
-  const { isMobile, toggleSidebar } = useDeviceContext();
-
   useMemo(() => {
     if (Number(id) == -1) return router.push("/app/home");
     setCurrentChannel(channelStore.get(Number(id)));
     messageStore.fetchMessages(Number(id), undefined, false, true);
   }, [id, channelStore, messageStore, router]);
 
+  return <SuspenseChannelView currentChannel={currentChannel} />;
+};
+
+function SuspenseChannelView({ currentChannel }: { currentChannel: Channel }) {
   return (
-    <div className="flex h-[100svh] flex-col">
-      <div className="md:m-2 rounded-md bg-popover-secondary border-border min-h-10 flex items-center">
-        <div className="flex items-center pl-4 gap-2">
-          {isMobile && (
-            <button onClick={toggleSidebar}>
-              <GiHamburgerMenu size={20} className="mr-3" />
-            </button>
-          )}
-          <FaHashtag size={20} className="" />
-          <h1 className="text font-medium">{currentChannel.name}</h1>
+    <Suspense
+      fallback={
+        <div>
+          <Icons.spinner className="animate-spin h-10 w-10" />
+        </div>
+      }
+    >
+      <div className="flex h-[100svh] flex-col">
+        <CurrentChannelDisplay currentChannel={currentChannel} />
+        <div className="flex-auto flex flex-col relative overflow-hidden">
+          <MessageView currentChannel={currentChannel} />
+          <MessageInput currentChannel={currentChannel} />
         </div>
       </div>
-      <div className="flex-auto flex flex-col relative overflow-hidden">
-        <MessageView currentChannel={currentChannel} />
-        <MessageInput currentChannel={currentChannel} />
-      </div>
-    </div>
+    </Suspense>
   );
-};
+}
 
 export default ChannelView;

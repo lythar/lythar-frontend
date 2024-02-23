@@ -1,5 +1,5 @@
-"use client"
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
 export const useLocalStorage = <T>(keyName: string, defaultValue: T) => {
   const [storedValue, setStoredValue] = useState(() => {
@@ -18,7 +18,9 @@ export const useLocalStorage = <T>(keyName: string, defaultValue: T) => {
   const setValue = (newValue: T) => {
     try {
       window.localStorage.setItem(keyName, JSON.stringify(newValue));
-    } catch (err) {}
+    } catch (err) {
+      return;
+    }
     setStoredValue(newValue);
   };
   return [storedValue, setValue];

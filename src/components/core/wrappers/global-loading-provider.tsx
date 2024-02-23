@@ -3,6 +3,7 @@ import React, { createContext, useState } from "react";
 
 const LoadingContext = createContext({
   loading: true,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setLoading: (loading: boolean) => {},
 });
 
@@ -16,6 +17,7 @@ export const GlobalLoadingProvider = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useGlobalLoading = () => {
   const context = React.useContext(LoadingContext);
   if (!context) {

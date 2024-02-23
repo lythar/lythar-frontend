@@ -1,4 +1,4 @@
-import { Channel, Message, StoreKeys, User } from "@/types/globals";
+import { Channel, Message, StoreKeys } from "@/types/globals";
 import Store from "./base-store";
 import client from "@/lib/api-client";
 import { messageEventTypes } from "@/components/core/websocket/events/message-events";

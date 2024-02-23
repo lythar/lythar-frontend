@@ -1,8 +1,6 @@
 "use client";
 
-interface LogoutPageProps {}
-
-const LogoutPage = ({}: LogoutPageProps) => {
+const LogoutPage = () => {
   return <></>;
 };
 

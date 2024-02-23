@@ -10,9 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuGroup,
-  DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
 interface SidebarProfileDropdownProps {}
 
@@ -31,7 +29,7 @@ const SidebarProfileDropdown: FC<SidebarProfileDropdownProps> = () => {
         <Avatar className="w-10 h-10 text-xs">
           <AvatarImage src={data?.avatarUrl || ""} />
           <AvatarFallback className="cursor-pointer">
-            {getInitials(`${data?.name!} ${data?.lastName || ""}`)}
+            {getInitials(`${data?.name} ${data?.lastName || ""}`)}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -41,19 +39,17 @@ const SidebarProfileDropdown: FC<SidebarProfileDropdownProps> = () => {
         sideOffset={10}
       >
         <DropdownMenuLabel>Moje Konto</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Profil
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Skróty Klawiszowe
-            <DropdownMenuShortcut>⌘/</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <DropdownMenuItem>Profil</DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Wsparcie</DropdownMenuItem>
+        <a
+          href={
+            "https://technical-documentation.pages.dev/instrukcje-uzytkowania/"
+          }
+          target="_blank"
+        >
+          <DropdownMenuItem>Wsparcie</DropdownMenuItem>
+        </a>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push("/logout")}>
           Wyloguj się

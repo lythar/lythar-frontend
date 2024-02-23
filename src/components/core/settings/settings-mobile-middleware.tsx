@@ -1,7 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
-import { GiReturnArrow } from "react-icons/gi";
 
 interface SettingsMobileMiddlewareProps {
   children: React.ReactNode;

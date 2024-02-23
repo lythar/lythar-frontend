@@ -1,5 +1,4 @@
 "use client";
-import { Separator } from "@/components/ui/separator";
 import { FC } from "react";
 import AccountSettings from "./account/page";
 

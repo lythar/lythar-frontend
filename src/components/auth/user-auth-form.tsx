@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Icons } from "@/components/ui/icons";
 import { useStrings } from "@/hooks/useStrings";
 import loginStrings from "@/strings/login.json";
-import client, { publicClient } from "@/lib/api-client";
+import { publicClient } from "@/lib/api-client";
 import SetNewPassword from "./set-new-password";
 
 interface UserAuthFormProps {}

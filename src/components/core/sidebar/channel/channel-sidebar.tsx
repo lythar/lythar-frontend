@@ -1,7 +1,6 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useStore } from "../../wrappers/stores-provider";
 import { StoreKeys } from "@globals";
-import ChannelLinksWrapper from "./channel-links-wrapper";
 import { useDeviceContext } from "@/components/device-provider";
 import { useSwipeable } from "react-swipeable";
 import { MdOutlineClose } from "react-icons/md";

@@ -1,3 +1,27 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "ignorePatterns": [
+    "node_modules/*",
+    ".next/*",
+    ".out/*",
+    "!.prettierrc.js",
+    "!.eslintrc.js",
+    "sw.js",
+    "sw.js.map",
+    "workbox-*.js",
+    "workbox-*.js.map"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react-refresh"],
+  "rules": {
+    "react-refresh/only-export-components": [
+      "warn",
+      { "allowConstantExport": true }
+    ]
+  }
 }

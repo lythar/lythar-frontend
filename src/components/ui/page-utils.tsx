@@ -18,7 +18,7 @@ const PageHeader = ({ title, children }: PageHeaderProps) => {
 
 interface PageLineSeperator {}
 
-const PageLineSeperator = ({}: PageLineSeperator) => {
+const PageLineSeperator = () => {
   return (
     <div className="w-[calc(100%-0.5rem)] h-[4px] my-2 rounded-xl bg-muted" />
   );

@@ -1,12 +1,4 @@
-import { forwardRef } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogOverlay,
-  DialogPortal,
-  DialogTrigger,
-} from "./dialog";
+import { Dialog, DialogContent, DialogPortal, DialogTrigger } from "./dialog";
 import { DropdownMenuItem } from "./dropdown-menu";
 /**
  * Temporary fix for dialogues and dropdowns

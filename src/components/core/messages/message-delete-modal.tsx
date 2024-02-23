@@ -1,15 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { DialogClose } from "@/components/ui/dialog";
 import DialogItem from "@/components/ui/dialog-item";
 import { Message } from "@/types/globals";
-import { useState } from "react";
-import { getInitials } from "./message";
+import { getInitials } from "@/lib/utils";
 import MessageMarkdownParser from "./message-markdown-parser";
 import { default as OMessage } from "@/stores/objects/Message";
 

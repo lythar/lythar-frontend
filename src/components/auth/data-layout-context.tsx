@@ -21,4 +21,5 @@ export const DataLayoutProvider = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useDataLayout = () => useContext(DataLayoutContext) as User;

@@ -1,8 +1,5 @@
 import { useCallback, useEffect } from "react";
-import {
-  eventTypes,
-  indetifyStoreNameFromEventType,
-} from "./ws-event-type-identifier";
+import { indetifyStoreNameFromEventType } from "./ws-event-type-identifier";
 import { useWebSocket } from "../wrappers/websocket-provider";
 import { StoreType } from "@/types/globals";
 import { useAllStores } from "../wrappers/stores-provider";
@@ -20,6 +17,7 @@ const WebsocketEventProxy: React.FC<WebsocketEventProxyProps> = ({
 
   const TlastMessage = lastMessage as {
     type: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any;
   };
 

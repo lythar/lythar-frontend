@@ -1,4 +1,4 @@
-import { Channel, Message as TMessage, StoreKeys } from "@/types/globals";
+import { Channel, StoreKeys } from "@/types/globals";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "../wrappers/stores-provider";
 import Message from "./message";
@@ -99,7 +99,7 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
         {messages &&
           Object.entries(messages)
             .reverse()
-            .map(([_, message], id, arr) => {
+            .map(([, message], id, arr) => {
               const previousMessage = arr[id + 1] ? arr[id + 1][1] : null;
 
               const shouldStack =

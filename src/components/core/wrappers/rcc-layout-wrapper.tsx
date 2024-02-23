@@ -1,7 +1,5 @@
 "use client";
 
-import { Suspense } from "react";
-
 interface RccLayoutWrapperProps {
   children: React.ReactNode;
 }

@@ -1,20 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { Message as TMessage, User } from "@/types/globals";
-import { FC, useEffect, useState } from "react";
+import { Message as TMessage } from "@/types/globals";
+import { FC, useState } from "react";
 import MessageMarkdownParser from "./message-markdown-parser";
 import MessageContextMenu from "./message-context-menu";
 import { EditingData } from "./message-view";
 import { Input } from "@/components/ui/input";
 import { default as OMessage } from "@/stores/objects/Message";
-import Twemoji from "react-twemoji";
+import { getInitials } from "@/lib/utils";
 
-export const getInitials = (name: string) => {
-  const nameArray = name.split(" ");
-  return nameArray[0].charAt(0) + nameArray[nameArray.length - 1].charAt(0);
-};
 interface MessageProps extends TMessage {
   shouldStack: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ref?: any;
   editingData: EditingData;
   setEditingData: React.Dispatch<React.SetStateAction<EditingData>>;
@@ -65,7 +62,6 @@ const Message: FC<MessageProps> = (props) => {
     >
       {isEditingThisMessage ? null : (
         <MessageContextMenu
-          editingData={props.editingData}
           setIsEditingData={props.setEditingData}
           message={props}
           setIsHovered={setIsHovered}
