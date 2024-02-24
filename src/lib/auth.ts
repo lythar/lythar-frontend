@@ -18,7 +18,8 @@ export const getJwtPublicKey = () => {
 
 export const verifyAuth = async (token: string) => {
   try {
-    const publicKey = await importSPKI(getJwtPublicKey(), "RS256");
+    const jwtKey = getJwtPublicKey();
+    const publicKey = await importSPKI(jwtKey, "RS256");
     const verified = await jwtVerify(token, publicKey);
     return verified.payload as AuthJwtPayload;
   } catch (e) {

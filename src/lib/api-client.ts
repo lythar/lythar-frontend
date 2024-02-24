@@ -10,13 +10,13 @@ const middleware: Middleware = {
 };
 
 const client = createClient<paths>({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  baseUrl: `http://${process.env.NEXT_PUBLIC_API_URL}`,
 });
 
 client.use(middleware);
 
 const publicClient = createClient<paths>({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  baseUrl: `http://${process.env.NEXT_PUBLIC_API_URL}`,
 });
 
 export { publicClient };
