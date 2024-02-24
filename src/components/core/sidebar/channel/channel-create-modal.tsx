@@ -57,9 +57,13 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <button>
+        <Button
+          variant={"outline"}
+          className="w-full flex justify-between px-4 h-8"
+        >
+          <span>Stwórz kanał</span>
           <Plus size={20} />
-        </button>
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <Form {...form}>
