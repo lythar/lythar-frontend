@@ -54,7 +54,9 @@ function LayoutWrapper({
           <LastPositionProvider>
             <DataLayoutProvider data={user}>
               <StoreProvider stores={Stores}>
-                <WebSocketProvider url={process.env.NEXT_PUBLIC_WS_URL || ""}>
+                <WebSocketProvider
+                  url={`ws://${process.env.NEXT_PUBLIC_API_URL}` || ""}
+                >
                   <GlobalLoadingProviderRest>
                     {children}
                   </GlobalLoadingProviderRest>
