@@ -22,6 +22,9 @@ const CurrentChannelDisplay: React.FC<CurrentChannelDisplayProps> = ({
         )}
         <FaHashtag size={20} className="" />
         <h1 className="text font-medium">{currentChannel?.name}</h1>
+        <p className="text-sm text-muted-foreground">
+          {currentChannel?.description}
+        </p>
       </div>
     </div>
   );

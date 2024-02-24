@@ -13,7 +13,7 @@ const sidebarNavItems = [
   },
   {
     title: "Wyświetlanie",
-    href: "/app/settings/foo",
+    href: "/app/settings/apperance",
   },
   {
     title: "Powiadomienia",
