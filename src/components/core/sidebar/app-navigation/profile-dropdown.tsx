@@ -11,11 +11,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
+import { useStore } from "../../wrappers/stores-provider";
+import { StoreKeys } from "@/types/globals";
 
 interface SidebarProfileDropdownProps {}
 
 const SidebarProfileDropdown: FC<SidebarProfileDropdownProps> = () => {
   const router = useRouter();
+  const accountStore = useStore(StoreKeys.AccountStore);
   const data = useDataLayout();
 
   const getInitials = (name: string) => {
@@ -27,7 +30,11 @@ const SidebarProfileDropdown: FC<SidebarProfileDropdownProps> = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="w-10 h-10 text-xs">
-          <AvatarImage src={data?.avatarUrl || ""} />
+          <AvatarImage
+            src={`http://${process.env.NEXT_PUBLIC_API_URL}${accountStore.get(
+              "avatarUrl"
+            )}`}
+          />
           <AvatarFallback className="cursor-pointer">
             {getInitials(`${data?.name} ${data?.lastName || ""}`)}
           </AvatarFallback>

@@ -13,8 +13,8 @@ export default function UsersSidebarContents() {
   );
 
   return (
-    <div className="px-4">
-      <ul className="space-y-4 overflow-y-scroll overflow-x-hidden">
+    <div className="px-4 h-full md:h-auto">
+      <ul className="space-y-4 h-full overflow-y-scroll overflow-x-hidden">
         <div className="space-y-2">
           <span className="font-medium text-foreground-variant uppercase text-xs">
             Online ({online.length})

@@ -13,28 +13,31 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LogOutIcon } from "lucide-react";
-import { IoCog } from "react-icons/io5";
 import { Separator } from "@/components/ui/separator";
+import { getInitials } from "@/lib/utils";
+import { FaCog } from "react-icons/fa";
+import { useStore } from "../../wrappers/stores-provider";
+import { StoreKeys } from "@/types/globals";
 
 interface SidebarProfileDropdownProps {}
 
 const SidebarProfileDrawer: FC<SidebarProfileDropdownProps> = () => {
   const router = useRouter();
+  const accountStore = useStore(StoreKeys.AccountStore);
   const data = useDataLayout();
-
-  const getInitials = (name: string) => {
-    const nameArray = name.split(" ");
-    return nameArray[0].charAt(0) + nameArray[nameArray.length - 1].charAt(0);
-  };
 
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <div className="flex flex-col items-center justify-center  gap-[2px]">
+        <div className="flex flex-col items-center justify-center w-[60px]  gap-[2px]">
           <Avatar className="w-7 h-7 text-xs">
-            <AvatarImage src={data?.avatarUrl || ""} />
+            <AvatarImage
+              src={`http://${process.env.NEXT_PUBLIC_API_URL}${accountStore.get(
+                "avatarUrl"
+              )}`}
+            />
             <AvatarFallback className="cursor-pointer">
-              {getInitials(data?.name)}
+              {getInitials(`${data?.name} ${data?.lastName || ""}`)}
             </AvatarFallback>
           </Avatar>
           <span className="text-[0.65rem] font-semibold text-muted-foreground">
@@ -50,22 +53,22 @@ const SidebarProfileDrawer: FC<SidebarProfileDropdownProps> = () => {
         <DrawerFooter className="gap-0 !first:rounded-b-none overflow-hidden">
           <DrawerClose asChild>
             <Button
-              className="bg-sidebar h-14 rounded-xl"
+              className="bg-sidebar h-14 rounded-xl shadow-sm shadow-accent"
               onClick={() => router.push("/app/settings")}
             >
-              <div className="flex justify-between items-center w-full">
+              <div className="flex justify-between items-center w-full  text-accent-foreground dark:text-muted-foreground">
                 <span className=" text-xs font-bold">Ustawienia</span>
-                <IoCog size={24} />
+                <FaCog size={24} />
               </div>
             </Button>
           </DrawerClose>
           <Separator className="my-3 bg-muted-foreground" />
           <Button
-            className="bg-sidebar h-14 rounded-xl"
+            className="bg-sidebar h-14 rounded-xl shadow-sm shadow-accent"
             onClick={() => router.push("/logout")}
           >
-            <div className="flex justify-between items-center w-full">
-              <span className=" text-xs font-bold">Wyloguj się</span>
+            <div className="flex justify-between items-center w-full text-accent-foreground dark:text-muted-foreground">
+              <span className=" text-xs font-bold ">Wyloguj się</span>
               <LogOutIcon size={24} />
             </div>
           </Button>

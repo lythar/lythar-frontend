@@ -13,8 +13,8 @@ interface MessageProps extends TMessage {
   shouldStack: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ref?: any;
-  editingData: EditingData;
   setEditingData: React.Dispatch<React.SetStateAction<EditingData>>;
+  isEditing: boolean;
 }
 
 function parseDate(date: string) {
@@ -45,7 +45,6 @@ function parseDate(date: string) {
 const Message: FC<MessageProps> = (props) => {
   const [isHovered, setIsHovered] = useState(false);
   const [contextMenuOpen, setContextMenuOpen] = useState(false);
-  const isEditingThisMessage = props.editingData?.messageId === props.messageId;
   const [editingContent, setEditingContent] = useState(props.content);
 
   return (
@@ -55,12 +54,12 @@ const Message: FC<MessageProps> = (props) => {
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "relative list-item",
-        isHovered || contextMenuOpen || isEditingThisMessage
+        isHovered || contextMenuOpen || props.isEditing
           ? "bg-background-secondary"
           : null
       )}
     >
-      {isEditingThisMessage ? null : (
+      {props.isEditing ? null : (
         <MessageContextMenu
           setIsEditingData={props.setEditingData}
           message={props}
@@ -95,7 +94,9 @@ const Message: FC<MessageProps> = (props) => {
           ) : (
             <>
               <Avatar className="absolute left-[16px] mt-[calc(4px-0.125rem)] w-[40px] h-[40px] z-10 overflow-hidden cursor-pointer select-none  ">
-                <AvatarImage src={props.author.avatarUrl || ""} />
+                <AvatarImage
+                  src={`http://${process.env.NEXT_PUBLIC_API_URL}${props.author.avatarUrl}`}
+                />
                 <AvatarFallback>
                   {getInitials(`${props.author.name} ${props.author.lastName}`)}
                 </AvatarFallback>
@@ -110,7 +111,7 @@ const Message: FC<MessageProps> = (props) => {
           )}
 
           <div className="-ml-[calc(40px+16px+16px)] pl-[calc(40px+16px+16px)] overflow-hidden relative indent-0 whitespace-break-spaces">
-            {isEditingThisMessage ? (
+            {props.isEditing ? (
               <>
                 <Input
                   value={editingContent}
@@ -126,12 +127,11 @@ const Message: FC<MessageProps> = (props) => {
                           props.messageId,
                           editingContent
                         );
-                      } else {
-                        props.setEditingData({
-                          messageId: null,
-                          content: "",
-                        });
                       }
+                      props.setEditingData({
+                        messageId: null,
+                        content: "",
+                      });
                     } else if (e.key === "Escape") {
                       props.setEditingData({ messageId: null, content: "" });
                     }

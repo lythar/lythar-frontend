@@ -11,7 +11,9 @@ export default function UserDisplay({ user, isOnline }: UserDisplayProps) {
   return (
     <div className={cn("flex items-center", isOnline ? null : "opacity-50")}>
       <Avatar>
-        <AvatarImage src={user.avatarUrl || ""} />
+        <AvatarImage
+          src={`http://${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}`}
+        />
         <AvatarFallback>
           {getInitials(`${user.name} ${user.lastName}`)}
         </AvatarFallback>

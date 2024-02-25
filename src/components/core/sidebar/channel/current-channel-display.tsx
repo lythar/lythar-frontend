@@ -16,7 +16,7 @@ const CurrentChannelDisplay: React.FC<CurrentChannelDisplayProps> = ({
     useDeviceContext();
 
   return (
-    <div className="md:m-2 rounded-md bg-popover-secondary border-border min-h-10 flex items-center justify-between">
+    <div className="md:m-2 rounded-md bg-popover-secondary border-border min-h-14 md:min-h-10 flex items-center justify-between">
       <div className="flex items-center pl-4 gap-2">
         {isMobile && (
           <button onClick={toggleSidebar}>
@@ -36,7 +36,7 @@ const CurrentChannelDisplay: React.FC<CurrentChannelDisplayProps> = ({
               onClick={toggleUserTab}
               className={
                 userTabOpen
-                  ? "text-primary-foreground "
+                  ? "text-foreground-variant "
                   : "text-muted-foreground"
               }
             >
@@ -49,7 +49,9 @@ const CurrentChannelDisplay: React.FC<CurrentChannelDisplayProps> = ({
           <span
             onClick={toggleUserTab}
             className={
-              userTabOpen ? "text-primary-foreground " : "text-muted-foreground"
+              userTabOpen
+                ? "dark:text-primary-foreground "
+                : "text-muted-foreground"
             }
           >
             <FaUsers size={20} className="mr-3" />

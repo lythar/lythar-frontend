@@ -5,6 +5,7 @@ import { messageEventTypes } from "@/components/core/websocket/events/message-ev
 
 export class MessageStore extends Store<Message, number> {
   public isFetchingOlderMessages = false;
+  public isBrowserFocused = true;
   public override storeName = StoreKeys.MessageStore;
 
   public async fetchMessages(
@@ -44,8 +45,18 @@ export class MessageStore extends Store<Message, number> {
   constructor() {
     super();
 
+    document.addEventListener("visibilitychange", () => {
+      this.isBrowserFocused = document.visibilityState === "visible";
+    });
+
     this.on(messageEventTypes.NewMessage, (msg: Message) => {
       this.set(msg.messageId, msg);
+
+      if (!this.isBrowserFocused) {
+        const audio = new Audio("/Lythar_Notification_Sound.mp3");
+        audio.play();
+      }
+
       this.emit("change");
     });
 

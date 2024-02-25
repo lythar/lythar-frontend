@@ -8,6 +8,7 @@
   "orientation": "portrait",
   "start_url": "/?mode=standalone",
   "scope": "/",
+  "iconUrl": "https://github.com/lythar/lythar-frontend/blob/main/public/icons/icon-512x512.png",
   "icons": [
     {
       "src": "icons/icon-512x512.png",
