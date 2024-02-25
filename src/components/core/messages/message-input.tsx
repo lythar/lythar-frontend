@@ -6,8 +6,9 @@ import { FaPlus } from "react-icons/fa6";
 import {
   Editor,
   EditorState,
-  ContentState,
   getDefaultKeyBinding,
+  SelectionState,
+  Modifier,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { cn } from "@/lib/utils";
@@ -72,9 +73,27 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
 
     Message.sendMessage(currentChannel.channelId, messageContent, files);
 
-    setEditorState(
-      EditorState.createWithContent(ContentState.createFromText(""))
+    let contentState = editorState.getCurrentContent();
+    const firstBlock = contentState.getFirstBlock();
+    const lastBlock = contentState.getLastBlock();
+    const allSelected = new SelectionState({
+      anchorKey: firstBlock.getKey(),
+      anchorOffset: 0,
+      focusKey: lastBlock.getKey(),
+      focusOffset: lastBlock.getLength(),
+      hasFocus: true,
+    });
+    contentState = Modifier.removeRange(contentState, allSelected, "backward");
+    let newEditorState = EditorState.push(
+      editorState,
+      contentState,
+      "remove-range"
     );
+    newEditorState = EditorState.forceSelection(
+      newEditorState,
+      contentState.getSelectionAfter()
+    );
+    setEditorState(newEditorState);
   };
 
   return (

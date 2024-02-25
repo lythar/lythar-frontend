@@ -24,6 +24,9 @@ export interface paths {
   "/account/api/account/avatar": {
     post: operations["Account_UpdateAvatar"];
   };
+  "/attachments/api/upload": {
+    post: operations["Attachments_UploadFile"];
+  };
   "/channels/api/create": {
     post: operations["Channels_CreateChannel"];
   };
@@ -207,10 +210,9 @@ export interface operations {
     requestBody?: {
       content: {
         "image/jpeg": string;
+        "image/jpg": string;
         "image/png": string;
         "image/gif": string;
-        "image/avif": string;
-        "image/apng": string;
         "image/webp": string;
       };
     };
@@ -219,6 +221,13 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["UserAccountResponse"];
         };
+      };
+    };
+  };
+  Attachments_UploadFile: {
+    responses: {
+      200: {
+        content: never;
       };
     };
   };
