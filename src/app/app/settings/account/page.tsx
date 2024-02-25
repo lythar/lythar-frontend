@@ -3,6 +3,7 @@ import { useStore } from "@/components/core/wrappers/stores-provider";
 import ManagedByOrganizationCannotModify from "@/components/error-messages/ManagedByOrganizationCannotModify";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { getInitials } from "@/lib/utils";
@@ -92,11 +93,11 @@ const AccountSettings: FC<SettingsPageProps> = () => {
     <div className="space-y-6">
       <div>
         <ManagedByOrganizationCannotModify />
-        <h3 className="text-lg font-medium">Konto</h3>
+        <h3 className="text-lg font-medium pt-4 md:pt-0">Konto</h3>
         <p className="text-sm text-muted-foreground">Zarządzaj swoim kontem.</p>
       </div>
-      <div className="flex items-center gap-4">
-        <Avatar className="h-20 w-20">
+      <div className="flex flex-col md:flex-row items-center gap-4">
+        <Avatar className="h-24 w-24 md:h-20 md:w-20">
           <AvatarImage
             src={
               newAvatar
@@ -113,30 +114,65 @@ const AccountSettings: FC<SettingsPageProps> = () => {
             )}
           </AvatarFallback>
         </Avatar>
-        <Button onClick={handleAvatarChangeButton}>
-          <span className="text-primary-foreground">Zmień zdjęcie</span>
+        <Button onClick={handleAvatarChangeButton} className="w-full md:w-fit">
+          <span>Zmień zdjęcie</span>
         </Button>
       </div>
       {hasMadeChanges && (
-        <div className="absolute z-20 bottom-4 left-0 right-0 p-4 flex justify-between items-center bg-popover-secondary w-[40rem] mx-auto rounded-xl">
-          <p>Masz nie zapisane zmiany!</p>
-          <div className="flex gap-2">
-            <Button variant={"ghost"} onClick={discardChanges}>
-              <span className="text-primary-foreground">Anuluj</span>
+        <div className="absolute z-20 bottom-20 md:bottom-4 left-0 right-0 mx-auto p-3 md:p-4 flex justify-between items-center bg-popover-secondary w-[95%] md:w-[40rem] rounded-xl border-2 border-solid border-primary">
+          <p className="text-xs md:text-normal">Masz nie zapisane zmiany!</p>
+          <div className="flex gap-2 items-center">
+            <Button
+              variant={"ghost"}
+              onClick={discardChanges}
+              className="h-8 md:h-10 text-xs md:text-normal"
+            >
+              <span>Anuluj</span>
             </Button>
             <Button
               variant="outline"
-              className=" bg-green-600"
+              className=" bg-green-600 h-8 md:h-10 text-xs md:text-normal"
               onClick={async () => {
                 handleChanges();
               }}
             >
-              <span className="text-primary-foreground">Zapisz zmiany</span>
+              <span className="text-primary-foreground ">Zapisz zmiany</span>
             </Button>
           </div>
         </div>
       )}
       <Separator />
+      <div>
+        <h3 className="text-lg font-medium pt-4 md:pt-0">Imię i nazwisko</h3>
+        <p className="text-muted-foreground text-sm pb-3">
+          Zmiana imienia i nazwiska wymaga kontaktu z administratorem.
+        </p>
+        <div className="space-y-2">
+          <Input
+            value={accountStore.get("name")! as string}
+            disabled
+            className="w-full md:w-fit"
+          />
+          <Input
+            value={accountStore.get("lastName")! as string}
+            disabled
+            className="w-full md:w-fit"
+          />
+        </div>
+      </div>
+      <div>
+        <h3 className="text-lg font-medium pt-4 md:pt-0">Email</h3>
+        <p className="text-muted-foreground text-sm pb-3">
+          Zmiana adresu email wymaga kontaktu z administratorem.
+        </p>
+        <div className="space-y-2">
+          <Input
+            value={(accountStore.get("email")! as string) || "Brak"}
+            disabled
+            className="w-full md:w-fit"
+          />
+        </div>
+      </div>
     </div>
   );
 };

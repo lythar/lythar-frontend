@@ -39,7 +39,7 @@ const AppearanceSettings: React.FC<AppearenceSettingsProps> = () => {
         <h3 className="text-xl font-medium">Wygląd</h3>
       </div>
 
-      <div className="px-2 space-y-6">
+      <div className="md:px-2 space-y-6">
         <div className="space-y-2">
           <div>
             <h4 className="text-base font-medium">Motyw</h4>
@@ -49,7 +49,7 @@ const AppearanceSettings: React.FC<AppearenceSettingsProps> = () => {
           </div>
 
           <Select onValueChange={handleThemeChange}>
-            <SelectTrigger className="bg-popover-secondary h-8 w-40">
+            <SelectTrigger className="bg-popover-secondary h-10 md:h-8 w-full md:w-40">
               <SelectValue placeholder={parseThemeName(theme || "system")} />
             </SelectTrigger>
             <SelectContent className="">

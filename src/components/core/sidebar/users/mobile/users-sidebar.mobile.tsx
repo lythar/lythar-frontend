@@ -1,5 +1,11 @@
 "use client";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import UsersSidebarContents from "../sidebar-contents";
 
 export default function UsersSidebar({
   children,
@@ -9,10 +15,11 @@ export default function UsersSidebar({
   return (
     <Drawer>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="h-[70%]">
         <div className="flex flex-col items-center justify-center">
-          <h1>Użytkownicy</h1>
+          <DrawerHeader>Użytkownicy</DrawerHeader>
         </div>
+        <UsersSidebarContents />
       </DrawerContent>
     </Drawer>
   );

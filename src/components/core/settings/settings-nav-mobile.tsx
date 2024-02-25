@@ -30,9 +30,9 @@ export function SidebarNavMobile({
             className={cn(
               "bg-sidebar w-full h-14 ",
               i === arr.length - 1
-                ? "rounded-b-xl border-t-[1px] border-primary-foreground"
+                ? "rounded-b-xl border-t-[1px] border-bg-secondary"
                 : i === 0
-                ? "rounded-t-xl border-b-[1px] border-primary-foreground"
+                ? "rounded-t-xl border-b-[1px] border-bg-secondary"
                 : ""
             )}
           >

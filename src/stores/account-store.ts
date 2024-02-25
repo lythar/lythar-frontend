@@ -27,11 +27,16 @@ export default class AccountStore extends Store<
 
   public async setAvatar(url: string): Promise<void> {
     this.set("avatarUrl", url);
-    await new Promise((resolve) => setTimeout(resolve, 250));
     this.emit("change");
   }
 
   constructor() {
-    super();
+    super({
+      avatarUrl: "",
+      email: "",
+      name: "Loading...",
+      lastName: "",
+      id: -1,
+    });
   }
 }

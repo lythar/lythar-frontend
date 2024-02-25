@@ -8,7 +8,7 @@ const ManagedByOrganizationCannotModify = ({
 }) => (
   <div
     className={cn(
-      "bg-popover rounded-md border-2 border-primary my-2 p-2 text-sm text-primary-foreground",
+      "bg-popover rounded-md border-2 border-primary my-2 p-2 text-sm text-foreground-variant dark:text-primary-foreground",
       className
     )}
   >

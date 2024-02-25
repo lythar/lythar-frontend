@@ -36,8 +36,6 @@ export default class UserPresenceStore extends ArrayStore<UserStatusBulk> {
     online: number[];
     offline: number[];
   } {
-    console.log("ids", ids);
-    console.log("state", this.state);
     const online: number[] = [];
     const offline: number[] = [];
     ids.forEach((id) => {

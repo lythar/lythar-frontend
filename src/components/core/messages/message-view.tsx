@@ -4,6 +4,8 @@ import { useStore } from "../wrappers/stores-provider";
 import Message from "./message";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Icons } from "@/components/ui/icons";
+import { useDeviceContext } from "@/components/device-provider";
+import MobileMessage from "./message.mobile";
 
 interface MessageViewProps {
   currentChannel: Channel;
@@ -17,6 +19,7 @@ export type EditingData = {
 const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
   const messageStore = useStore(StoreKeys.MessageStore);
   const messages = messageStore.getFromChannel(currentChannel.channelId);
+  const { isMobile } = useDeviceContext();
 
   const [editingData, setEditingData] = useState<EditingData>({
     messageId: null,
@@ -105,13 +108,24 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
               const shouldStack =
                 previousMessage?.author.id === message.author.id;
 
+              if (isMobile)
+                return (
+                  <MobileMessage
+                    key={`${message.channelId}-${message.messageId}`}
+                    {...message}
+                    shouldStack={shouldStack}
+                    setEditingData={setEditingData}
+                    isEditing={editingData.messageId === message.messageId}
+                  />
+                );
+
               return (
                 <Message
                   key={`${message.channelId}-${message.messageId}`}
                   {...message}
                   shouldStack={shouldStack}
-                  editingData={editingData}
                   setEditingData={setEditingData}
+                  isEditing={editingData.messageId === message.messageId}
                 />
               );
             })}

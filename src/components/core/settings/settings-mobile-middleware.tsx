@@ -11,8 +11,8 @@ const SettingsMobileMiddleware: FC<SettingsMobileMiddlewareProps> = ({
 }) => {
   return (
     <div className="p-6 pb-16">
-      <Link href="/app/settings" passHref className="pb-4">
-        <div className="flex items-center text-sm gap-2 bg-sidebar w-fit py-1 px-2 rounded-xl">
+      <Link href="/app/settings" passHref>
+        <div className="flex items-center justify-between text-sm bg-sidebar w-[35%] py-2 px-3 rounded-xl">
           <ArrowLeft size={16} />
           <span>Ustawienia</span>
         </div>
