@@ -107,3 +107,7 @@
   text-align: left;
   word-break: break-word;
 }
+
+.BREAK_WORDS a {
+  @apply text-accent underline;
+}

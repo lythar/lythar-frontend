@@ -104,6 +104,14 @@ export interface components {
       /** Format: date-time */
       editedAt?: string | null;
       author?: components["schemas"]["UserAccountResponse"];
+      attachments?: components["schemas"]["Attachment"][];
+    };
+    Attachment: {
+      /** Format: guid */
+      id?: string;
+      name?: string;
+      cdnNamespace?: string;
+      cdnUrl?: string;
     };
   };
   responses: never;
@@ -196,9 +204,14 @@ export interface operations {
     };
   };
   Account_UpdateAvatar: {
-    requestBody: {
+    requestBody?: {
       content: {
-        "application/octet-stream": string;
+        "image/jpeg": string;
+        "image/png": string;
+        "image/gif": string;
+        "image/avif": string;
+        "image/apng": string;
+        "image/webp": string;
       };
     };
     responses: {

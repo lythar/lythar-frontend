@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { DeviceProvider } from "@/components/device-provider";
 import { SettingsProvider } from "@/components/core/wrappers/settings-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
           <SettingsProvider>
             <DeviceProvider>{children}</DeviceProvider>
           </SettingsProvider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

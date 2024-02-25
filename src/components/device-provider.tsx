@@ -6,6 +6,11 @@ const DeviceContext = createContext({
   isMobile: false,
   isSidebarOpen: false,
   toggleSidebar: () => {},
+  /**
+   * @see This state is Desktop only.
+   */
+  userTabOpen: true,
+  toggleUserTab: () => {},
   isPwa: false,
 });
 
@@ -14,14 +19,24 @@ export const DeviceProvider = ({
 }: Readonly<{ children: React.ReactNode }>) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  /**
+   * @see This state is Desktop only.
+   */
+  const [userTabOpen, setUserTabOpen] = useState(true);
   const [isPwa, setIsPwa] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+  const toggleUserTab = () => setUserTabOpen((prev) => !prev);
 
   const value = {
     isMobile,
     isSidebarOpen,
     toggleSidebar,
+    /**
+     * @see This state is Desktop only.
+     */
+    userTabOpen,
+    toggleUserTab,
     isPwa,
   };
 

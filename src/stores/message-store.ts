@@ -1,4 +1,4 @@
-import { Channel, Message, StoreKeys } from "@/types/globals";
+import { Message, StoreKeys } from "@/types/globals";
 import Store from "./base-store";
 import client from "@/lib/api-client";
 import { messageEventTypes } from "@/components/core/websocket/events/message-events";
@@ -35,50 +35,18 @@ export class MessageStore extends Store<Message, number> {
         obj[message.messageId!] = message as Required<Message>;
       });
       this.setMany(obj);
-      if (!isFetchingOlderMessages) this.emit("INIT_MESSAGES_LOADED");
+      this.emit("change");
 
       return messages.data.length;
     }
   }
-
-  // public removeMessagesOutsideLimit(channelId: number) {
-  //   if (this.isFetchingOlderMessages) {
-  //     if (
-  //       Object.entries(this.getAll()).length >
-  //       this.MAX_MESSAGES_LOADED_PER_CHANNEL +
-  //         this.MAX_MESSAGES_LOADED_PER_CHANNEL_DEBOUNCE
-  //     ) {
-  //       const keys = Object.keys(this.getFromChannel(channelId));
-  //       const keysToRemove = keys.slice(
-  //         this.MAX_MESSAGES_LOADED_PER_CHANNEL_DEBOUNCE
-  //       );
-  //       keysToRemove.forEach((key) => {
-  //         this.remove(parseInt(key));
-  //       });
-  //     }
-
-  //     return;
-  //   }
-  //   const messages = this.getFromChannel(channelId);
-  //   const keys = Object.keys(messages);
-  //   if (keys.length > this.MAX_MESSAGES_LOADED_PER_CHANNEL) {
-  //     console.log("removing excess messages");
-  //     const keysToRemove = keys.slice(
-  //       0,
-  //       keys.length - this.MAX_MESSAGES_LOADED_PER_CHANNEL
-  //     );
-  //     keysToRemove.forEach((key) => {
-  //       this.remove(parseInt(key));
-  //     });
-  //   }
-  // }
 
   constructor() {
     super();
 
     this.on(messageEventTypes.NewMessage, (msg: Message) => {
       this.set(msg.messageId, msg);
-      // this.removeMessagesOutsideLimit(msg.channelId);
+      this.emit("change");
     });
 
     this.on(messageEventTypes.MessageEdited, this.onEditedMessage);
@@ -104,31 +72,12 @@ export class MessageStore extends Store<Message, number> {
     }, {} as Record<string, Message>);
   }
 
-  public async sendMessage(message: string, currentChannel: Channel) {
-    this.isFetchingOlderMessages = false;
-    this.emit("CAN_SCROLL_TO_BOTTOM");
-    const serverResponse = await client.POST(
-      "/channels/api/{channelId}/messages",
-      {
-        params: {
-          path: {
-            channelId: currentChannel.channelId,
-          },
-        },
-        body: { content: message },
-      }
-    );
-
-    if (serverResponse.response.status !== 200) {
-      console.error("Error sending message", serverResponse);
-    }
-  }
-
-  public async onDeleteMessage(messageId: number) {
+  private async onDeleteMessage(messageId: number) {
     this.remove(messageId);
   }
 
-  public async onEditedMessage(message: Message) {
+  private async onEditedMessage(message: Message) {
     this.set(message.messageId, message);
+    this.emit("change");
   }
 }

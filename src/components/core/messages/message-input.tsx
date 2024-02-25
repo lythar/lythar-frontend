@@ -1,6 +1,5 @@
-import { Channel, StoreKeys } from "@/types/globals";
+import { Channel as TChannel } from "@/types/globals";
 import { FC, useState } from "react";
-import { useStore } from "../wrappers/stores-provider";
 import { IoSend } from "react-icons/io5";
 import AttachmentsDisplay from "./attachments/attachments-display";
 import { FaPlus } from "react-icons/fa6";
@@ -12,16 +11,16 @@ import {
 } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { cn } from "@/lib/utils";
+import Message from "@/stores/objects/Message";
 
 interface MessageInputProps {
-  currentChannel: Channel;
+  currentChannel: TChannel;
 }
 
 const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const messageContent = editorState.getCurrentContent().getPlainText();
   const [attachments, setAttachments] = useState<File[]>([]);
-  const messageStore = useStore(StoreKeys.MessageStore);
 
   const addAttachment = () => {
     const input = document.createElement("input");
@@ -58,14 +57,20 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
 
     if (messageContent.length === 0) return;
 
-    // const sentAttachments = await Promise.all(
-    //   _.map(attachments, async (file) => {
-    //     const buffer = await file.arrayBuffer();
-    //     return buffer;
-    //   })
-    // );
+    const files =
+      (await Promise.all(
+        attachments.map(async (file) => {
+          const reader = new FileReader();
+          return new Promise<string>((resolve) => {
+            reader.onload = (e) => {
+              resolve(e.target?.result as string);
+            };
+            reader.readAsDataURL(file);
+          });
+        })
+      )) || [];
 
-    messageStore.sendMessage(messageContent, currentChannel);
+    Message.sendMessage(currentChannel.channelId, messageContent, files);
 
     setEditorState(
       EditorState.createWithContent(ContentState.createFromText(""))

@@ -4,10 +4,11 @@ import EventEmitter from "events";
 
 export default class ArrayStore<T> extends EventEmitter {
   public storeName: StoreKeys = StoreKeys.None;
-  protected state: Array<T> = [];
+  public state: Array<T> = [];
 
-  public constructor() {
+  public constructor(intiaialState: Array<T> = []) {
     super();
+    this.state = intiaialState;
   }
 
   set(storeValue: T): T {

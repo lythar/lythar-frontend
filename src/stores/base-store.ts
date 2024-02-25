@@ -7,7 +7,7 @@ export default class Store<
   K extends string | number = string
 > extends EventEmitter {
   public storeName: StoreKeys = StoreKeys.None;
-  protected state: Record<K, T> = {} as Record<K, T>;
+  public state: Record<K, T> = {} as Record<K, T>;
 
   public async initialFetch(): Promise<void> {
     return;
@@ -25,7 +25,6 @@ export default class Store<
 
   set(key: K, storeValue: T): T {
     this.state[key] = storeValue;
-    this.emit("change", this.state);
     return storeValue;
   }
 

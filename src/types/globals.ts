@@ -3,6 +3,8 @@ import { MessageStore } from "@/stores/message-store";
 import { OrganizationStore } from "@/stores/organization-store";
 import { components } from "./api";
 import AccountStore from "@/stores/account-store";
+import UserPresenceStore from "@/stores/user-presence-store";
+import UserStore from "@/stores/user-store";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type $TODO = any;
@@ -16,6 +18,16 @@ type RemovePartial<T> = RawIntersetion<{
 }>;
 
 export type User = RemovePartial<components["schemas"]["UserAccountResponse"]>;
+export type Account = RemovePartial<
+  components["schemas"]["UserAccountResponse"]
+>;
+
+export type UserStatus = {
+  accountId: number;
+  status: { isOnline: boolean };
+};
+
+export type UserStatusBulk = number;
 
 export type Message = RemovePartial<
   components["schemas"]["ListMessagesResponse"]
@@ -37,6 +49,8 @@ export type StoreKeysWithoutNone = Exclude<StoreKeys, StoreKeys.None>;
 export enum StoreKeys {
   None = "None",
   AccountStore = "AccountStore",
+  UserStore = "UserStore",
+  UserPresenceStore = "UserPresenceStore",
   ChannelStore = "ChannelStore",
   MessageStore = "MessageStore",
   OrganizationStore = "OrganizationStore",
@@ -44,6 +58,8 @@ export enum StoreKeys {
 
 export type StoreType = {
   [StoreKeys.AccountStore]: AccountStore;
+  [StoreKeys.UserStore]: UserStore;
+  [StoreKeys.UserPresenceStore]: UserPresenceStore;
   [StoreKeys.ChannelStore]: ChannelStore;
   [StoreKeys.MessageStore]: MessageStore;
   [StoreKeys.OrganizationStore]: OrganizationStore;

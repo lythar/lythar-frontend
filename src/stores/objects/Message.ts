@@ -1,7 +1,11 @@
 import client from "@/lib/api-client";
 
 export default class Message {
-  static async sendMessage(channelId: number, message: string) {
+  static async sendMessage(
+    channelId: number,
+    message: string,
+    files: string[]
+  ) {
     const serverResponse = await client.POST(
       "/channels/api/{channelId}/messages",
       {
@@ -10,7 +14,10 @@ export default class Message {
             channelId: channelId,
           },
         },
-        body: { content: message },
+        body: {
+          content: message,
+          files: files,
+        },
       }
     );
 
