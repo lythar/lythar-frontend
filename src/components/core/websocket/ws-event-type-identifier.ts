@@ -1,10 +1,12 @@
 import { StoreKeys } from "@/types/globals";
 import { messageEvents } from "./events/message-events";
 import { channelEvents } from "./events/channel-events";
+import { UserPresenceEvents } from "./events/user-presence-events";
 
 export const eventTypes = {
   ...messageEvents,
   ...channelEvents,
+  ...UserPresenceEvents,
 };
 
 type StoreMap = {
@@ -14,6 +16,7 @@ type StoreMap = {
 const storeMap: StoreMap = {
   message: StoreKeys.MessageStore,
   channel: StoreKeys.ChannelStore,
+  userPresence: StoreKeys.UserPresenceStore,
 };
 
 export function indetifyStoreNameFromEventType(eventType: string) {

@@ -1,6 +1,6 @@
 "use client";
 
-import ChannelSidebar from "@/components/core/sidebar/channel/channel-sidebar";
+import SharedSidebar from "@/components/core/sidebar/shared/shared-sidebar";
 
 export default function HomeLayout({
   children,
@@ -9,7 +9,7 @@ export default function HomeLayout({
 }) {
   return (
     <div className="flex">
-      <ChannelSidebar />
+      <SharedSidebar />
       <div className="flex-1">{children}</div>
     </div>
   );

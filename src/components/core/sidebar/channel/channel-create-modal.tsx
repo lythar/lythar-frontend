@@ -56,15 +56,14 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant={"outline"}
-          className="w-full flex justify-between px-4 h-8"
-        >
-          <span>Stwórz kanał</span>
-          <Plus size={20} />
-        </Button>
-      </DialogTrigger>
+      <div className="w-full text-foreground-variant font-semibold flex items-center justify-between md:h-8 px-1 select-none">
+        <span>Kanały</span>
+        <DialogTrigger asChild>
+          <button>
+            <Plus size={20} />
+          </button>
+        </DialogTrigger>
+      </div>
       <DialogContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

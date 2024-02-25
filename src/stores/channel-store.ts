@@ -18,7 +18,7 @@ export class ChannelStore extends Store<Channel, number> {
         obj[channel.channelId!] = channel as Required<Channel>;
       });
       this.setMany(obj);
-      this.emit("LOAD_COMPLETE");
+      this.emit("change");
     }
   }
 
@@ -29,11 +29,12 @@ export class ChannelStore extends Store<Channel, number> {
     this.on(channelEventTypes.ChannelDeleted, this.onChannelDelete);
   }
 
-  public onChannelCreate = async (channel: Channel) => {
+  private onChannelCreate = async (channel: Channel) => {
     this.set(channel.channelId!, channel);
+    this.emit("change");
   };
 
-  public onChannelDelete = async (channelId: number) => {
+  private onChannelDelete = async (channelId: number) => {
     this.remove(channelId);
   };
 

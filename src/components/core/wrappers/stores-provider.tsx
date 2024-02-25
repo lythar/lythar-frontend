@@ -21,7 +21,8 @@ const mapStores = async (stores: Awaited<typeof Stores>) => {
   stores.forEach(async (store) => {
     if (store.storeName === StoreKeys.None) return;
     obj[store.storeName] = store as CombinedStore;
-    await store.initialFetch();
+    if (store.storeName !== StoreKeys.UserPresenceStore)
+      await (store as Omit<CombinedStore, "UserPresenceStore">).initialFetch();
   });
 
   return obj;

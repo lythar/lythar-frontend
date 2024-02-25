@@ -30,12 +30,17 @@ const SidebarProfileDrawer: FC<SidebarProfileDropdownProps> = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Avatar className="w-8 h-8 text-xs">
-          <AvatarImage src={data.avatarUrl || ""} />
-          <AvatarFallback className="cursor-pointer">
-            {getInitials(data?.name)}
-          </AvatarFallback>
-        </Avatar>
+        <div className="flex flex-col items-center justify-center  gap-[2px]">
+          <Avatar className="w-7 h-7 text-xs">
+            <AvatarImage src={data?.avatarUrl || ""} />
+            <AvatarFallback className="cursor-pointer">
+              {getInitials(data?.name)}
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-[0.65rem] font-semibold text-muted-foreground">
+            Ty
+          </span>
+        </div>
       </DrawerTrigger>
       <DrawerContent className="outline-none z-50">
         <DrawerHeader>

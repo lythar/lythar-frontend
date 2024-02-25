@@ -2,7 +2,7 @@
 import { FC } from "react";
 import ExtendedLink, { ExtendedLinkProps } from "./extended-link";
 import { usePathname } from "next/navigation";
-import { FaHouse, FaBell } from "react-icons/fa6";
+import { FaBell } from "react-icons/fa6";
 import { IoChatbubbles } from "react-icons/io5";
 import { useDeviceContext } from "@/components/device-provider";
 import SidebarProfileDrawer from "./profile-drawer.mobile";
@@ -11,15 +11,15 @@ interface LinksProps {}
 
 const links: Omit<ExtendedLinkProps, "pathname">[] = [
   {
-    Icon: FaHouse,
+    Icon: IoChatbubbles,
     href: "/app/home",
     displayName: "Główna",
   },
-  {
-    Icon: IoChatbubbles,
-    href: "/app/conversations",
-    displayName: "W. Pryw.",
-  },
+  // {
+  //   Icon: IoChatbubbles,
+  //   href: "/app/conversations",
+  //   displayName: "W. Pryw.",
+  // },
   {
     Icon: FaBell,
     href: "/app/activity",
