@@ -1,3 +1,4 @@
+"use client";
 import { StoreKeys, User } from "@/types/globals";
 import Store from "./base-store";
 import client from "@/lib/api-client";
