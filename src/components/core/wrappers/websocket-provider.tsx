@@ -1,5 +1,5 @@
 // websocket provider
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 
 import { default as useWs, ReadyState } from "react-use-websocket";
 import WebsocketEventProxy from "../websocket/ws-event-proxy";
@@ -28,6 +28,19 @@ function WebSocketProvider({ url, children }: WebSocketProviderProps) {
     onClose: () => dynLogger.log("Disconnected from WebSocket"),
     onError: () => dynLogger.error("Error with WebSocket connection"),
     reconnectInterval: 3000,
+  });
+
+  // make the connection stay open when the user is not on the page
+  useEffect(() => {
+    if (socketConnection.readyState === ReadyState.OPEN) {
+      const interval = setInterval(() => {
+        socketConnection.sendMessage("ping");
+      }, 5000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
   });
 
   const connectionStatus = {

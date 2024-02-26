@@ -1,3 +1,4 @@
+"use client";
 import { Message, StoreKeys } from "@/types/globals";
 import Store from "./base-store";
 import client from "@/lib/api-client";
@@ -45,9 +46,11 @@ export class MessageStore extends Store<Message, number> {
   constructor() {
     super();
 
-    document.addEventListener("visibilitychange", () => {
-      this.isBrowserFocused = document.visibilityState === "visible";
-    });
+    if (typeof window !== "undefined") {
+      document?.addEventListener("visibilitychange", () => {
+        this.isBrowserFocused = document.visibilityState === "visible";
+      });
+    }
 
     this.on(messageEventTypes.NewMessage, (msg: Message) => {
       this.set(msg.messageId, msg);

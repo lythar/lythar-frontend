@@ -47,6 +47,8 @@ function LayoutWrapper({
   children: React.ReactNode;
   user: User;
 }) {
+  const isProd = process.env.NODE_ENV === "production";
+
   return (
     <Suspense fallback={<LoadingOverlayFallback />}>
       <RccLayoutWrapper>
@@ -55,7 +57,11 @@ function LayoutWrapper({
             <DataLayoutProvider data={user}>
               <StoreProvider stores={Stores}>
                 <WebSocketProvider
-                  url={`ws://${process.env.NEXT_PUBLIC_API_URL}` || ""}
+                  url={
+                    (isProd
+                      ? `ws://${process.env.NEXT_PUBLIC_API_URL}/ws`
+                      : `ws://${process.env.NEXT_PUBLIC_API_URL}`) || ""
+                  }
                 >
                   <GlobalLoadingProviderRest>
                     {children}

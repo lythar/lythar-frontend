@@ -1,3 +1,4 @@
+"use client";
 import { StoreKeys, UserStatus, UserStatusBulk } from "@/types/globals";
 import ArrayStore from "./base-store.array";
 import { userPresenceEventTypes } from "@/components/core/websocket/events/user-presence-events";
