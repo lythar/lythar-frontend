@@ -22,6 +22,8 @@ export type Account = RemovePartial<
   components["schemas"]["UserAccountResponse"]
 >;
 
+export type Attachment = components["schemas"]["AttachmentResponse"];
+
 export type UserStatus = {
   accountId: number;
   status: { isOnline: boolean };
@@ -31,6 +33,11 @@ export type UserStatusBulk = number;
 
 export type Message = RemovePartial<
   components["schemas"]["ListMessagesResponse"]
+>;
+
+export type QueuedMessage = Pick<
+  Message,
+  "author" | "channelId" | "attachments" | "content"
 >;
 
 export type Channel = Required<components["schemas"]["Channel"]>;

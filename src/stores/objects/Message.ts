@@ -1,11 +1,41 @@
 import client from "@/lib/api-client";
+import _ from "lodash-es";
 
 export default class Message {
-  static async sendMessage(
-    channelId: number,
-    message: string,
-    files: string[]
-  ) {
+  static async sendMessage(channelId: number, message: string, files: File[]) {
+    const mappedFiles = await Promise.all(
+      _.map(files, async (file) => {
+        const bytes = await fileToBytes(file);
+        const fileName = file.name.replace(/[^a-zA-Z0-9.]/g, "_");
+
+        console.log("Uploading file", fileName, { bytes });
+        const response = await fetch(
+          `http://${process.env.NEXT_PUBLIC_API_URL}/attachments/api/upload/${fileName}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/octet-stream",
+              Authorization: localStorage.getItem("token") || "",
+            },
+            body: bytes,
+          }
+        );
+
+        const data = await response.json();
+
+        const error =
+          response.status !== 200
+            ? { errorMessage: "Error uploading attachment" }
+            : undefined;
+
+        if (error) {
+          throw new Error((error as { errorMessage: string }).errorMessage);
+        }
+
+        return data as { fileId: string; name: string; cdnUrl: string };
+      })
+    );
+
     const serverResponse = await client.POST(
       "/channels/api/{channelId}/messages",
       {
@@ -16,7 +46,7 @@ export default class Message {
         },
         body: {
           content: message,
-          files: files,
+          attachmentIds: mappedFiles.map((f) => f.fileId),
         },
       }
     );
@@ -66,4 +96,14 @@ export default class Message {
       console.error("Error editing message", serverResponse);
     }
   }
+}
+
+async function fileToBytes(file: File) {
+  return await new Promise<string>((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      resolve(e.target?.result as string);
+    };
+    reader.readAsArrayBuffer(file);
+  });
 }

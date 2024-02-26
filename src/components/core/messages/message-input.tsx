@@ -18,6 +18,8 @@ interface MessageInputProps {
   currentChannel: TChannel;
 }
 
+const MAX_FILE_SIZE = 1024 * 1024 * 100;
+
 const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const messageContent = editorState.getCurrentContent().getPlainText();
@@ -33,8 +35,8 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
 
       if (files) {
         for (let i = 0; i < files.length; i++) {
-          if (files[i].size > 10485760) {
-            alert("Plik jest za duży, maksymalny rozmiar to 10MB");
+          if (files[i].size > MAX_FILE_SIZE) {
+            alert("Plik jest za duży, maksymalny rozmiar to 100MB");
             files[i] = null as unknown as File;
           }
         }
@@ -58,20 +60,9 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
 
     if (messageContent.length === 0) return;
 
-    const files =
-      (await Promise.all(
-        attachments.map(async (file) => {
-          const reader = new FileReader();
-          return new Promise<string>((resolve) => {
-            reader.onload = (e) => {
-              resolve(e.target?.result as string);
-            };
-            reader.readAsDataURL(file);
-          });
-        })
-      )) || [];
+    Message.sendMessage(currentChannel.channelId, messageContent, attachments);
 
-    Message.sendMessage(currentChannel.channelId, messageContent, files);
+    setAttachments([]);
 
     let contentState = editorState.getCurrentContent();
     const firstBlock = contentState.getFirstBlock();

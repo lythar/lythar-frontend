@@ -87,6 +87,18 @@
     padding-bottom: 0.5rem;
     background-color: hsl(var(--muted-hover));
   }
+  .BREAK_WORDS a {
+    @apply text-accent underline;
+  }
+
+  .ATTACHMENT_DISPLAY:focus {
+    @apply w-full h-full;
+    outline: none;
+  }
+
+  .ATTACHMENT_DISPLAY_CAROUSEL div {
+    @apply w-full h-full;
+  }
 }
 
 .emoji {
@@ -106,8 +118,4 @@
   white-space: break-spaces !important;
   text-align: left;
   word-break: break-word;
-}
-
-.BREAK_WORDS a {
-  @apply text-accent underline;
 }

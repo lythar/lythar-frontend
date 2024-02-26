@@ -24,8 +24,8 @@ export interface paths {
   "/account/api/account/avatar": {
     post: operations["Account_UpdateAvatar"];
   };
-  "/attachments/api/upload": {
-    post: operations["Attachments_UploadFile"];
+  "/attachments/api/upload/{fileName}": {
+    put: operations["Attachments_UploadFile"];
   };
   "/channels/api/create": {
     post: operations["Channels_CreateChannel"];
@@ -44,6 +44,9 @@ export interface paths {
   "/channels/api/{channelId}/messages/{messageId}": {
     delete: operations["Channels_DeleteMessage"];
     patch: operations["Channels_EditMessage"];
+  };
+  "/channels/api/{channelId}/icon": {
+    post: operations["Channels_UpdateIcon"];
   };
 }
 
@@ -75,6 +78,12 @@ export interface components {
       lastName?: string | null;
       email?: string | null;
     };
+    AttachmentResponse: {
+      /** Format: guid */
+      fileId?: string;
+      name?: string;
+      cdnUrl?: string;
+    };
     CreateChannelResponse: {
       /** Format: int64 */
       channelId?: number;
@@ -92,9 +101,27 @@ export interface components {
       description?: string;
       /** Format: date-time */
       createdAt?: string;
+      creator?: components["schemas"]["User"] | null;
+      isPublic?: boolean;
+      isDirectMessages?: boolean;
+      members?: components["schemas"]["User"][];
+      iconId?: string | null;
+      iconUrl?: string | null;
+    };
+    User: {
+      /** Format: int32 */
+      id?: number;
+      login?: string;
+      name?: string;
+      lastName?: string | null;
+      email?: string | null;
+      password?: string;
+      avatarId?: string | null;
+      avatarUrl?: string | null;
     };
     SendMessageForm: {
       content?: string;
+      attachmentIds?: string[];
     };
     ListMessagesResponse: {
       /** Format: int64 */
@@ -107,14 +134,7 @@ export interface components {
       /** Format: date-time */
       editedAt?: string | null;
       author?: components["schemas"]["UserAccountResponse"];
-      attachments?: components["schemas"]["Attachment"][];
-    };
-    Attachment: {
-      /** Format: guid */
-      id?: string;
-      name?: string;
-      cdnNamespace?: string;
-      cdnUrl?: string;
+      attachments?: components["schemas"]["AttachmentResponse"][];
     };
   };
   responses: never;
@@ -225,9 +245,21 @@ export interface operations {
     };
   };
   Attachments_UploadFile: {
+    parameters: {
+      path: {
+        fileName: string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/octet-stream": string;
+      };
+    };
     responses: {
       200: {
-        content: never;
+        content: {
+          "application/json": components["schemas"]["AttachmentResponse"];
+        };
       };
     };
   };
@@ -344,6 +376,29 @@ export interface operations {
     responses: {
       200: {
         content: never;
+      };
+    };
+  };
+  Channels_UpdateIcon: {
+    parameters: {
+      path: {
+        channelId: number;
+      };
+    };
+    requestBody?: {
+      content: {
+        "image/jpeg": string;
+        "image/jpg": string;
+        "image/png": string;
+        "image/gif": string;
+        "image/webp": string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["Channel"];
+        };
       };
     };
   };
