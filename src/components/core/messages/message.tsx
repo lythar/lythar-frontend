@@ -8,6 +8,7 @@ import { EditingData } from "./message-view";
 import { Input } from "@/components/ui/input";
 import { default as OMessage } from "@/stores/objects/Message";
 import { getInitials } from "@/lib/utils";
+import AttachmentsOnMessage from "./attachments/attachments-on-message";
 
 interface MessageProps extends TMessage {
   shouldStack: boolean;
@@ -159,6 +160,7 @@ const Message: FC<MessageProps> = (props) => {
                 )}
               </span>
             )}
+            <AttachmentsOnMessage attachments={props.attachments} />
           </div>
         </div>
       </div>

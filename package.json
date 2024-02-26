@@ -27,6 +27,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "draft-js": "^0.11.7",
+    "embla-carousel-react": "^8.0.0",
     "jose": "^5.2.0",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.321.0",

@@ -29,6 +29,7 @@ export class MessageStore extends Store<Message, number> {
       },
     });
 
+    console.log(messages);
     if (messages.error) {
       throw new Error("Failed to fetch messages");
     } else {

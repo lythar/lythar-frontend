@@ -10,6 +10,7 @@ import { getInitials } from "@/lib/utils";
 import { LongPressEventType, useLongPress } from "use-long-press";
 import MessageContextMenuMobile from "./message-context-menu.mobile";
 import { SaveIcon, X } from "lucide-react";
+import AttachmentsOnMessage from "./attachments/attachments-on-message";
 
 interface MessageProps extends TMessage {
   shouldStack: boolean;
@@ -177,6 +178,7 @@ const MobileMessage: FC<MessageProps> = (props) => {
                   )}
                 </span>
               )}
+              <AttachmentsOnMessage attachments={props.attachments} />
             </div>
           </div>
         </div>
