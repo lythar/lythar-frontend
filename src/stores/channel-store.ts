@@ -27,9 +27,15 @@ export class ChannelStore extends Store<Channel, number> {
 
     this.on(channelEventTypes.NewChannel, this.onChannelCreate);
     this.on(channelEventTypes.ChannelDeleted, this.onChannelDelete);
+    this.on(channelEventTypes.ChannelUpdated, this.onChannelEdit);
   }
 
   private onChannelCreate = async (channel: Channel) => {
+    this.set(channel.channelId!, channel);
+    this.emit("change");
+  };
+
+  private onChannelEdit = async (channel: Channel) => {
     this.set(channel.channelId!, channel);
     this.emit("change");
   };

@@ -22,6 +22,8 @@ import { useRouter } from "next/navigation";
 import { useStore } from "../../wrappers/stores-provider";
 import { StoreKeys } from "@/types/globals";
 import { Channel as TChannel } from "@/types/globals";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getInitials } from "@/lib/utils";
 
 interface ConversationCreateModalProps {}
 
@@ -55,8 +57,29 @@ const ConversationCreateModal: React.FC<ConversationCreateModalProps> = () => {
   });
 
   const onSubmit = async (data: ConversationCreateModalValues) => {
+    const channelExists = Object.values(channelStore.getAll()).find(
+      (channel) =>
+        channel.members.length === 2 &&
+        channel.members.includes(+accountStore.get("id")!) &&
+        channel.members.includes(selectedUser!)
+    );
+
+    if (channelExists) {
+      router.push(`/app/home/dm-${channelExists.channelId}`);
+      setSelectedUser(null);
+      setUserSearch("");
+      setIsOpen(false);
+      return;
+    }
+
     const targetUser = userStore.get(selectedUser || 0);
-    data.name = `${targetUser.name} ${targetUser.lastName}` || "Konwersacja";
+    if (!targetUser) return;
+    data.name = `${targetUser.lastName?.substring(0, 3)}-${
+      targetUser.id
+    }-${accountStore
+      .get("lastName")
+      ?.toString()
+      .substring(0, 3)}-${accountStore.get("id")}`;
     data.members = [targetUser.id, selectedUser!];
     const serverResponse = await Channel.createChannel(data as TChannel);
     channelStore.set(serverResponse.channelId!, serverResponse as TChannel);
@@ -129,7 +152,7 @@ const ConversationCreateModal: React.FC<ConversationCreateModalProps> = () => {
                             />
                             <div className="mt-4 py-2 ">
                               {userSearch.length > 0 && (
-                                <div className="space-y-2 rounded-md bg-sidebar p-3 ">
+                                <div className="space-y-[1px] overflow-y-scroll overflow-x-hidden max-h-[300px] rounded-md bg-sidebar p-3 ">
                                   {users
                                     .filter(
                                       ([, user]) =>
@@ -143,25 +166,38 @@ const ConversationCreateModal: React.FC<ConversationCreateModalProps> = () => {
                                             )) &&
                                         accountStore.get("id") !== user.id
                                     )
-                                    .map(([userId, user]) => (
-                                      <div
-                                        key={userId}
-                                        onClick={() => {
-                                          setSelectedUser(+userId);
-                                          field.onChange([
-                                            ...(field.value || []),
-                                            +userId,
-                                          ]);
-                                        }}
-                                        className="flex items-center justify-between max-h-[300px] overflow-y-scroll overflow-x-hidden"
-                                      >
-                                        <span>
-                                          {user.name +
-                                            " " +
-                                            (user.lastName || "")}
-                                        </span>
-                                      </div>
-                                    ))}
+                                    .map(([userId, user], i) =>
+                                      i > 20 ? null : (
+                                        <div
+                                          key={userId}
+                                          onClick={() => {
+                                            setSelectedUser(+userId);
+                                            field.onChange([
+                                              ...(field.value || []),
+                                              +userId,
+                                            ]);
+                                          }}
+                                          className="flex items-center transition-colors duration-100 ease-out-expo rounded-md hover:bg-background px-2 py-1 gap-4 "
+                                        >
+                                          <Avatar>
+                                            <AvatarImage
+                                              src={user.avatarUrl || ""}
+                                              alt={user.name}
+                                            />
+                                            <AvatarFallback>
+                                              {getInitials(
+                                                `${user.name} ${user.lastName}`
+                                              )}
+                                            </AvatarFallback>
+                                          </Avatar>
+                                          <span>
+                                            {user.name +
+                                              " " +
+                                              (user.lastName || "")}
+                                          </span>
+                                        </div>
+                                      )
+                                    )}
                                 </div>
                               )}
                             </div>

@@ -1,14 +1,18 @@
 import { useDeviceContext } from "@/components/device-provider";
-import { cn } from "@/lib/utils";
-import { Channel } from "@/types/globals";
+import { cn, getApiUrl } from "@/lib/utils";
+import { Channel, User } from "@/types/globals";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC, Suspense } from "react";
 import { FaHashtag } from "react-icons/fa6";
 import LoadingOverlayFallback from "../../wrappers/loading-overlay-fallback";
 import { useLastPosition } from "../../wrappers/last-position-provider";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-interface ConversationLinkProps extends Channel {}
+interface ConversationLinkProps extends Channel {
+  iconURL?: string;
+  targetUser?: User;
+}
 
 const ConversationLink: FC<ConversationLinkProps> = (
   props: ConversationLinkProps
@@ -16,9 +20,9 @@ const ConversationLink: FC<ConversationLinkProps> = (
   const pathname = usePathname();
   const { changeLastPosition } = useLastPosition();
   const { isMobile, toggleSidebar } = useDeviceContext();
-  const { channelId, name } = props;
+  const { channelId, name, iconURL, targetUser } = props;
 
-  const isActive = pathname.match(new RegExp(`^/app/home/${channelId}`));
+  const isActive = pathname.match(new RegExp(`^/app/home/dm-${channelId}`));
 
   return (
     <Suspense fallback={<LoadingOverlayFallback />}>
@@ -36,8 +40,17 @@ const ConversationLink: FC<ConversationLinkProps> = (
               : "text-secondary-foreground hover:bg-muted-hover hover:text-foreground-variant dark:hover:text-primary-foreground"
           )}
         >
-          <FaHashtag className="" />
-          <h1>{name}</h1>
+          {iconURL ? (
+            <Avatar className="w-9 h-9">
+              <AvatarImage src={`${getApiUrl()}${iconURL}`} alt={name} />
+              <AvatarFallback className="text-white">{iconURL}</AvatarFallback>
+            </Avatar>
+          ) : (
+            <FaHashtag />
+          )}
+          <h1>
+            {targetUser?.name} {targetUser?.lastName || ""}
+          </h1>
         </Link>
       </div>
     </Suspense>

@@ -55,6 +55,18 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
   });
 
   const onSubmit = async (data: ChannelCreateModalValues) => {
+    const channelExists = Object.values(channelStore.getAll()).find(
+      (channel) => channel.name === data.name
+    );
+
+    if (channelExists) {
+      form.setError("name", {
+        type: "manual",
+        message: "Kanał o tej nazwie już istnieje",
+      });
+      return;
+    }
+
     const serverResponse = await Channel.createChannel(data);
     channelStore.set(serverResponse.channelId!, serverResponse as TChannel);
     router.push(`/app/home/${serverResponse.channelId}`);

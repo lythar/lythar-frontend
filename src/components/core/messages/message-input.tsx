@@ -1,4 +1,4 @@
-import { Channel as TChannel } from "@/types/globals";
+import { Channel as TChannel, User } from "@/types/globals";
 import { FC, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import AttachmentsDisplay from "./attachments/attachments-display";
@@ -16,11 +16,15 @@ import Message from "@/stores/objects/Message";
 
 interface MessageInputProps {
   currentChannel: TChannel;
+  targetUser?: User;
 }
 
 const MAX_FILE_SIZE = 1024 * 1024 * 100;
 
-const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
+const MessageInput: FC<MessageInputProps> = ({
+  currentChannel,
+  targetUser,
+}) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const messageContent = editorState.getCurrentContent().getPlainText();
   const [attachments, setAttachments] = useState<File[]>([]);
@@ -120,7 +124,11 @@ const MessageInput: FC<MessageInputProps> = ({ currentChannel }) => {
               }
               return getDefaultKeyBinding(e);
             }}
-            placeholder={`Napisz wiadomość na #${currentChannel.name}`}
+            placeholder={
+              targetUser
+                ? `Napisz do ${targetUser?.name} ${targetUser?.lastName || ""}`
+                : `Napisz wiadomość na #${currentChannel.name}`
+            }
           />
           <button className="px-3 pt-[0.125rem] sticky h-fit self-stretch flex items-center text-muted-foreground cursor-pointer">
             <IoSend size={20} />

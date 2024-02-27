@@ -36,7 +36,6 @@ const AccountSettings: FC<SettingsPageProps> = () => {
   };
 
   const handleError = (error: Error) => {
-    console.log("TEST");
     toast({
       title: "Wystąpił błąd",
       description: error.message,

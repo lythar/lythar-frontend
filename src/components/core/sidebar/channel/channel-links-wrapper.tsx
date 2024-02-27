@@ -13,7 +13,7 @@ const ChannelLinksWrapper: FC<ChannelLinksWrapperProps> = () => {
   );
 
   return (
-    <div className="flex flex-col px-2 gap-[2px]">
+    <div className="flex flex-col px-2 gap-1">
       {noDirectMessages.map(([, channel]) => {
         return (
           <Suspense
