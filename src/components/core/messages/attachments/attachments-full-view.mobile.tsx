@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import {
   Carousel,
   CarouselContent,
@@ -6,7 +7,6 @@ import {
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { getApiUrl } from "@/lib/utils";
 import { Attachment } from "@/types/globals";
-import Image from "next/image";
 
 interface AttachmentsFullViewProps {
   attachments: Attachment[];
@@ -28,7 +28,7 @@ export default function AttachmentsFullViewMobile({
                 key={`attachment-full-${attachment.fileId}`}
                 className="w-full h-full flex justify-center overflow-hidden"
               >
-                <Image
+                <img
                   src={`${getApiUrl()}${attachment.cdnUrl}`}
                   sizes="100vw"
                   width={0}

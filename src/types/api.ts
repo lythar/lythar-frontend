@@ -48,6 +48,12 @@ export interface paths {
   "/channels/api/{channelId}/icon": {
     post: operations["Channels_UpdateIcon"];
   };
+  "/channels/api/{channelId}/members": {
+    post: operations["Channels_AddMembers"];
+  };
+  "/channels/api/{channelId}/members/{memberId}": {
+    delete: operations["Channels_RemoveMember"];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -72,6 +78,7 @@ export interface components {
       lastName?: string | null;
       email?: string | null;
       avatarUrl?: string | null;
+      isAdmin?: boolean;
     };
     UpdateAccountForm: {
       firstName?: string | null;
@@ -83,22 +90,6 @@ export interface components {
       fileId?: string;
       name?: string;
       cdnUrl?: string;
-    };
-    CreateChannelResponse: {
-      /** Format: int64 */
-      channelId?: number;
-      name?: string;
-      description?: string;
-      isDirectMessages?: boolean;
-      isPublic?: boolean;
-      members?: number[];
-    };
-    CreateChannelForm: {
-      name?: string;
-      description?: string;
-      isDirectMessages?: boolean;
-      isPublic?: boolean;
-      members?: number[];
     };
     ChannelResponse: {
       /** Format: int64 */
@@ -112,6 +103,13 @@ export interface components {
       isPublic?: boolean;
       isDirectMessages?: boolean;
       iconUrl?: string | null;
+    };
+    CreateChannelForm: {
+      name?: string;
+      description?: string;
+      isDirectMessages?: boolean;
+      isPublic?: boolean;
+      members?: number[];
     };
     SendMessageForm: {
       content?: string;
@@ -130,31 +128,8 @@ export interface components {
       author?: components["schemas"]["UserAccountResponse"];
       attachments?: components["schemas"]["AttachmentResponse"][];
     };
-    Channel: {
-      /** Format: int64 */
-      channelId?: number;
-      name?: string;
-      description?: string;
-      /** Format: date-time */
-      createdAt?: string;
-      creator?: components["schemas"]["User"] | null;
-      isPublic?: boolean;
-      isDirectMessages?: boolean;
-      members?: components["schemas"]["User"][];
-      iconId?: string | null;
-      iconUrl?: string | null;
-    };
-    User: {
-      /** Format: int32 */
-      id?: number;
-      login?: string;
-      name?: string;
-      lastName?: string | null;
-      email?: string | null;
-      password?: string;
-      avatarId?: string | null;
-      avatarUrl?: string | null;
-      channels?: components["schemas"]["Channel"][];
+    AddMembersForm: {
+      members?: number[];
     };
   };
   responses: never;
@@ -292,7 +267,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["CreateChannelResponse"];
+          "application/json": components["schemas"]["ChannelResponse"];
         };
       };
     };
@@ -417,8 +392,38 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["Channel"];
+          "application/json": components["schemas"]["ChannelResponse"];
         };
+      };
+    };
+  };
+  Channels_AddMembers: {
+    parameters: {
+      path: {
+        channelId: number;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AddMembersForm"];
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  Channels_RemoveMember: {
+    parameters: {
+      path: {
+        channelId: number;
+        memberId: number;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
       };
     };
   };

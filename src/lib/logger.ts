@@ -1,6 +1,3 @@
-/** Implemented by Vencord Team :3
- * @see https://github.com/Vendicated/Vencord/blob/main/src/utils/Logger.ts
- */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export class Logger {

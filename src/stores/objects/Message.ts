@@ -9,7 +9,6 @@ export default class Message {
         const bytes = await fileToBytes(file);
         const fileName = file.name.replace(/[^a-zA-Z0-9.]/g, "_");
 
-        console.log("Uploading file", fileName, { bytes });
         const response = await fetch(
           `${getApiUrl()}/attachments/api/upload/${fileName}`,
           {
