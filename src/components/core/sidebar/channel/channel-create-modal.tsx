@@ -29,12 +29,12 @@ interface ChannelCreateModalProps {}
 const ChannelCreateModalSchema = z.object({
   name: z
     .string()
-    .min(3, { message: "Nazwa kanału musi mieć co najmniej 3 znaki" })
-    .max(30, { message: "Nazwa kanału nie może mieć więcej niż 30 znaków" }),
+    .min(3, { message: "Nazwa grupy musi mieć co najmniej 3 znaki" })
+    .max(30, { message: "Nazwa grupy nie może mieć więcej niż 30 znaków" }),
   description: z
     .string()
-    .min(3, { message: "Opis kanału musi mieć co najmniej 3 znaki" })
-    .max(100, { message: "Opis kanału nie może mieć więcej niż 100 znaków" }),
+    .min(3, { message: "Opis grupy musi mieć co najmniej 3 znaki" })
+    .max(100, { message: "Opis grupy nie może mieć więcej niż 100 znaków" }),
   isDirectMessages: z.boolean().default(false),
   isPublic: z.boolean().default(true),
   members: z.array(z.number()).default([]).nullish(),
@@ -62,7 +62,7 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
     if (channelExists) {
       form.setError("name", {
         type: "manual",
-        message: "Kanał o tej nazwie już istnieje",
+        message: "Grupa o tej nazwie już istnieje",
       });
       return;
     }
@@ -76,7 +76,7 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <div className="w-full text-foreground-variant font-semibold flex items-center justify-between md:h-8 px-1 select-none">
-        <span>Kanały</span>
+        <span>Grupy</span>
         <DialogTrigger asChild>
           <button>
             <Plus size={20} />
@@ -91,9 +91,9 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nazwa kanału</FormLabel>
+                  <FormLabel>Nazwa grupy</FormLabel>
                   <FormControl>
-                    <Input placeholder="nowy-kanal" {...field} required />
+                    <Input placeholder="nowa-grupa" {...field} required />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -104,9 +104,9 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Opis kanału</FormLabel>
+                  <FormLabel>Opis Grupy</FormLabel>
                   <FormControl>
-                    <Input placeholder="Opis kanału" {...field} required />
+                    <Input placeholder="Opis grupy" {...field} required />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -200,7 +200,7 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
             )}
 
             <Button type="submit" className="mt-2">
-              Stwórz kanał
+              Stwórz grupę
             </Button>
           </form>
         </Form>

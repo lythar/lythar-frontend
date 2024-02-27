@@ -28,7 +28,7 @@ export default function ChannelView({ id }: { id: string }) {
     return (
       <div className="text-accent w-full h-full flex flex-col items-center justify-center">
         <X className="h-16 w-16" />
-        <p className="font-bold">Brak kanału</p>
+        <p className="font-bold">Brak konwersacji</p>
       </div>
     );
 
