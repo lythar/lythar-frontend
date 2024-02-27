@@ -7,7 +7,9 @@ const SidebarBranding = () => {
   return (
     <Image
       src={
-        theme == "dark" ? "/lythar_no_bg.svg" : "/lythar_no_bg_light_mode.svg"
+        theme == "dark" || theme == "system"
+          ? "/lythar_no_bg.svg"
+          : "/lythar_no_bg_light_mode.svg"
       }
       className="h-10 mt-1"
       alt="Lythar logo"

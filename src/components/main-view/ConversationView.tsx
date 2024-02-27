@@ -1,13 +1,13 @@
 "use client";
 import MessageInput from "@/components/core/messages/message-input";
 import MessageView from "@/components/core/messages/message-view";
-import CurrentChannelDisplay from "@/components/core/sidebar/channel/current-channel-display";
 import { useRouter } from "next/navigation";
 import { useStore } from "../core/wrappers/stores-provider";
 import { Channel, StoreKeys } from "@/types/globals";
 import { Suspense, useMemo, useState } from "react";
 import { X } from "lucide-react";
 import { Icons } from "../ui/icons";
+import CurrentConversationDisplay from "../core/sidebar/conversations/current-conversation-display";
 
 export default function ConversationView({ id }: { id: string }) {
   const router = useRouter();
@@ -39,6 +39,15 @@ function SuspenseConversationView({
 }: {
   currentChannel: Channel;
 }) {
+  const userStore = useStore(StoreKeys.UserStore);
+  const accountStore = useStore(StoreKeys.AccountStore);
+
+  const targetUser = userStore.get(
+    currentChannel.members.filter(
+      (member) => member != +accountStore.get("id")!
+    )[0]
+  );
+
   return (
     <Suspense
       fallback={
@@ -48,11 +57,17 @@ function SuspenseConversationView({
       }
     >
       <div className="flex h-[100svh] flex-col">
-        <CurrentChannelDisplay currentChannel={currentChannel} />
+        <CurrentConversationDisplay targetUser={targetUser} />
         <div className="flex flex-auto overflow-hidden">
           <div className="flex-auto flex flex-col relative overflow-hidden">
-            <MessageView currentChannel={currentChannel} />
-            <MessageInput currentChannel={currentChannel} />
+            <MessageView
+              targetUser={targetUser}
+              currentChannel={currentChannel}
+            />
+            <MessageInput
+              targetUser={targetUser}
+              currentChannel={currentChannel}
+            />
           </div>
         </div>
       </div>

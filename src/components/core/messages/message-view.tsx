@@ -1,4 +1,4 @@
-import { Channel, StoreKeys } from "@/types/globals";
+import { Channel, StoreKeys, User } from "@/types/globals";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "../wrappers/stores-provider";
 import Message from "./message";
@@ -9,6 +9,7 @@ import MobileMessage from "./message.mobile";
 
 interface MessageViewProps {
   currentChannel: Channel;
+  targetUser?: User;
 }
 
 export type EditingData = {
@@ -16,7 +17,7 @@ export type EditingData = {
   content: string;
 };
 
-const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
+const MessageView: FC<MessageViewProps> = ({ currentChannel, targetUser }) => {
   const messageStore = useStore(StoreKeys.MessageStore);
   const messages = messageStore.getFromChannel(currentChannel.channelId);
   const { isMobile } = useDeviceContext();
@@ -87,16 +88,30 @@ const MessageView: FC<MessageViewProps> = ({ currentChannel }) => {
         scrollThreshold={"400px"}
         initialScrollY={0}
         endMessage={
-          <p className="px-4 text-2xl pt-40 w-full">
-            <b className="text-foreground-variant font-medium">
-              Witaj na{" "}
-              <span className="text-foreground font-semibold">
-                #{currentChannel.name}
-              </span>
-            </b>
-            <p className="text-xl">To jest początek tego kanału</p>
-            <div className="w-1/2 h-[1px] bg-accent-foreground my-4" />
-          </p>
+          targetUser ? (
+            <p className="px-4 text-2xl pt-40 w-full">
+              <b className="text-foreground-variant font-medium">
+                <span className="text-foreground font-semibold">
+                  {targetUser.name} {targetUser.lastName}
+                </span>
+              </b>
+              <p className="text-xl">
+                To jest początek twojej konwersacji z {targetUser.name}
+              </p>
+              <div className="w-1/2 h-[1px] bg-accent-foreground my-4" />
+            </p>
+          ) : (
+            <p className="px-4 text-2xl pt-40 w-full">
+              <b className="text-foreground-variant font-medium">
+                Witaj na{" "}
+                <span className="text-foreground font-semibold">
+                  #{currentChannel.name}
+                </span>
+              </b>
+              <p className="text-xl">To jest początek tej grupy</p>
+              <div className="w-1/2 h-[1px] bg-accent-foreground my-4" />
+            </p>
+          )
         }
       >
         {messages &&

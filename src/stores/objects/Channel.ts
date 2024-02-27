@@ -1,5 +1,6 @@
 import { ChannelCreateModalValues } from "@/components/core/sidebar/channel/channel-create-modal";
 import client from "@/lib/api-client";
+import { getApiUrl } from "@/lib/utils";
 import { Channel as TChannel } from "@/types/globals";
 
 export default class Channel {
@@ -27,5 +28,31 @@ export default class Channel {
     if (deletedChannel.error) {
       throw new Error("Failed to delete channel");
     }
+  }
+
+  static async updateIcon(channelId: number, fileBuf: string, ext: string) {
+    const response = await fetch(
+      `${getApiUrl()}/channels/api/${channelId}/icon`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": `image/${ext}`,
+          Authorization: localStorage.getItem("token") || "",
+        },
+        body: fileBuf,
+      }
+    );
+
+    const data = await response.json();
+    const error =
+      response.status !== 200
+        ? { errorMessage: "Error updating avatar" }
+        : undefined;
+
+    if (error) {
+      throw new Error((error as { errorMessage: string }).errorMessage);
+    }
+
+    return data;
   }
 }
