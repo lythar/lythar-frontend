@@ -25,7 +25,7 @@ export class ChannelStore extends Store<Channel, number> {
   public constructor() {
     super();
 
-    this.on(channelEventTypes.ChannelCreated, this.onChannelCreate);
+    this.on(channelEventTypes.NewChannel, this.onChannelCreate);
     this.on(channelEventTypes.ChannelDeleted, this.onChannelDelete);
   }
 
