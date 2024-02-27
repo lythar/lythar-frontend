@@ -42,7 +42,7 @@ export type QueuedMessage = Pick<
 
 export type Channel = Required<components["schemas"]["ChannelResponse"]>;
 export type CreateChannelResponse = Required<
-  components["schemas"]["CreateChannelResponse"]
+  components["schemas"]["ChannelResponse"]
 >;
 
 export type Organization = {

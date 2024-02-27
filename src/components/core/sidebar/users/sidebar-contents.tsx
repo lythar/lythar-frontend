@@ -3,6 +3,7 @@
 import { Channel, StoreKeys } from "@/types/globals";
 import { useStore } from "../../wrappers/stores-provider";
 import UserDisplay from "./user-display";
+import { useMemo, useState } from "react";
 
 interface UserSidebarContentsProps {
   currentChannel: Channel;
@@ -12,11 +13,17 @@ export default function UsersSidebarContents({
   currentChannel,
 }: UserSidebarContentsProps) {
   const userStore = useStore(StoreKeys.UserStore);
-  let usersOnThisChannel = Object.keys(userStore.getAll()).map(Number);
-  if (!currentChannel.isPublic)
-    usersOnThisChannel = usersOnThisChannel.filter((id) =>
-      currentChannel.members.includes(Number(id))
-    );
+  const [usersOnThisChannel, setUsersOnThisChannel] = useState<number[]>([]);
+  useMemo(() => {
+    let _usersOnThisChannel = Object.keys(userStore.getAll()).map(Number);
+    if (!currentChannel.isPublic)
+      _usersOnThisChannel = _usersOnThisChannel.filter((id) =>
+        currentChannel.members.includes(Number(id))
+      );
+
+    setUsersOnThisChannel(_usersOnThisChannel);
+  }, [currentChannel, userStore]);
+
   const presenseStore = useStore(StoreKeys.UserPresenceStore);
 
   const { offline, online } =

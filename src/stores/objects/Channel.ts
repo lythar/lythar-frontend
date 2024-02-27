@@ -55,4 +55,42 @@ export default class Channel {
 
     return data;
   }
+
+  static async addToChannel(channelId: number, accountId: number) {
+    const response = await client.POST(`/channels/api/{channelId}/members`, {
+      params: {
+        path: {
+          channelId,
+        },
+      },
+      body: {
+        members: [accountId],
+      },
+    });
+
+    if (response.error) {
+      throw new Error("Failed to add user to channel");
+    }
+  }
+
+  static async removeFromChannel(channelId: number, accountId: number) {
+    const response = await client.DELETE(
+      `/channels/api/{channelId}/members/{memberId}`,
+      {
+        params: {
+          path: {
+            channelId,
+            memberId: accountId,
+          },
+          body: {
+            members: [accountId],
+          },
+        },
+      }
+    );
+
+    if (response.error) {
+      throw new Error("Failed to remove user from channel");
+    }
+  }
 }

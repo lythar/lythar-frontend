@@ -96,18 +96,21 @@ function MessageContextMenu({
           </MessageContextMenuItem>
         )}
 
-        <MessageDeleteModal
-          handleDialogItemOpenChange={handleDialogItemOpenChange}
-          handleDialogItemSelect={handleDialogItemSelect}
-          message={message}
-        >
-          <MessageContextMenuItem
-            icon={<Trash size={20} />}
-            rootClassName="text-red-600 hover:bg-red-700 hover:text-white"
+        {(accountStore.get("id") === message.author.id ||
+          accountStore.get("isAdmin")) && (
+          <MessageDeleteModal
+            handleDialogItemOpenChange={handleDialogItemOpenChange}
+            handleDialogItemSelect={handleDialogItemSelect}
+            message={message}
           >
-            Usuń
-          </MessageContextMenuItem>
-        </MessageDeleteModal>
+            <MessageContextMenuItem
+              icon={<Trash size={20} />}
+              rootClassName="text-red-600 hover:bg-red-700 hover:text-white"
+            >
+              Usuń
+            </MessageContextMenuItem>
+          </MessageDeleteModal>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

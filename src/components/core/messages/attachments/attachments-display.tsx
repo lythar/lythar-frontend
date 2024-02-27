@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import { FaTrash } from "react-icons/fa6";
 
 interface AttachmentsDisplayProps {
@@ -19,7 +19,7 @@ export default function AttachmentsDisplay({
               key={index}
               className="flex flex-col gap-2 w-40 h-full items-center px-2 py-1 text-foreground-variant rounded-md relative"
             >
-              <Image
+              <img
                 src={URL.createObjectURL(file)}
                 alt={file.name}
                 width={512}

@@ -47,6 +47,8 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
   const userStore = useStore(StoreKeys.UserStore);
   const users = Object.entries(userStore.getAll());
   const [userSearch, setUserSearch] = useState<string>("");
+  const accountStore = useStore(StoreKeys.AccountStore);
+
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const form = useForm<ChannelCreateModalValues>({
@@ -77,11 +79,13 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <div className="w-full text-foreground-variant font-semibold flex items-center justify-between md:h-8 px-1 select-none">
         <span>Grupy</span>
-        <DialogTrigger asChild>
-          <button>
-            <Plus size={20} />
-          </button>
-        </DialogTrigger>
+        {accountStore.get("isAdmin") && (
+          <DialogTrigger asChild>
+            <button>
+              <Plus size={20} />
+            </button>
+          </DialogTrigger>
+        )}
       </div>
       <DialogContent>
         <Form {...form}>

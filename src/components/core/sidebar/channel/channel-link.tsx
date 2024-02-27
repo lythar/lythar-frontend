@@ -33,7 +33,8 @@ interface ChannelLinkProps extends Channel {}
 
 const ChannelLink: FC<ChannelLinkProps> = (props: ChannelLinkProps) => {
   const pathname = usePathname();
-  const accountId = +useStore(StoreKeys.AccountStore).get("id")!;
+  const accountStore = useStore(StoreKeys.AccountStore);
+  const accountId = +accountStore.get("id")!;
   const { changeLastPosition } = useLastPosition();
   const { isMobile, toggleSidebar } = useDeviceContext();
   const [isHovering, setIsHovering] = useState(false);
@@ -88,7 +89,7 @@ const ChannelLink: FC<ChannelLinkProps> = (props: ChannelLinkProps) => {
             </div>
           )}
         </Link>
-        {isCreator && (
+        {(isCreator || accountStore.get("isAdmin")) && (
           <ChannelEditModal
             isActive={isActive ? true : false}
             shouldRender={isHovering}
