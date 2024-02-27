@@ -1,7 +1,7 @@
 import { extractEventTypes } from "../lib";
 
 export const channelEvents = {
-  ChannelCreated: "channel",
+  NewChannel: "channel",
   ChannelDeleted: "channel",
 };
 

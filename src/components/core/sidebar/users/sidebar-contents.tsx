@@ -1,16 +1,26 @@
 "use client";
 
-import { StoreKeys } from "@/types/globals";
+import { Channel, StoreKeys } from "@/types/globals";
 import { useStore } from "../../wrappers/stores-provider";
 import UserDisplay from "./user-display";
 
-export default function UsersSidebarContents() {
+interface UserSidebarContentsProps {
+  currentChannel: Channel;
+}
+
+export default function UsersSidebarContents({
+  currentChannel,
+}: UserSidebarContentsProps) {
   const userStore = useStore(StoreKeys.UserStore);
+  let usersOnThisChannel = Object.keys(userStore.getAll()).map(Number);
+  if (!currentChannel.isPublic)
+    usersOnThisChannel = usersOnThisChannel.filter((id) =>
+      currentChannel.members.includes(Number(id))
+    );
   const presenseStore = useStore(StoreKeys.UserPresenceStore);
 
-  const { offline, online } = presenseStore.splitOnlineOfflineUsers(
-    Object.keys(userStore.getAll()).map(Number)
-  );
+  const { offline, online } =
+    presenseStore.splitOnlineOfflineUsers(usersOnThisChannel);
 
   return (
     <div className="px-4 h-full md:h-auto">

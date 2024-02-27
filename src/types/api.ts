@@ -89,10 +89,46 @@ export interface components {
       channelId?: number;
       name?: string;
       description?: string;
+      isDirectMessages?: boolean;
+      isPublic?: boolean;
+      members?: number[];
     };
     CreateChannelForm: {
       name?: string;
       description?: string;
+      isDirectMessages?: boolean;
+      isPublic?: boolean;
+      members?: number[];
+    };
+    ChannelResponse: {
+      /** Format: int64 */
+      channelId?: number;
+      name?: string;
+      description?: string;
+      /** Format: date-time */
+      createdAt?: string;
+      creator?: components["schemas"]["UserAccountResponse"] | null;
+      members?: number[];
+      isPublic?: boolean;
+      isDirectMessages?: boolean;
+      iconUrl?: string | null;
+    };
+    SendMessageForm: {
+      content?: string;
+      attachmentIds?: string[];
+    };
+    ListMessagesResponse: {
+      /** Format: int64 */
+      messageId?: number;
+      content?: string;
+      /** Format: int64 */
+      channelId?: number;
+      /** Format: date-time */
+      sentAt?: string;
+      /** Format: date-time */
+      editedAt?: string | null;
+      author?: components["schemas"]["UserAccountResponse"];
+      attachments?: components["schemas"]["AttachmentResponse"][];
     };
     Channel: {
       /** Format: int64 */
@@ -118,23 +154,7 @@ export interface components {
       password?: string;
       avatarId?: string | null;
       avatarUrl?: string | null;
-    };
-    SendMessageForm: {
-      content?: string;
-      attachmentIds?: string[];
-    };
-    ListMessagesResponse: {
-      /** Format: int64 */
-      messageId?: number;
-      content?: string;
-      /** Format: int64 */
-      channelId?: number;
-      /** Format: date-time */
-      sentAt?: string;
-      /** Format: date-time */
-      editedAt?: string | null;
-      author?: components["schemas"]["UserAccountResponse"];
-      attachments?: components["schemas"]["AttachmentResponse"][];
+      channels?: components["schemas"]["Channel"][];
     };
   };
   responses: never;
@@ -281,7 +301,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["Channel"][];
+          "application/json": components["schemas"]["ChannelResponse"][];
         };
       };
     };
@@ -295,7 +315,7 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["Channel"];
+          "application/json": components["schemas"]["ChannelResponse"];
         };
       };
     };
