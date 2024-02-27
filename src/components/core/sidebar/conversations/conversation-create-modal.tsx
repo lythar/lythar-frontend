@@ -55,9 +55,9 @@ const ConversationCreateModal: React.FC<ConversationCreateModalProps> = () => {
   });
 
   const onSubmit = async (data: ConversationCreateModalValues) => {
-    data.name = userStore.get(selectedUser || 0).name || "Konwersacja";
-    data.name += "test";
-    data.members = [+accountStore.get("id")!, selectedUser!];
+    const targetUser = userStore.get(selectedUser || 0);
+    data.name = `${targetUser.name} ${targetUser.lastName}` || "Konwersacja";
+    data.members = [targetUser.id, selectedUser!];
     const serverResponse = await Channel.createChannel(data as TChannel);
     channelStore.set(serverResponse.channelId!, serverResponse as TChannel);
     router.push(`/app/home/dm-${serverResponse.channelId}`);

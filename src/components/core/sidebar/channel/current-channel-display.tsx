@@ -30,7 +30,7 @@ const CurrentChannelDisplay: React.FC<CurrentChannelDisplayProps> = ({
         </p>
       </div>
       {isMobile ? (
-        <UsersSidebar>
+        <UsersSidebar currentChannel={currentChannel}>
           <button>
             <span
               onClick={toggleUserTab}
