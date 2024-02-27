@@ -1,6 +1,7 @@
 import { Attachment } from "@/types/globals";
 import Image from "next/image";
 import AttachmentsFullViewMobile from "./attachments-full-view.mobile";
+import { getApiUrl } from "@/lib/utils";
 
 interface AttachmentsOnMessageProps {
   attachments: Attachment[];
@@ -16,7 +17,7 @@ export default function AttachmentsOnMessage({
           {attachments.map((attachment) => (
             <Image
               key={`attachment-${attachment.fileId}`}
-              src={`http://${process.env.NEXT_PUBLIC_API_URL}${attachment.cdnUrl}`}
+              src={`${getApiUrl()}${attachment.cdnUrl}`}
               sizes="100vw"
               width={0}
               height={0}

@@ -1,4 +1,5 @@
 import client from "@/lib/api-client";
+import { getApiUrl } from "@/lib/utils";
 import _ from "lodash-es";
 
 export default class Message {
@@ -10,7 +11,7 @@ export default class Message {
 
         console.log("Uploading file", fileName, { bytes });
         const response = await fetch(
-          `http://${process.env.NEXT_PUBLIC_API_URL}/attachments/api/upload/${fileName}`,
+          `${getApiUrl()}/attachments/api/upload/${fileName}`,
           {
             method: "PUT",
             headers: {

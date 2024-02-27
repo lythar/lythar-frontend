@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useStore } from "../../wrappers/stores-provider";
 import { StoreKeys } from "@/types/globals";
+import { getApiUrl } from "@/lib/utils";
 
 interface SidebarProfileDropdownProps {}
 
@@ -30,11 +31,7 @@ const SidebarProfileDropdown: FC<SidebarProfileDropdownProps> = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="w-10 h-10 text-xs">
-          <AvatarImage
-            src={`http://${process.env.NEXT_PUBLIC_API_URL}${accountStore.get(
-              "avatarUrl"
-            )}`}
-          />
+          <AvatarImage src={`${getApiUrl()}${accountStore.get("avatarUrl")}`} />
           <AvatarFallback className="cursor-pointer">
             {getInitials(`${data?.name} ${data?.lastName || ""}`)}
           </AvatarFallback>

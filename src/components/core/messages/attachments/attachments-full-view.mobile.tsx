@@ -4,6 +4,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { getApiUrl } from "@/lib/utils";
 import { Attachment } from "@/types/globals";
 import Image from "next/image";
 
@@ -28,7 +29,7 @@ export default function AttachmentsFullViewMobile({
                 className="w-full h-full flex justify-center overflow-hidden"
               >
                 <Image
-                  src={`http://${process.env.NEXT_PUBLIC_API_URL}${attachment.cdnUrl}`}
+                  src={`${getApiUrl()}${attachment.cdnUrl}`}
                   sizes="100vw"
                   width={0}
                   height={0}

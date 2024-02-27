@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
-import { getInitials } from "@/lib/utils";
+import { getApiUrl, getInitials } from "@/lib/utils";
 import Account from "@/stores/objects/Account";
 import { StoreKeys } from "@/types/globals";
 import { FC, useEffect, useState } from "react";
@@ -102,9 +102,7 @@ const AccountSettings: FC<SettingsPageProps> = () => {
             src={
               newAvatar
                 ? getPreview()
-                : `http://${process.env.NEXT_PUBLIC_API_URL}${accountStore.get(
-                    "avatarUrl"
-                  )}`
+                : `${getApiUrl()}${accountStore.get("avatarUrl")}`
             }
             alt="avatar"
           />

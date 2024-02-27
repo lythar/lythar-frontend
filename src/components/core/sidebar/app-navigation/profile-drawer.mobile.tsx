@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LogOutIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { getInitials } from "@/lib/utils";
+import { getApiUrl, getInitials } from "@/lib/utils";
 import { FaCog } from "react-icons/fa";
 import { useStore } from "../../wrappers/stores-provider";
 import { StoreKeys } from "@/types/globals";
@@ -32,9 +32,7 @@ const SidebarProfileDrawer: FC<SidebarProfileDropdownProps> = () => {
         <div className="flex flex-col items-center justify-center w-[60px]  gap-[2px]">
           <Avatar className="w-7 h-7 text-xs">
             <AvatarImage
-              src={`http://${process.env.NEXT_PUBLIC_API_URL}${accountStore.get(
-                "avatarUrl"
-              )}`}
+              src={`${getApiUrl()}${accountStore.get("avatarUrl")}`}
             />
             <AvatarFallback className="cursor-pointer">
               {getInitials(`${data?.name} ${data?.lastName || ""}`)}

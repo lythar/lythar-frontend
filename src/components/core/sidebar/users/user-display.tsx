@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn, getInitials } from "@/lib/utils";
+import { cn, getApiUrl, getInitials } from "@/lib/utils";
 import { User } from "@/types/globals";
 
 interface UserDisplayProps {
@@ -11,9 +11,7 @@ export default function UserDisplay({ user, isOnline }: UserDisplayProps) {
   return (
     <div className={cn("flex items-center", isOnline ? null : "opacity-50")}>
       <Avatar>
-        <AvatarImage
-          src={`http://${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}`}
-        />
+        <AvatarImage src={`${getApiUrl()}${user.avatarUrl}`} />
         <AvatarFallback>
           {getInitials(`${user.name} ${user.lastName}`)}
         </AvatarFallback>
