@@ -4,8 +4,6 @@ import UserAuthForm from "@/components/auth/user-auth-form";
 import HeadlineBranding from "@/components/branding/headline-branding";
 
 export default function Home() {
-  console.log(process.env.NEXT_PUBLIC_API_URL);
-
   return (
     <>
       <div className="fixed bottom-0 m-4">

@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
+import { cn, getApiUrl } from "@/lib/utils";
 import { Message as TMessage } from "@/types/globals";
 import { FC, useState } from "react";
 import MessageMarkdownParser from "./message-markdown-parser";
@@ -95,9 +95,7 @@ const Message: FC<MessageProps> = (props) => {
           ) : (
             <>
               <Avatar className="absolute left-[16px] mt-[calc(4px-0.125rem)] w-[40px] h-[40px] z-10 overflow-hidden cursor-pointer select-none  ">
-                <AvatarImage
-                  src={`http://${process.env.NEXT_PUBLIC_API_URL}${props.author.avatarUrl}`}
-                />
+                <AvatarImage src={`${getApiUrl()}${props.author.avatarUrl}`} />
                 <AvatarFallback>
                   {getInitials(`${props.author.name} ${props.author.lastName}`)}
                 </AvatarFallback>

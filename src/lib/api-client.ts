@@ -1,7 +1,7 @@
 "use client";
 import createClient, { Middleware } from "openapi-fetch";
 import type { paths } from "@api";
-import { $TODO } from "@/types/globals";
+import { getApiUrl } from "./utils";
 
 const middleware: Middleware = {
   async onRequest(req) {
@@ -11,25 +11,14 @@ const middleware: Middleware = {
 };
 
 const client = createClient<paths>({
-  baseUrl: `http://${process.env.NEXT_PUBLIC_API_URL}`,
+  baseUrl: getApiUrl(),
 });
 
 client.use(middleware);
 
-const formClient = createClient<paths>({
-  baseUrl: `http://${process.env.NEXT_PUBLIC_API_URL}`,
-  bodySerializer: (body: $TODO) => {
-    const formData = new FormData();
-    for (const key in body) {
-      formData.append(key, body[key]);
-    }
-    return formData;
-  },
-});
-
 const publicClient = createClient<paths>({
-  baseUrl: `http://${process.env.NEXT_PUBLIC_API_URL}`,
+  baseUrl: getApiUrl(),
 });
 
-export { publicClient, formClient };
+export { publicClient };
 export default client;

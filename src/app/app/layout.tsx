@@ -13,6 +13,7 @@ import { Suspense, useEffect, useState } from "react";
 import LoadingOverlayFallback from "@/components/core/wrappers/loading-overlay-fallback";
 import { LastPositionProvider } from "@/components/core/wrappers/last-position-provider";
 import WebSocketProvider from "@/components/core/wrappers/websocket-provider";
+import { getWsUrl } from "@/lib/utils";
 
 export default function AppLayout({
   children,
@@ -57,11 +58,7 @@ function LayoutWrapper({
             <DataLayoutProvider data={user}>
               <StoreProvider stores={Stores}>
                 <WebSocketProvider
-                  url={
-                    (isProd
-                      ? `ws://${process.env.NEXT_PUBLIC_API_URL}/ws`
-                      : `ws://${process.env.NEXT_PUBLIC_API_URL}`) || ""
-                  }
+                  url={(isProd ? `${getWsUrl()}/ws` : getWsUrl()) || ""}
                 >
                   <GlobalLoadingProviderRest>
                     {children}
