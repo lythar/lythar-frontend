@@ -40,7 +40,10 @@ export type QueuedMessage = Pick<
   "author" | "channelId" | "attachments" | "content"
 >;
 
-export type Channel = Required<components["schemas"]["Channel"]>;
+export type Channel = Required<components["schemas"]["ChannelResponse"]>;
+export type CreateChannelResponse = Required<
+  components["schemas"]["CreateChannelResponse"]
+>;
 
 export type Organization = {
   ORG_NAME: string;

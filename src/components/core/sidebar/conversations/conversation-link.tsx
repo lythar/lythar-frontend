@@ -25,10 +25,10 @@ const ConversationLink: FC<ConversationLinkProps> = (
       <div className="flex relative">
         <Link
           onClick={() => {
-            changeLastPosition("home", channelId);
+            changeLastPosition("conversation", channelId);
             if (isMobile) toggleSidebar();
           }}
-          href={`/app/conversation/${channelId}`}
+          href={`/app/home/dm-${channelId}`}
           className={cn(
             "flex items-center flex-1 gap-2 py-1 px-2 rounded-sm transition-all duration-250 ease-out-expo",
             isActive

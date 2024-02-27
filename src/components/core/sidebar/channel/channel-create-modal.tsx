@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { useStore } from "../../wrappers/stores-provider";
 import { StoreKeys } from "@/types/globals";
 import { Channel as TChannel } from "@/types/globals";
+import { Switch } from "@/components/ui/switch";
 
 interface ChannelCreateModalProps {}
 
@@ -34,12 +35,18 @@ const ChannelCreateModalSchema = z.object({
     .string()
     .min(3, { message: "Opis kanału musi mieć co najmniej 3 znaki" })
     .max(100, { message: "Opis kanału nie może mieć więcej niż 100 znaków" }),
+  isDirectMessages: z.boolean().default(false),
+  isPublic: z.boolean().default(true),
+  members: z.array(z.number()).default([]).nullish(),
 });
 
 export type ChannelCreateModalValues = z.infer<typeof ChannelCreateModalSchema>;
 
 const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
   const channelStore = useStore(StoreKeys.ChannelStore);
+  const userStore = useStore(StoreKeys.UserStore);
+  const users = Object.entries(userStore.getAll());
+  const [userSearch, setUserSearch] = useState<string>("");
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const form = useForm<ChannelCreateModalValues>({
@@ -93,6 +100,93 @@ const ChannelCreateModal: React.FC<ChannelCreateModalProps> = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="isPublic"
+              render={({ field }) => (
+                <FormItem className="flex w-full justify-between items-center gap-2">
+                  <FormLabel>Publiczny</FormLabel>
+                  <FormControl className="!mt-0">
+                    <Switch
+                      className="mt-0"
+                      checked={field.value}
+                      onCheckedChange={(checked) => field.onChange(checked)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {form.watch("isPublic") ? null : (
+              <FormField
+                control={form.control}
+                name="members"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Użytkownicy</FormLabel>
+                      <FormControl>
+                        <>
+                          <Input
+                            placeholder="Wyszukaj użytkownika"
+                            value={userSearch}
+                            onChange={(e) => setUserSearch(e.target.value)}
+                            required
+                          />
+                          <div className="mt-4 py-2 ">
+                            {userSearch.length > 0 && (
+                              <div className="space-y-2 rounded-md bg-sidebar p-3 ">
+                                {users
+                                  .filter(
+                                    ([, user]) =>
+                                      user.name
+                                        .toLowerCase()
+                                        .includes(userSearch.toLowerCase()) ||
+                                      user.lastName
+                                        ?.toLowerCase()
+                                        .includes(userSearch.toLowerCase())
+                                  )
+                                  .map(([userId, user]) => (
+                                    <div
+                                      key={userId}
+                                      className="flex items-center justify-between max-h-[300px] overflow-y-scroll overflow-x-hidden"
+                                    >
+                                      <span>
+                                        {user.name +
+                                          " " +
+                                          (user.lastName || "")}
+                                      </span>
+                                      <Switch
+                                        checked={field.value?.includes(+userId)}
+                                        onCheckedChange={(checked) => {
+                                          if (checked) {
+                                            field.onChange([
+                                              ...(field.value || []),
+                                              +userId,
+                                            ]);
+                                          } else {
+                                            field.onChange(
+                                              field.value?.filter(
+                                                (id) => id !== +userId
+                                              )
+                                            );
+                                          }
+                                        }}
+                                      />
+                                    </div>
+                                  ))}
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+            )}
+
             <Button type="submit" className="mt-2">
               Stwórz kanał
             </Button>
