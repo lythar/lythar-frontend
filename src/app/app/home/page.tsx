@@ -7,7 +7,7 @@ const HomePage: FC<HomePageProps> = () => {
   return (
     <div className="h-full relative">
       <p className="h-full flex items-center justify-center text-xl font-bold text-center">
-        Wybierz kanał z bocznego menu aby zacząć rozmowę
+        Wybierz grupę z bocznego menu aby zacząć rozmowę
       </p>
     </div>
   );
