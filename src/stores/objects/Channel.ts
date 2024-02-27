@@ -1,10 +1,11 @@
 import { ChannelCreateModalValues } from "@/components/core/sidebar/channel/channel-create-modal";
 import client from "@/lib/api-client";
+import { Channel as TChannel } from "@/types/globals";
 
 export default class Channel {
   static async createChannel(channel: ChannelCreateModalValues) {
     const newChannel = await client.POST("/channels/api/create", {
-      body: channel,
+      body: channel as TChannel,
     });
 
     if (newChannel.error) {
