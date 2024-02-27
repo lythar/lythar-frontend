@@ -37,6 +37,7 @@ export default class AccountStore extends Store<
       name: "Loading...",
       lastName: "",
       id: -1,
+      isAdmin: false,
     });
   }
 }
