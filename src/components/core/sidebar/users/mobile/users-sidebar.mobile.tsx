@@ -6,11 +6,14 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import UsersSidebarContents from "../sidebar-contents";
+import { Channel } from "@/types/globals";
 
 export default function UsersSidebar({
   children,
+  currentChannel,
 }: {
   children: React.ReactNode;
+  currentChannel: Channel;
 }) {
   return (
     <Drawer>
@@ -19,7 +22,7 @@ export default function UsersSidebar({
         <div className="flex flex-col items-center justify-center">
           <DrawerHeader>Użytkownicy</DrawerHeader>
         </div>
-        <UsersSidebarContents />
+        <UsersSidebarContents currentChannel={currentChannel} />
       </DrawerContent>
     </Drawer>
   );
