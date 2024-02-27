@@ -130,7 +130,10 @@ const MessageInput: FC<MessageInputProps> = ({
                 : `Napisz wiadomość na #${currentChannel.name}`
             }
           />
-          <button className="px-3 pt-[0.125rem] sticky h-fit self-stretch flex items-center text-muted-foreground cursor-pointer">
+          <button
+            onClick={sendMessage}
+            className="px-3 pt-[0.125rem] sticky h-fit self-stretch flex items-center text-muted-foreground cursor-pointer"
+          >
             <IoSend size={20} />
           </button>
         </div>
