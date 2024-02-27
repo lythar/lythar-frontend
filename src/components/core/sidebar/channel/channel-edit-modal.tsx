@@ -80,22 +80,24 @@ export default function ChannelEditModal({
         <DialogHeader className="text-xl font-bold">
           {channel.name}
         </DialogHeader>
-        <div>
-          <Avatar className="h-24 w-24 md:h-20 md:w-20">
-            <AvatarImage
-              src={newIcon ? getPreview() : `${getApiUrl()}${channel.iconUrl}`}
-              alt="avatar"
-            />
-            <AvatarFallback>{channel.iconUrl}</AvatarFallback>
-          </Avatar>
-          <Button onClick={handleIconChangeButton} className="w-full md:w-fit">
-            <span>Zmień zdjęcie</span>
-          </Button>
-          {newIcon && (
-            <div className="absolute z-20 bottom-20 md:bottom-4 left-0 right-0 mx-auto p-3 md:p-4 flex justify-between items-center bg-popover-secondary w-[95%] md:w-[40rem] rounded-xl border-2 border-solid border-primary">
-              <p className="text-xs md:text-normal">
-                Masz nie zapisane zmiany!
-              </p>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Avatar className="h-24 w-24 md:h-20 md:w-20">
+              <AvatarImage
+                src={
+                  newIcon ? getPreview() : `${getApiUrl()}${channel.iconUrl}`
+                }
+                alt="avatar"
+              />
+              <AvatarFallback>{channel.iconUrl}</AvatarFallback>
+            </Avatar>
+            <Button
+              onClick={handleIconChangeButton}
+              className="w-full md:w-fit"
+            >
+              <span>Zmień zdjęcie</span>
+            </Button>
+            {newIcon && (
               <div className="flex gap-2 items-center">
                 <Button
                   variant={"ghost"}
@@ -114,16 +116,16 @@ export default function ChannelEditModal({
                   }}
                 >
                   <span className="text-primary-foreground ">
-                    Zapisz zmiany
+                    Zaktualizuj zdjęcie
                   </span>
                 </Button>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         <Dialog open={confirmationOpen} onOpenChange={setConfirmationOpen}>
           <DialogTrigger asChild>
-            <Button variant={"destructive"}>Usuń</Button>
+            <Button variant={"destructive"}>Usuń grupę</Button>
           </DialogTrigger>
           <DialogContent>
             <div>
