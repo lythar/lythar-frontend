@@ -80,7 +80,7 @@ const ConversationCreateModal: React.FC<ConversationCreateModalProps> = () => {
       .get("lastName")
       ?.toString()
       .substring(0, 3)}-${accountStore.get("id")}`;
-    data.members = [targetUser.id, selectedUser!];
+    data.members = [accountStore.get("id"), selectedUser!];
     const serverResponse = await Channel.createChannel(data as TChannel);
     channelStore.set(serverResponse.channelId!, serverResponse as TChannel);
     router.push(`/app/home/dm-${serverResponse.channelId}`);
