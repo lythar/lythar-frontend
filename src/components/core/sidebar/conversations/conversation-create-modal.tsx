@@ -91,7 +91,7 @@ const ConversationCreateModal: React.FC<ConversationCreateModalProps> = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <div className="w-full text-foreground-variant font-semibold flex items-center justify-between md:h-8 px-1 select-none">
+      <div className="w-full text-foreground-variant font-semibold flex items-center justify-between md:h-8 select-none">
         <span>Konwersacje</span>
         <DialogTrigger asChild>
           <button>
