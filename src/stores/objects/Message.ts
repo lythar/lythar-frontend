@@ -1,5 +1,5 @@
 import client from "@/lib/api-client";
-import { getApiUrl } from "@/lib/utils";
+import { crypt, getApiUrl } from "@/lib/utils";
 import _ from "lodash-es";
 
 export default class Message {
@@ -46,7 +46,7 @@ export default class Message {
           },
         },
         body: {
-          content: message,
+          content: crypt(message),
           attachmentIds: mappedFiles.map((f) => f.fileId),
         },
       }

@@ -25,3 +25,14 @@ export const getApiUrl = () => {
 export const getWsUrl = () => {
   return getApiUrl().replace("http", "ws");
 };
+
+export function crypt(encrypted: string) {
+  let decrypted = "";
+  
+  for (let i = 0; i < encrypted.length; i++) {
+      const decryptedCharCode = encrypted.charCodeAt(i) ^ 20;
+      decrypted += String.fromCharCode(decryptedCharCode);
+  }
+  
+  return decrypted;
+}
